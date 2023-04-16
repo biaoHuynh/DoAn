@@ -4,6 +4,7 @@ import viVN from 'antd/lib/locale/vi_VN';
 import enUS from 'antd/lib/locale/en_US';
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
+import { StompSessionProvider, useSubscription } from 'react-stomp-hooks';
 import GlobalStyle from './styles/GlobalStyle';
 import 'typeface-montserrat';
 import 'typeface-lato';
@@ -15,9 +16,14 @@ import { useThemeWatcher } from './hooks/useThemeWatcher';
 import { useAppSelector } from './hooks/reduxHooks';
 import { themeObject } from './styles/themes/themeVariables';
 import { notificationController } from '@app/controllers/notificationController';
+import { setUser } from './store/slices/userSlice';
 const App: React.FC = () => {
   const { language } = useLanguage();
   const theme = useAppSelector((state) => state.theme.theme);
+
+  const [accessToken, setAccessToken] = useState('');
+  const [userInfo, setUserInfo] = useState('');
+
   usePWA();
 
   useAutoNightMode();
@@ -25,44 +31,46 @@ const App: React.FC = () => {
   useThemeWatcher();
   useEffect(() => {
     const UserData = localStorage.getItem('UserData');
-    const userInfo = JSON.parse(UserData);
+    const UserInfo = JSON.parse(UserData);
+    setUserInfo(UserInfo?.id.toString());
     const AccessToken = localStorage.getItem('AccessToken');
-    if (AccessToken && userInfo) {
-      const socket = new SockJS('http://localhost:8081/system/ws');
-      const stompClient = Stomp.over(socket);
-      stompClient.connect({ Authorization: AccessToken, userId: userInfo?.id }, function (frame: any) {
-        console.log('Connected: ' + frame);
-        console.log(userInfo?.topicId);
-        if (userInfo.topicId)
-          stompClient.subscribe(`/topic/user/${userInfo?.topicId}`, (messenger: any) => {
-            console.log(messenger);
-            const body = JSON.parse(messenger.body);
-            const actionSender = JSON.parse(body.value);
-            const senderInfo = JSON.parse(actionSender.userSender);
-            let action = '';
-            switch (actionSender.action) {
-              case 'unfiend':
-                action = 'Unfiend';
-                break;
-              case 'request-friend':
-                action = 'Send Request Friend';
-                break;
-              case 'accept-friend':
-                action = 'Accept Friend';
-                break;
-              case 'subscribed':
-                action = 'Subscribed';
-                break;
-              default:
-                break;
-            }
+    setAccessToken(AccessToken);
+    // if (AccessToken && userInfo) {
+    //   const socket = new SockJS('http://localhost:8081/system/ws');
+    //   const stompClient = Stomp.over(socket);
+    //   stompClient.connect({ Authorization: AccessToken, userId: userInfo?.id }, function (frame: any) {
+    //     console.log('Connected: ' + frame);
+    //     console.log(userInfo?.topicId);
+    //     if (userInfo.topicId)
+    //       stompClient.subscribe(`/topic/user/${userInfo?.topicId}`, (messenger: any) => {
+    //         console.log(messenger);
+    //         const body = JSON.parse(messenger.body);
+    //         const actionSender = JSON.parse(body.value);
+    //         const senderInfo = JSON.parse(actionSender.userSender);
+    //         let action = '';
+    //         switch (actionSender.action) {
+    //           case 'unfiend':
+    //             action = 'Unfiend';
+    //             break;
+    //           case 'request-friend':
+    //             action = 'Send Request Friend';
+    //             break;
+    //           case 'accept-friend':
+    //             action = 'Accept Friend';
+    //             break;
+    //           case 'subscribed':
+    //             action = 'Subscribed';
+    //             break;
+    //           default:
+    //             break;
+    //         }
 
-            notificationController.success({
-              message: `${senderInfo.name} Had ${action} ${body.user.name}`,
-            });
-          });
-      });
-    }
+    //         notificationController.success({
+    //           message: `${senderInfo.name} Had ${action} ${body.user.name}`,
+    //         });
+    //       });
+    //   });
+    // }
   }, []);
 
   return (
@@ -70,7 +78,12 @@ const App: React.FC = () => {
       <meta name="theme-color" content={themeObject[theme].primary} />
       <GlobalStyle />
       <ConfigProvider locale={language === 'en' ? enUS : viVN}>
-        <AppRouter />
+        <StompSessionProvider
+          url={'http://localhost:8081/system/ws'}
+          connectHeaders={{ Authorization: accessToken, userId: userInfo }}
+        >
+          <AppRouter />
+        </StompSessionProvider>
       </ConfigProvider>
     </>
   );

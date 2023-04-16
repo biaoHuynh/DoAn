@@ -20,7 +20,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   flex: 1 1 21.25rem;
   position: relative;
-  max-width: 42.5rem;
+  max-width: 53.5rem;
   box-shadow: var(--box-shadow);
   border-radius: ${BORDER_RADIUS};
   border: 1px black solid;
@@ -40,6 +40,14 @@ export const Author = styled.div`
   font-weight: ${FONT_WEIGHT.bold};
   color: var(--text-main-color);
   line-height: 1.5625rem;
+`;
+
+export const ImageWrap = styled.div`
+  width: 45rem;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  height: 30rem;
 `;
 
 export const InfoWrapper = styled.div`
@@ -90,6 +98,7 @@ export const UserName = styled.div`
   font-size: ${FONT_SIZE.md};
   color: var(--text-main-color);
   font-weight: ${FONT_WEIGHT.semibold};
+  padding-left: 1%;
   @media only screen and ${media.xxl} {
     font-size: 1rem;
   }
