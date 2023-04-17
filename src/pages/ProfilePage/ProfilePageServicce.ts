@@ -18,6 +18,10 @@ class ProfilePageService extends BaseService<any> {
     return this.fetch.post(`${this.contactBaseUri}getListFriend`);
   }
 
+  public findUserById(id : number){
+    return this.fetch.post(`${this.contactBaseUri}findById?id=${id}`);
+  }
+
 }
 
 const scenarioService = new ProfilePageService();

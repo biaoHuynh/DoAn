@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, Dispatch } from 'react';
 import * as s from './Tables.styles';
 import { Button, Col, Row, Space, Tabs } from 'antd';
 import { Avatar, Card } from 'antd';
@@ -6,16 +6,34 @@ import ProfilePageService from './ProfilePageServicce';
 import Post from './PostProfileComponent';
 import FriendList from './FriendListProfileComponent';
 const { Meta } = Card;
-
+import { useLoaderData } from "react-router-dom";
 const items = [
   { label: 'Post', key: 'post-item', children: 'this is post component' }, // remember to pass the key prop
   { label: 'Profile', key: 'profile-item', children: 'this is profile component' },
 ];
 
+class  UserInfo {
+  name?: String;
+  email?: String;
+  imageUrl?: String;
+  status? : Number;
+  isExpert?: Boolean;
+  rating? : Double;
+  lastTime? : Date;
+}
+
 const Profile: React.FC = () => {
-  const UserData = localStorage.getItem('UserData');
-  const userInfo = JSON.parse(UserData);
-  const userInfoName = userInfo.name;
+  const { id } = useLoaderData();
+  const [userInfo, setUserInfo] = useState<UserInfo>(new UserInfo())
+  useEffect(()=>{
+    if( id === '' || id === null){
+      setUserInfo(localStorage.getItem('UserData'));
+    }else {
+      ProfilePageService.findUserById(id).then((res: UserInfo) => {
+        setUserInfo(res.data);
+      });
+    }
+  })
 
   return (
     <>
