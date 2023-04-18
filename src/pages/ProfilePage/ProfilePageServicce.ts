@@ -1,27 +1,21 @@
 import BaseService from '../../config/_BaseService';
 
-export interface PostParam {
-  user_id: number;
-  offset: number;
-}
-
 class ProfilePageService extends BaseService<any> {
   protected postBaseUri = '/post/external/';
   protected contactBaseUri = '/contact/external/';
   protected userBaseUri = '/user/external/';
 
-  public getAllPost(data: PostParam) {
-    return this.fetch.post(`${this.postBaseUri}findAllPostByUserId?user-id=${data.user_id}&offset=${data.offset}`);
+  public getAllPost(userId: Number, offset: Number) {
+    return this.fetch.post(`${this.postBaseUri}findAllPostByUserId?user-id=${userId}&offset=${offset}`);
   }
 
-  public getListFriend(){
+  public getListFriend() {
     return this.fetch.post(`${this.contactBaseUri}getListFriend`);
   }
 
-  public findUserById(id : number){
-    return this.fetch.post(`${this.contactBaseUri}findById?id=${id}`);
+  public findUserById(id: number) {
+    return this.fetch.post(`${this.userBaseUri}findById?id=${id}`);
   }
-
 }
 
 const scenarioService = new ProfilePageService();

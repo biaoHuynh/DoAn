@@ -12,7 +12,7 @@ export interface Friend {
   topicContactId: string;
 }
 
-const handleClick = ({ key }) => {
+const handleClick = ({ key } : any) => {
   console.log(key);
   //you can perform setState here
 };

@@ -14,14 +14,7 @@ const FriendList: React.FC = () => {
 
   return (
     <>
-      <Row gutter={[16, 16]}>
-        {friendList.map((item, index) => {
-          return (
-            <Friend key={index} {...item.userFriend} topicContactId={item.topicContactId} />
-          );
-        })}
-       
-      </Row>
+      <Row gutter={[16, 16]}></Row>
     </>
   );
 };

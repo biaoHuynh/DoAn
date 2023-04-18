@@ -47,7 +47,9 @@ const Dashboard: React.FC = () => {
   const getnew = () => {
     setLoaded(true);
     dbService.get10Post(0).then((data: any) => {
-      setNews(data.data);
+      if (data !== null) {
+        setNews((oldNews) => [...oldNews, ...data.data]);
+      }
       setLoaded(false);
       setNextOffset(0);
     });

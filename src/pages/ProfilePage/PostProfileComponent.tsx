@@ -2,28 +2,26 @@ import React, { useEffect, useState } from 'react';
 import ProfilePageService from './ProfilePageServicce';
 import { Button, Card, Col, Row, Space, Tabs } from 'antd';
 
-const Post: React.FC = () => {
-    const UserData = localStorage.getItem('UserData');
-    const userInfo = JSON.parse(UserData);
-    const [post, setPost] = useState([]);
+import { UserInfo } from './ProfilePage';
 
-    useEffect(() => {
-        ProfilePageService.getAllPost({ user_id: userInfo.id, offset: 0 }).then((res: any) => {
-          setPost(res.data);
-        });
-      }, []);
+const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert, rating, lastTime }: UserInfo) => {
+  const [post, setPost] = useState([]);
 
-    return (<>
-       <Card bordered = {false} hoverable style={{ width: '100%' }}>
-        {post?.map((item) => {
-          return (
-            <Row gutter={16}>
-              <Card title={item?.title}>{item?.title}</Card>
-            </Row>
-          );
-        })}
-      </Card>
-    </>);
-}
+  useEffect(() => {
+    if (id) {
+      console.log(id);
+      ProfilePageService.getAllPost(id, 0).then((res: any) => {
+        setPost(res.data);
+      });
+    }
+    console.log(id);
+  }, [id]);
+
+  return (
+    <>
+      <Card bordered={false} hoverable style={{ width: '100%' }}></Card>
+    </>
+  );
+};
 
 export default Post;

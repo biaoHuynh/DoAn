@@ -66,7 +66,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
                   <img src={contact.avatarImage || defaultAvatar} alt="" />
                 </div>
                 <div className="username">
-                  <h3>{contact.username}</h3>
+                <h3>{contact?.userFriend?.name}</h3>
                 </div>
               </div>
             );
