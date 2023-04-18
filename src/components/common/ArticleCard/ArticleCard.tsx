@@ -17,6 +17,7 @@ interface ArticleCardProps {
     id: 0;
     tagName: '';
   };
+  hashTags: string;
   className?: string;
 }
 
@@ -28,24 +29,29 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   author,
   avatar,
   tags,
+  hashTags,
   className = 'article-card',
 }) => {
   return (
     <S.Wrapper className={className}>
       <S.Header>
-        <Avatar src={dfavt} alt="author" size={43} /> <S.UserName>{author}</S.UserName>{' '}
-      </S.Header>
-      <S.InfoWrapper>
+        <S.InfoAvt>
+          <Avatar src={avatar ? `http://localhost:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
+          <S.UserName>{author}</S.UserName>
+        </S.InfoAvt>
         <S.InfoHeader>
           <S.Description>{date}</S.Description>
         </S.InfoHeader>
+      </S.Header>
+      <S.InfoWrapper>
         <S.Title>{title}</S.Title>
         {!!tags && (
           <S.TagsWrapper>
-            <Tag key={tags.id} title={tags.tagName} />
+            <Tag key={tags.id} title={tags.tagName} bgColor={tags.color} />
           </S.TagsWrapper>
         )}
         <S.Description>{description}</S.Description>
+        <S.Hashtag>#{hashTags}</S.Hashtag>
       </S.InfoWrapper>
 
       <S.ImageWrap>

@@ -5,6 +5,7 @@ import { Dates } from '@app/constants/Dates';
 import * as S from './RecentActivityItem.styles';
 import { Activity } from '@app/api/activity.api';
 import dfavt from '@app/share/dfavt.png';
+import { Button } from 'antd';
 export const RecentActivityItem: React.FC<Activity> = ({ imageUrl, name, status, email, topicContactId }) => {
   const { t } = useTranslation();
   console.log(imageUrl, name, status, email, topicContactId);
@@ -16,7 +17,7 @@ export const RecentActivityItem: React.FC<Activity> = ({ imageUrl, name, status,
       <S.Wrapper>
         <S.ImgWrapper>
           <img
-            src={imageUrl ? imageUrl : dfavt}
+            src={imageUrl ? `http://localhost:8081/local-store/${imageUrl}` : dfavt}
             alt={`title ${imageUrl ? imageUrl : 'dfavt'}`}
             width={84}
             height={84}
@@ -35,6 +36,7 @@ export const RecentActivityItem: React.FC<Activity> = ({ imageUrl, name, status,
               {t(currentActivity?.title || '')} {t('nft.by')} {email}
             </S.Text>
           </S.InfoHeaderWrapper>
+          <Button>Huỷ Kết Bạn</Button>
         </S.InfoWrapper>
       </S.Wrapper>
     </S.ActivityCard>

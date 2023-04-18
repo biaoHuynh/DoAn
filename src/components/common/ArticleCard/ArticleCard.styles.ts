@@ -4,9 +4,10 @@ import { BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, media } from '@app/styles/themes
 
 export const Header = styled.div`
   height: 5.5rem;
-  margin-left: 1.5625rem;
+  margin-left: 1.5rem;
+  margin-top: 1.5rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
 `;
 
 export const AuthorWrapper = styled.div`
@@ -76,6 +77,20 @@ export const InfoHeader = styled.div`
   }
 `;
 
+export const InfoAvt = styled.div`
+  display: flex;
+
+  margin-bottom: 1rem;
+
+  @media only screen and ${media.md} {
+    margin-bottom: 0.625rem;
+  }
+
+  @media only screen and ${media.xxl} {
+    margin-bottom: 1.25rem;
+  }
+`;
+
 export const Title = styled.div`
   font-size: ${FONT_SIZE.md};
   font-weight: ${FONT_WEIGHT.medium};
@@ -85,17 +100,19 @@ export const Title = styled.div`
   color: var(--text-main-color);
 
   @media only screen and ${media.md} {
-    font-size: ${FONT_SIZE.xxl};
+    font-size: ${FONT_SIZE.xl};
   }
 `;
 
 export const DateTime = styled(Typography.Text)`
-  font-size: ${FONT_SIZE.xs};
+  font-size: ${FONT_SIZE.xxs};
   color: var(--text-main-color);
   line-height: 1.25rem;
 `;
 export const UserName = styled.div`
   font-size: ${FONT_SIZE.md};
+  display: flex;
+  align-items: center;
   color: var(--text-main-color);
   font-weight: ${FONT_WEIGHT.semibold};
   padding-left: 1%;
@@ -111,10 +128,18 @@ export const Description = styled.div`
     font-size: 1rem;
   }
 `;
+export const Hashtag = styled.div`
+  font-size: ${FONT_SIZE.xs};
+  color: #546eed;
+
+  @media only screen and ${media.xxl} {
+    font-size: 1rem;
+  }
+`;
 
 export const TagsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.625rem;
-  padding: 0 1.25rem 1.25rem;
+  padding: 0.5rem 0.25rem;
 `;

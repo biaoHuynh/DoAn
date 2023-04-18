@@ -46,7 +46,7 @@ const ListFriendPage: React.FC = () => {
 
   return (
     <>
-      <PageTitle>common.history_page</PageTitle>
+      <PageTitle>List Friends</PageTitle>
 
       {/* <S.Card title={t('common.history_order')}>
           <Row style={{ width: '100%' }}>

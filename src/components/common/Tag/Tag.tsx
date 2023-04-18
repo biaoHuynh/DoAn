@@ -17,11 +17,11 @@ interface TagProps {
 export const Tag: React.FC<TagProps> = ({ title, color, bgColor, removeTag, ...otherProps }) => {
   const style = {
     color: color || 'var(--white)',
-    backgroundColor: bgColor ? `var(--${bgColor}-color)` : 'var(--orange)',
+    backgroundColor: bgColor ? `${bgColor}` : 'var(--orange)',
   };
   return (
     <S.TagWrapper style={style} {...otherProps}>
-      #{title}
+      {title}
       {!!removeTag && (
         <S.RemoveTagWrapper
           onClick={(e) => {

@@ -88,6 +88,7 @@ export const AppRouter: React.FC = () => {
           </Route>
           <Route path="data-tables" element={<DataTables />} />
           <Route path="list-friend" element={<ListFriendPage />} />
+          <Route path="profile-page" element={<Profile />} />
           <Route path="profile-page/:id" element={<Profile />} />
           <Route path="chat-center" element={<ChatPage />} />
           <Route path="server-error" element={<ServerError />} />

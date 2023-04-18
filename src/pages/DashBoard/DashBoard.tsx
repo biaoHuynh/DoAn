@@ -88,6 +88,7 @@ const Dashboard: React.FC = () => {
                         author={post.user.name}
                         avatar={post.user.imageUrl}
                         tags={post.topicTag}
+                        hashTags={post.hashTag}
                       />
                     ))}
                   </Feed>

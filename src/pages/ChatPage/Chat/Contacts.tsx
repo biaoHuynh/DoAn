@@ -63,10 +63,17 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
                 onClick={() => changeCurrentChat(index, contact)}
               >
                 <div className="avatar">
-                  <img src={contact.avatarImage || defaultAvatar} alt="" />
+                  <img
+                    src={
+                      contact?.userFriend?.imageUrl
+                        ? `http://localhost:8081/local-store/${contact?.userFriend?.imageUrl}`
+                        : defaultAvatar
+                    }
+                    alt=""
+                  />
                 </div>
                 <div className="username">
-                <h3>{contact?.userFriend?.name}</h3>
+                  <h3>{contact?.userFriend?.name}</h3>
                 </div>
               </div>
             );

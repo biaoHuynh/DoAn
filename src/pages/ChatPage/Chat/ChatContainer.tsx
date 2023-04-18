@@ -12,6 +12,8 @@ import {
   withSubscription,
 } from 'react-stomp-hooks';
 
+import defaultAvatar from '@app/assets/DefaultAvatar.png';
+
 interface ChatContainerProps {
   currentChat: any;
   currentUser: User | undefined;
@@ -23,6 +25,7 @@ export interface Message {
   content: string;
   image?: string;
   user: User | undefined;
+  isFile: boolean;
 }
 
 export interface User {
@@ -63,11 +66,20 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser,
   useSubscription(`/topic/chat/${currentChat.topicContactId}`, (message: any) => {
     const body = JSON.parse(message.body);
     console.log(body);
-    setArrivalMessage({
-      fromSelf: body.user.id === currentUser?.id ? true : false,
-      content: body.content,
-      user: body.user.id,
-    });
+    if (body.isFile) {
+      setArrivalMessage({
+        fromSelf: body.user.id === currentUser?.id ? true : false,
+        content: '',
+        image: `http://localhost:8081/local-store/${body.content}`,
+        user: body.user.id,
+      });
+    } else {
+      setArrivalMessage({
+        fromSelf: body.user.id === currentUser?.id ? true : false,
+        content: body.content,
+        user: body.user.id,
+      });
+    }
   });
   useEffect(() => {
     if (socket.current) {
@@ -106,7 +118,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser,
       }
     }
 
-    setMessages((msgs) => [...msgs, { fromSelf: true, content: msg, image, user: currentUser }]);
+    //setMessages((msgs) => [...msgs, { fromSelf: true, content: msg, image, user: currentUser }]);
   };
 
   return (
@@ -114,10 +126,17 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser,
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
-            <img src={currentChat.avatarImage} alt="current Chat avatar" />
+            <img
+              src={
+                currentChat?.userFriend?.imageUrl
+                  ? `http://localhost:8081/local-store/${currentChat?.userFriend?.imageUrl}`
+                  : defaultAvatar
+              }
+              alt="current Chat avatar"
+            />
           </div>
           <div className="username">
-            <h3>{currentChat.username}</h3>
+            <h3>{currentChat?.userFriend?.name}</h3>
           </div>
         </div>
       </div>
@@ -128,6 +147,19 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser,
       ) : (
         <div className="chat-messages">
           {messages?.map((message) => {
+            if (message.isFile) {
+              return (
+                <div ref={scrollRef} key={uuidv4()}>
+                  <div className={`message ${message.fromSelf ? 'sended' : 'recieved'}`}>
+                    {message.content && (
+                      <div className="content-image">
+                        <img src={`http://localhost:8081/local-store/${message.content}`} alt="sended" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            }
             return (
               <div ref={scrollRef} key={uuidv4()}>
                 <div className={`message ${message.fromSelf ? 'sended' : 'recieved'}`}>
