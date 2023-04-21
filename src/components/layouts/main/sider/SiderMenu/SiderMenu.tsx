@@ -37,7 +37,11 @@ const SiderMenu: React.FC<SiderContentProps> = ({ setCollapsed, admin }) => {
           if (objDate.role === 'admin' ? true : false) {
             navTemp.push(nav);
           }
-        } else navTemp.push(nav);
+        } else {
+          if (objDate.role === 'admin' ? false : true) {
+            navTemp.push(nav);
+          }
+        }
       });
       console.log(navTemp);
 
@@ -58,25 +62,29 @@ const SiderMenu: React.FC<SiderContentProps> = ({ setCollapsed, admin }) => {
       defaultSelectedKeys={defaultSelectedKeys}
       defaultOpenKeys={defaultOpenKeys}
       onClick={() => setCollapsed(true)}
-      items={sidebarNavigation.map((nav) => {
-        const isSubMenu = nav.children?.length;
-
-        return {
-          key: nav.key,
-          title: t(nav.title),
-          label: isSubMenu ? t(nav.title) : <Link to={nav.url || ''}>{t(nav.title)}</Link>,
-          icon: nav.icon,
-          children:
-            isSubMenu &&
-            nav.children &&
-            nav.children.map((childNav) => ({
-              key: childNav.key,
-              label: <Link to={childNav.url || ''}>{t(childNav.title)}</Link>,
-              title: t(childNav.title),
-            })),
-        };
-      })}
-    />
+    >
+      {newNav.map((nav: any) =>
+        nav.children && nav.children.length > 0 ? (
+          <Menu.SubMenu
+            key={nav.key}
+            title={t(nav.title)}
+            icon={nav.icon}
+            onTitleClick={() => setCollapsed(false)}
+            popupClassName="d-none"
+          >
+            {nav.children.map((childNav: any) => (
+              <Menu.Item key={childNav.key} title="">
+                <Link to={childNav.url || ''}>{t(childNav.title)}</Link>
+              </Menu.Item>
+            ))}
+          </Menu.SubMenu>
+        ) : (
+          <Menu.Item key={nav.key} title="" icon={nav.icon}>
+            <Link to={nav.url || ''}>{t(nav.title)}</Link>
+          </Menu.Item>
+        ),
+      )}
+    </S.Menu>
   );
 };
 

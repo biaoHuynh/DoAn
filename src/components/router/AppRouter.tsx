@@ -18,6 +18,11 @@ import Dashboard from '@app/pages/DashBoard/DashBoard';
 import Profile from '@app/pages/ProfilePage/ProfilePage';
 import ListFriendPage from '@app/pages/HistoryPage/ListFriendPage';
 import ChatPage from '@app/pages/ChatPage/ChatPage';
+import AboutUs from '@app/pages/AboutUs/AboutUs';
+import UserManager from '@app/pages/UserManager/UserManager';
+import PostManager from '@app/pages/PostManager/PostManager';
+import TopicManager from '@app/pages/TopicManager/TopicManager';
+import AccessRoleManager from '@app/pages/AccessRoleManager/AccessRoleManager';
 const DataTablesPage = React.lazy(() => import('@app/pages/DataTablesPage'));
 const ChartsPage = React.lazy(() => import('@app/pages/ChartsPage'));
 const ServerErrorPage = React.lazy(() => import('@app/pages/ServerErrorPage'));
@@ -82,7 +87,7 @@ export const AppRouter: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path={NFT_DASHBOARD_PATH} element={protectedLayout}>
-          <Route index element={<Dashboard />} />
+          <Route index element={<AboutUs />} />
           <Route path="forms">
             <Route path="advanced-forms" element={<AdvancedForm />} />
           </Route>
@@ -91,6 +96,13 @@ export const AppRouter: React.FC = () => {
           <Route path="profile-page" element={<Profile />} />
           <Route path="profile-page/:id" element={<Profile />} />
           <Route path="chat-center" element={<ChatPage />} />
+          <Route path="dashboard" element={<Dashboard />} />
+
+          <Route path="/user-page" element={<UserManager />} />
+          <Route path="/post-page" element={<PostManager />} />
+          <Route path="/topic-page" element={<TopicManager />} />
+          <Route path="/access-page" element={<AccessRoleManager />} />
+
           <Route path="server-error" element={<ServerError />} />
           <Route path="404" element={<Error404 />} />
         </Route>

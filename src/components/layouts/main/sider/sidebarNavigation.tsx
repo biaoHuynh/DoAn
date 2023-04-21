@@ -4,8 +4,11 @@ import {
   IdcardOutlined,
   ContactsOutlined,
   MessageOutlined,
+  UserOutlined,
+  TagsOutlined,
+  AuditOutlined,
+  UnorderedListOutlined,
 } from '@ant-design/icons';
-
 
 export interface SidebarNavigationItem {
   title: string;
@@ -20,9 +23,9 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
   {
     title: 'Dashboard',
     key: 'dashboard',
-    url: '/',
+    url: '/dashboard',
     icon: <HomeOutlined />,
-    adminCheck: true,
+    adminCheck: false,
   },
   {
     title: 'List Friend',
@@ -45,6 +48,35 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
     icon: <IdcardOutlined />,
     adminCheck: false,
   },
+  {
+    title: 'User Mangager Page',
+    key: 'userpage',
+    url: '/user-page',
+    icon: <UserOutlined />,
+    adminCheck: true,
+  },
+  {
+    title: 'Post Mangager Page',
+    key: 'postpage',
+    url: '/post-page',
+    icon: <UnorderedListOutlined />,
+    adminCheck: true,
+  },
+  {
+    title: 'Topic Mangager Page',
+    key: 'topicpage',
+    url: '/topic-page',
+    icon: <TagsOutlined />,
+    adminCheck: true,
+  },
+  {
+    title: 'Access Mangager Page',
+    key: 'accesspage',
+    url: '/access-page',
+    icon: <AuditOutlined />,
+    adminCheck: true,
+  },
+
   // {
   //   title: 'common.medical-dashboard',
   //   key: 'medical-dashboard',
