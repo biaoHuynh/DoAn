@@ -16,7 +16,7 @@ const handleClick = ({ key } : any) => {
   console.log(key);
   //you can perform setState here
 };
-
+  
 const menu = (
   <Menu onClick={handleClick}>
     <Menu.Item key="Recommend">Recommend</Menu.Item>

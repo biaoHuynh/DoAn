@@ -13,7 +13,7 @@ class ProfilePageService extends BaseService<any> {
     return this.fetch.post(`${this.contactBaseUri}getListFriend`);
   }
 
-  public findUserById(id: number) {
+  public findUserById(id: Number) {
     return this.fetch.post(`${this.userBaseUri}findById?id=${id}`);
   }
 }
