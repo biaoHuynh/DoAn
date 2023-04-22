@@ -89,6 +89,10 @@ const Dashboard: React.FC = () => {
                         avatar={post.user.imageUrl}
                         tags={post.topicTag}
                         hashTags={post.hashTag}
+                        disLikeCount={post.disLikeCount}
+                        likeCount={post.likeCount}
+                        shareCount={post.shareCount}
+                        commentCount={post.commentCount}
                       />
                     ))}
                   </Feed>

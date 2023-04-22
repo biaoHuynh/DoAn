@@ -7,6 +7,7 @@ import { useAppSelector } from '@app/hooks/reduxHooks';
 import { useResponsive } from '@app/hooks/useResponsive';
 import * as S from './ProfileDropdown.styles';
 import { UserOutlined } from '@ant-design/icons';
+import dfavt from '@app/share/dfavt.png';
 
 export const ProfileDropdown: React.FC = () => {
   const { isTablet } = useResponsive();
@@ -18,11 +19,16 @@ export const ProfileDropdown: React.FC = () => {
     <Dropdown overlay={<ProfileOverlay />} trigger={['click']}>
       <S.ProfileDropdownHeader as={Row} gutter={[10, 10]} align="middle">
         <Col>
-          <Avatar icon={<UserOutlined />} alt="User" shape="circle" size={40} />
+          <Avatar
+            src={userInfo?.imageUrl ? `http://localhost:8081/local-store/${userInfo?.imageUrl}` : dfavt}
+            alt="User"
+            shape="circle"
+            size={40}
+          />
         </Col>
         {isTablet && (
           <Col>
-            <H6>{`${userInfo?.username}`}</H6>
+            <H6>{`${userInfo?.name}`}</H6>
           </Col>
         )}
       </S.ProfileDropdownHeader>

@@ -62,6 +62,18 @@ export const InfoWrapper = styled.div`
     padding: 1.85rem;
   }
 `;
+export const ReactionWrapper = styled.div`
+  padding: 1.25rem;
+  display: flex;
+
+  @media only screen and ${media.xl} {
+    padding: 1rem;
+  }
+
+  @media only screen and ${media.xxl} {
+    padding: 1.85rem;
+  }
+`;
 
 export const InfoHeader = styled.div`
   display: flex;
@@ -92,6 +104,22 @@ export const InfoAvt = styled.div`
 `;
 
 export const Title = styled.div`
+  font-size: ${FONT_SIZE.md};
+  font-weight: ${FONT_WEIGHT.medium};
+  width: 80%;
+  line-height: 1.3rem;
+
+  color: var(--text-main-color);
+
+  @media only screen and ${media.md} {
+    font-size: ${FONT_SIZE.xl};
+  }
+`;
+
+export const Reaction = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: ${FONT_SIZE.md};
   font-weight: ${FONT_WEIGHT.medium};
   width: 80%;

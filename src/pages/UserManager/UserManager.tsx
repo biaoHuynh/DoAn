@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Card } from 'components/common/Card/Card';
+import { Tabs } from 'antd';
+import Admin from './Admin';
+import Expert from './Expert';
+import User from './User';
 
 const UserManager: React.FC = () => {
-  return <Card>Quan Ly Ng Dung</Card>;
+  const [defaultActiveKey, setDefaultActiveKey] = useState('1');
+  const onChange = (key: string) => {
+    setDefaultActiveKey(key);
+  };
+  return (
+    <Card>
+      <Tabs activeKey={defaultActiveKey} onChange={onChange}>
+        <Tabs.TabPane tab="Admin" key="1">
+          <Admin />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Expert" key="2">
+          <Expert />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="User" key="3">
+          <User />
+        </Tabs.TabPane>
+      </Tabs>
+    </Card>
+  );
 };
 
 export default UserManager;

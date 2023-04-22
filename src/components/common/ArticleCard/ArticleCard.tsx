@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Dates } from '@app/constants/Dates';
-import { Avatar, Image } from 'antd';
+import { Avatar, Button, Image } from 'antd';
 import { Tag, ITag } from '../Tag/Tag';
 import * as S from './ArticleCard.styles';
 import dfavt from '@app/share/dfavt.png';
 import ConfigSetting from './ArticleCardService';
+import { CommentOutlined, DislikeOutlined, HeartOutlined, LikeOutlined, ShareAltOutlined } from '@ant-design/icons';
 interface ArticleCardProps {
   author?: React.ReactNode;
   imgUrl: any;
@@ -19,6 +20,10 @@ interface ArticleCardProps {
   };
   hashTags: string;
   className?: string;
+  disLikeCount: number;
+  likeCount: number;
+  shareCount: number;
+  commentCount: number;
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -31,6 +36,10 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   tags,
   hashTags,
   className = 'article-card',
+  disLikeCount,
+  likeCount,
+  shareCount,
+  commentCount,
 }) => {
   return (
     <S.Wrapper className={className}>
@@ -66,6 +75,32 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           />
         ))}
       </S.ImageWrap>
+      <S.ReactionWrapper>
+        <S.Reaction>
+          <Button type="text">
+            <LikeOutlined />
+          </Button>
+          {likeCount}
+        </S.Reaction>
+        <S.Reaction>
+          <Button type="text">
+            <DislikeOutlined />
+          </Button>
+          {disLikeCount}
+        </S.Reaction>
+        <S.Reaction>
+          <Button type="text">
+            <CommentOutlined />
+          </Button>
+          {commentCount}
+        </S.Reaction>
+        <S.Reaction>
+          <Button type="text">
+            <ShareAltOutlined />
+          </Button>
+          {shareCount}
+        </S.Reaction>
+      </S.ReactionWrapper>
     </S.Wrapper>
   );
 };

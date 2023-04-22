@@ -5,6 +5,7 @@ import { Avatar, Card } from 'antd';
 import ProfilePageService from './ProfilePageServicce';
 import Post from './PostProfileComponent';
 import FriendList from './FriendListProfileComponent';
+import dfavt from '@app/assets/DefaultAvatar.png';
 const { Meta } = Card;
 import { useParams } from 'react-router-dom';
 import ExpertInfoPage from './ExpertInfo';
@@ -69,7 +70,9 @@ const Profile: React.FC = () => {
       setDefaultActiveKey('3');
     }
   }, [userInfo]);
-
+  const onChange = (key: string) => {
+    setDefaultActiveKey(key);
+  };
   return (
     <>
       <div style={{ width: '100%' }}>
@@ -93,7 +96,7 @@ const Profile: React.FC = () => {
                 avatar={
                   <Avatar
                     size={150}
-                    src="https://joesch.moe/api/v1/random"
+                    src={userInfo?.imageUrl ? `http://localhost:8081/local-store/${userInfo?.imageUrl}` : dfavt}
                     style={{ marginBottom: 20, border: '2px solid' }}
                   />
                 }
@@ -118,7 +121,7 @@ const Profile: React.FC = () => {
             )}
           </Row>
         </Card>
-        <Tabs activeKey={defaultActiveKey}>
+        <Tabs activeKey={defaultActiveKey} onChange={onChange}>
           <Tabs.TabPane tab="Bài Đăng" key="1">
             <Post {...userInfo} />
           </Tabs.TabPane>
