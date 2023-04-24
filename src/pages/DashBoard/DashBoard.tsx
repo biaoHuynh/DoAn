@@ -34,7 +34,7 @@ const Dashboard: React.FC = () => {
         setHasMore(true);
         setNews((oldNews) => [...oldNews, ...data.data]);
         setLoaded(false);
-        setNextOffset(nextOffset + 1);
+        setNextOffset([...news, ...data.data].length);
       }
     });
   };
@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
     dbService.get10Post(nextOffset).then((data: any) => {
       setNews((oldNews) => [...oldNews, ...data.data]);
       setLoaded(false);
-      setNextOffset(nextOffset + 1);
+      setNextOffset([...news, ...data.data].length);
     });
   }, []);
   const getnew = () => {
@@ -53,7 +53,6 @@ const Dashboard: React.FC = () => {
         setNews((oldNews) => [...oldNews, ...data.data]);
       }
       setLoaded(false);
-      setNextOffset(0);
     });
   };
   const next = () => {

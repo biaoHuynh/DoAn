@@ -35,7 +35,7 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
         setHasMore(true);
         setNews((oldNews) => [...oldNews, ...data.data]);
         setLoaded(false);
-        setNextOffset(nextOffset + 1);
+        setNextOffset([...news, ...data.data].length);
       }
     });
   };
@@ -44,7 +44,7 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
     dbService.get10Post(nextOffset).then((data: any) => {
       setNews((oldNews) => [...oldNews, ...data.data]);
       setLoaded(false);
-      setNextOffset(nextOffset + 1);
+      setNextOffset([...news, ...data.data].length);
     });
   }, []);
   const getnew = () => {
