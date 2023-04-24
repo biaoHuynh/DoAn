@@ -93,6 +93,7 @@ const Dashboard: React.FC = () => {
                         likeCount={post.likeCount}
                         shareCount={post.shareCount}
                         commentCount={post.commentCount}
+                        isExpert={post.user.isExpert}
                       />
                     ))}
                   </Feed>

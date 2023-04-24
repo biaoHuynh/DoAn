@@ -5,7 +5,14 @@ import { Tag, ITag } from '../Tag/Tag';
 import * as S from './ArticleCard.styles';
 import dfavt from '@app/share/dfavt.png';
 import ConfigSetting from './ArticleCardService';
-import { CommentOutlined, DislikeOutlined, HeartOutlined, LikeOutlined, ShareAltOutlined } from '@ant-design/icons';
+import {
+  CheckCircleTwoTone,
+  CommentOutlined,
+  DislikeOutlined,
+  HeartOutlined,
+  LikeOutlined,
+  ShareAltOutlined,
+} from '@ant-design/icons';
 interface ArticleCardProps {
   author?: React.ReactNode;
   imgUrl: any;
@@ -24,6 +31,7 @@ interface ArticleCardProps {
   likeCount: number;
   shareCount: number;
   commentCount: number;
+  isExpert: boolean;
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -40,13 +48,16 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   likeCount,
   shareCount,
   commentCount,
+  isExpert,
 }) => {
   return (
     <S.Wrapper className={className}>
       <S.Header>
         <S.InfoAvt>
           <Avatar src={avatar ? `http://localhost:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
-          <S.UserName>{author}</S.UserName>
+          <S.UserName>
+            {author} {isExpert ? <CheckCircleTwoTone /> : null}
+          </S.UserName>
         </S.InfoAvt>
         <S.InfoHeader>
           <S.Description>{date}</S.Description>
