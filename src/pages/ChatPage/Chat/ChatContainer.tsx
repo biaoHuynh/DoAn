@@ -66,18 +66,18 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser,
   useSubscription(`/topic/chat/${currentChat.topicContactId}`, (message: any) => {
     const body = JSON.parse(message.body);
     console.log(body);
-    if (body.isFile) {
+    if (body.data.isFile) {
       setArrivalMessage({
-        fromSelf: body.user.id === currentUser?.id ? true : false,
+        fromSelf: body.data.user.id === currentUser?.id ? true : false,
         content: '',
-        image: `http://localhost:8081/local-store/${body.content}`,
-        user: body.user.id,
+        image: `http://localhost:8081/local-store/${body.data.content}`,
+        user: body.data.user.id,
       });
     } else {
       setArrivalMessage({
-        fromSelf: body.user.id === currentUser?.id ? true : false,
-        content: body.content,
-        user: body.user.id,
+        fromSelf: body.data.user.id === currentUser?.id ? true : false,
+        content: body.data.content,
+        user: body.data.user.id,
       });
     }
   });
@@ -106,13 +106,18 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser,
         if (image === '' || image === null) {
           stompClient.publish({
             destination: '/app/chat/' + currentChat.topicContactId,
-            body: JSON.stringify({ content: msg, chatParent: null, isFile: false }),
+            body: JSON.stringify({
+              userId: currentUser.id,
+              content: msg,
+              chatParent: null,
+              isFile: false,
+            }),
           });
         } else {
-          console.log(JSON.stringify({ content: image, chatParent: null, isFile: true }));
+          console.log(JSON.stringify({ userId: currentUser.id, content: image, chatParent: null, isFile: true }));
           stompClient.publish({
             destination: '/app/chat/' + currentChat.topicContactId,
-            body: JSON.stringify({ content: image, chatParent: null, isFile: Boolean(true) }),
+            body: JSON.stringify({ userId: currentUser.id, content: image, chatParent: null, isFile: Boolean(true) }),
           });
         }
       }
