@@ -69,13 +69,6 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
     icon: <TagsOutlined />,
     adminCheck: true,
   },
-  {
-    title: 'Access Mangager Page',
-    key: 'accesspage',
-    url: '/access-page',
-    icon: <AuditOutlined />,
-    adminCheck: true,
-  },
 
   // {
   //   title: 'common.medical-dashboard',

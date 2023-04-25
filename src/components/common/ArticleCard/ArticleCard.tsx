@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dates } from '@app/constants/Dates';
-import { Avatar, Button, Image } from 'antd';
+import { Avatar, Button, Image, Modal } from 'antd';
 import { Tag, ITag } from '../Tag/Tag';
 import * as S from './ArticleCard.styles';
 import dfavt from '@app/share/dfavt.png';
@@ -9,11 +9,15 @@ import {
   CheckCircleTwoTone,
   CommentOutlined,
   DislikeOutlined,
+  DislikeTwoTone,
   HeartOutlined,
   LikeOutlined,
+  LikeTwoTone,
   ShareAltOutlined,
 } from '@ant-design/icons';
+import dbService from '@app/pages/DashBoard/DashBoardService';
 interface ArticleCardProps {
+  idPost: number;
   author?: React.ReactNode;
   imgUrl: any;
   title: string;
@@ -29,12 +33,14 @@ interface ArticleCardProps {
   className?: string;
   disLikeCount: number;
   likeCount: number;
-  shareCount: number;
   commentCount: number;
   isExpert: boolean;
+  isLike: boolean;
+  isDisLike: boolean;
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
+  idPost,
   imgUrl,
   title,
   date,
@@ -46,72 +52,152 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   className = 'article-card',
   disLikeCount,
   likeCount,
-  shareCount,
   commentCount,
   isExpert,
+  isLike,
+  isDisLike,
 }) => {
-  return (
-    <S.Wrapper className={className}>
-      <S.Header>
-        <S.InfoAvt>
-          <Avatar src={avatar ? `http://localhost:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
-          <S.UserName>
-            {author} {isExpert ? <CheckCircleTwoTone /> : null}
-          </S.UserName>
-        </S.InfoAvt>
-        <S.InfoHeader>
-          <S.Description>{date}</S.Description>
-        </S.InfoHeader>
-      </S.Header>
-      <S.InfoWrapper>
-        <S.Title>{title}</S.Title>
-        {!!tags && (
-          <S.TagsWrapper>
-            <Tag key={tags.id} title={tags.tagName} bgColor={tags.color} />
-          </S.TagsWrapper>
-        )}
-        <S.Description>{description}</S.Description>
-        <S.Hashtag>#{hashTags}</S.Hashtag>
-      </S.InfoWrapper>
+  const [isLiked, setIsLiked] = useState<boolean>(isLike);
+  const [isDisLiked, setIsDisLiked] = useState<boolean>(isDisLike);
+  const [isLikedCount, setIsLikedCount] = useState<number>(likeCount);
+  const [isDisLikedCount, setIsDisLikedCount] = useState<number>(disLikeCount);
+  const [openPost, setOpenPost] = useState<boolean>(false);
 
-      <S.ImageWrap>
-        {imgUrl.map((img: string) => (
-          <Image
-            src={`http://localhost:8081/local-store/${img}`}
-            key={`${img}123`}
-            alt="article"
-            preview={false}
-            width={'99%'}
-            style={{ objectFit: 'contain', width: '92%' }}
-          />
-        ))}
-      </S.ImageWrap>
-      <S.ReactionWrapper>
-        <S.Reaction>
-          <Button type="text">
-            <LikeOutlined />
-          </Button>
-          {likeCount}
-        </S.Reaction>
-        <S.Reaction>
-          <Button type="text">
-            <DislikeOutlined />
-          </Button>
-          {disLikeCount}
-        </S.Reaction>
-        <S.Reaction>
-          <Button type="text">
-            <CommentOutlined />
-          </Button>
-          {commentCount}
-        </S.Reaction>
-        <S.Reaction>
-          <Button type="text">
-            <ShareAltOutlined />
-          </Button>
-          {shareCount}
-        </S.Reaction>
-      </S.ReactionWrapper>
-    </S.Wrapper>
+  const CallLike = (id: number) => {
+    dbService.callLike(id);
+
+    if (isLiked) {
+      setIsLikedCount(isLikedCount - 1);
+    } else {
+      setIsLikedCount(isLikedCount + 1);
+    }
+    if (isDisLiked) {
+      setIsDisLikedCount(isDisLikedCount - 1);
+      setIsDisLiked(!isDisLiked);
+    }
+
+    setIsLiked(!isLiked);
+  };
+  const CallDisLike = (id: number) => {
+    dbService.callDisLike(id);
+    if (isDisLiked) {
+      setIsDisLikedCount(isDisLikedCount - 1);
+    } else {
+      setIsDisLikedCount(isDisLikedCount + 1);
+    }
+    if (isLiked) {
+      setIsLikedCount(isLikedCount - 1);
+      setIsLiked(!isLiked);
+    }
+    setIsDisLiked(!isDisLiked);
+  };
+  return (
+    <>
+      <S.Wrapper className={className}>
+        <S.Header>
+          <S.InfoAvt>
+            <Avatar src={avatar ? `http://localhost:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
+            <S.UserName>
+              {author} {isExpert ? <CheckCircleTwoTone /> : null}
+            </S.UserName>
+          </S.InfoAvt>
+          <S.InfoHeader>
+            <S.Description>{date}</S.Description>
+          </S.InfoHeader>
+        </S.Header>
+        <S.InfoWrapper>
+          <S.Title>{title}</S.Title>
+          {!!tags && (
+            <S.TagsWrapper>
+              <Tag key={tags.id} title={tags.tagName} bgColor={tags.color} />
+            </S.TagsWrapper>
+          )}
+          <S.Description>{description}</S.Description>
+          <S.Hashtag>#{hashTags}</S.Hashtag>
+        </S.InfoWrapper>
+
+        <S.ImageWrap>
+          {imgUrl?.map((img: string) => (
+            <Image
+              src={`http://localhost:8081/local-store/${img}`}
+              key={`${img}123`}
+              alt="article"
+              preview={false}
+              width={'99%'}
+              style={{ objectFit: 'contain', width: '92%' }}
+            />
+          ))}
+        </S.ImageWrap>
+        <S.ReactionWrapper>
+          <S.Reaction>
+            <Button type="text" onClick={() => CallLike(idPost)}>
+              {isLiked ? <LikeTwoTone /> : <LikeOutlined />}
+            </Button>
+            {isLikedCount}
+          </S.Reaction>
+          <S.Reaction>
+            <Button type="text" onClick={() => CallDisLike(idPost)}>
+              {isDisLiked ? <DislikeTwoTone /> : <DislikeOutlined />}
+            </Button>
+            {isDisLikedCount}
+          </S.Reaction>
+          <S.Reaction>
+            <Button type="text" onClick={() => setOpenPost(true)}>
+              <CommentOutlined />
+            </Button>
+            {commentCount}
+          </S.Reaction>
+        </S.ReactionWrapper>
+      </S.Wrapper>
+      <Modal
+        title="Upload Post"
+        visible={openPost}
+        onCancel={() => setOpenPost(false)}
+        width={700}
+        footer={[
+          <>
+            <S.Wrapper className={className}>
+              <S.Header>
+                <S.InfoAvt>
+                  <Avatar src={avatar ? `http://localhost:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
+                  <S.UserName>
+                    {author} {isExpert ? <CheckCircleTwoTone /> : null}
+                  </S.UserName>
+                </S.InfoAvt>
+                <S.InfoHeader>
+                  <S.Description>{date}</S.Description>
+                </S.InfoHeader>
+              </S.Header>
+              <S.InfoWrapper>
+                <S.Title>{title}</S.Title>
+                {!!tags && (
+                  <S.TagsWrapper>
+                    <Tag key={tags.id} title={tags.tagName} bgColor={tags.color} />
+                  </S.TagsWrapper>
+                )}
+                <S.Description>{description}</S.Description>
+                <S.Hashtag>#{hashTags}</S.Hashtag>
+              </S.InfoWrapper>
+
+              <S.ImageWrap>
+                {imgUrl?.map((img: string) => (
+                  <Image
+                    src={`http://localhost:8081/local-store/${img}`}
+                    key={`${img}123`}
+                    alt="article"
+                    preview={false}
+                    width={'99%'}
+                    style={{ objectFit: 'contain', width: '92%' }}
+                  />
+                ))}
+              </S.ImageWrap>
+            </S.Wrapper>
+            <Button style={{ display: 'inline' }} onClick={() => setOpenPost(false)}>
+              Đóng
+            </Button>
+          </>,
+        ]}
+      ></Modal>
+    </>
   );
 };

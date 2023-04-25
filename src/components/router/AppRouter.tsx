@@ -101,7 +101,6 @@ export const AppRouter: React.FC = () => {
           <Route path="/user-page" element={<UserManager />} />
           <Route path="/post-page" element={<PostManager />} />
           <Route path="/topic-page" element={<TopicManager />} />
-          <Route path="/access-page" element={<AccessRoleManager />} />
 
           <Route path="server-error" element={<ServerError />} />
           <Route path="404" element={<Error404 />} />

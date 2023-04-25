@@ -14,6 +14,7 @@ import { NewsFilter } from '@app/components/apps/newsFeed/NewsFilter/NewsFilter'
 import { Feed } from '@app/components/common/Feed/Feed';
 import { ValidationForm } from '@app/components/forms/ValidationForm/ValidationForm';
 import dbService from './DashBoardService';
+import { number } from 'echarts';
 
 const Dashboard: React.FC = () => {
   const [news, setNews] = useState<any[]>([]);
@@ -81,6 +82,7 @@ const Dashboard: React.FC = () => {
                     {filteredNews?.map((post) => (
                       <ArticleCard
                         key={post.id}
+                        idPost={post.id}
                         title={post.title}
                         description={post.context}
                         date={post.createAt}
@@ -89,9 +91,10 @@ const Dashboard: React.FC = () => {
                         avatar={post.user.imageUrl}
                         tags={post.topicTag}
                         hashTags={post.hashTag}
-                        disLikeCount={post.disLikeCount}
+                        disLikeCount={post.dislikeCount}
                         likeCount={post.likeCount}
-                        shareCount={post.shareCount}
+                        isLike={post.isLike}
+                        isDisLike={post.isDislike}
                         commentCount={post.commentCount}
                         isExpert={post.user.isExpert}
                       />

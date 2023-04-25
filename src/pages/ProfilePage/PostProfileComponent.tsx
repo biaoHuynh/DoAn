@@ -6,7 +6,7 @@ import { UserInfo } from './ProfilePage';
 import { NewsFilter } from '@app/components/apps/newsFeed/NewsFilter/NewsFilter';
 import { ArticleCard } from '@app/components/common/ArticleCard/ArticleCard';
 import { Feed } from '@app/components/common/Feed/Feed';
-import dbService from '../DashBoard/DashBoardService';
+import profileService from './ProfileService';
 import * as s from './Tables.styles';
 
 const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert, rating, lastTime }: UserInfo) => {
@@ -28,7 +28,7 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
   }, [id]);
   const getAllData = () => {
     setLoaded(true);
-    dbService.get10Post(nextOffset).then((data: any) => {
+    profileService.get10Post(nextOffset).then((data: any) => {
       if (data.data.length === 0) {
         setHasMore(false);
       } else {
@@ -41,7 +41,7 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
   };
   useEffect(() => {
     setLoaded(true);
-    dbService.get10Post(nextOffset).then((data: any) => {
+    profileService.get10Post(nextOffset).then((data: any) => {
       setNews((oldNews) => [...oldNews, ...data.data]);
       setLoaded(false);
       setNextOffset([...news, ...data.data].length);
@@ -49,7 +49,7 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
   }, []);
   const getnew = () => {
     setLoaded(true);
-    dbService.get10Post(0).then((data: any) => {
+    profileService.get10Post(0).then((data: any) => {
       if (data !== null) {
         setNews((oldNews) => [...oldNews, ...data.data]);
       }
