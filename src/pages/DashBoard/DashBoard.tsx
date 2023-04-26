@@ -29,22 +29,27 @@ const Dashboard: React.FC = () => {
   const getAllData = () => {
     setLoaded(true);
     dbService.get10Post(nextOffset).then((data: any) => {
-      if (data.data.length === 0) {
+      if (data?.data?.length === 0) {
         setHasMore(false);
       } else {
+        
         setHasMore(true);
+        if (data !== null) {
         setNews((oldNews) => [...oldNews, ...data.data]);
         setLoaded(false);
         setNextOffset([...news, ...data.data].length);
+        }
       }
     });
   };
   useEffect(() => {
     setLoaded(true);
     dbService.get10Post(nextOffset).then((data: any) => {
+      if (data !== null) {
       setNews((oldNews) => [...oldNews, ...data.data]);
       setLoaded(false);
       setNextOffset([...news, ...data.data].length);
+      }
     });
   }, []);
   const getnew = () => {

@@ -9,6 +9,13 @@ class DBService extends BaseService<any> {
   public callDisLike(id: number) {
     return this.fetch.post(`/post/external/${id}/dislike`);
   }
+  public sendComment(data: any) {
+    return this.fetch.post(`/comment/external/create`, data);
+  }
+  public getComment(id: number) {
+    return this.fetch.post(`/comment/external/getAllComment?postId=${id}`);
+  }
+  
 }
 
 const dbService = new DBService();

@@ -35,6 +35,25 @@ export const Wrapper = styled.div`
     box-shadow: var(--box-shadow-hover);
   }
 `;
+export const WrapperCmt = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 21.25rem;
+  position: relative;
+  max-width: 53.5rem;
+  box-shadow: var(--box-shadow);
+  border-radius: ${BORDER_RADIUS};
+  border: 1px black solid;
+  transition: 0.3s;
+
+  [data-theme='dark'] & {
+    background: var(--secondary-background-color);
+  }
+
+  &:hover {
+    box-shadow: var(--box-shadow-hover);
+  }
+`;
 
 export const Author = styled.div`
   font-size: ${FONT_SIZE.lg};

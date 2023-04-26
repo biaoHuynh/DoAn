@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dates } from '@app/constants/Dates';
-import { Avatar, Button, Image, Modal } from 'antd';
+import { Avatar, Button, Card, Image, Input, Modal } from 'antd';
 import { Tag, ITag } from '../Tag/Tag';
 import * as S from './ArticleCard.styles';
 import dfavt from '@app/share/dfavt.png';
@@ -13,9 +13,11 @@ import {
   HeartOutlined,
   LikeOutlined,
   LikeTwoTone,
+  SendOutlined,
   ShareAltOutlined,
 } from '@ant-design/icons';
 import dbService from '@app/pages/DashBoard/DashBoardService';
+import Meta from 'antd/lib/card/Meta';
 interface ArticleCardProps {
   idPost: number;
   author?: React.ReactNode;
@@ -62,7 +64,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   const [isLikedCount, setIsLikedCount] = useState<number>(likeCount);
   const [isDisLikedCount, setIsDisLikedCount] = useState<number>(disLikeCount);
   const [openPost, setOpenPost] = useState<boolean>(false);
-
+  const [comment, setComment] = useState<string>('');
+  const [comments, setComments] = useState([]);
   const CallLike = (id: number) => {
     dbService.callLike(id);
 
@@ -90,6 +93,20 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       setIsLiked(!isLiked);
     }
     setIsDisLiked(!isDisLiked);
+  };
+  const UpComment = () => {
+    dbService.sendComment({
+      content: comment,
+      postId: idPost,
+      comemntParentId: null,
+    });
+    const UserDataLocal = localStorage.getItem('UserData');
+    const UserInfo = JSON.parse(UserDataLocal);
+
+    setComments([
+      ...comments,
+      { comemntParent: null, content: comment, userId: { name: UserInfo.name, imageUrl: UserInfo.imageUrl } },
+    ]);
   };
   return (
     <>
@@ -142,7 +159,18 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             {isDisLikedCount}
           </S.Reaction>
           <S.Reaction>
-            <Button type="text" onClick={() => setOpenPost(true)}>
+            <Button
+              type="text"
+              onClick={() => {
+                setOpenPost(true);
+                dbService.getComment(idPost).then((data: any) => {
+                  if (data.data !== null) {
+                    setComments(data.data);
+                  }
+                  console.log(data);
+                });
+              }}
+            >
               <CommentOutlined />
             </Button>
             {commentCount}
@@ -150,7 +178,6 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         </S.ReactionWrapper>
       </S.Wrapper>
       <Modal
-        title="Upload Post"
         visible={openPost}
         onCancel={() => setOpenPost(false)}
         width={700}
@@ -191,10 +218,25 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                   />
                 ))}
               </S.ImageWrap>
+              {comments.map((item: any) => {
+                return (
+                  <Card style={{ width: 300 }}>
+                    <Meta
+                      avatar={<Avatar src={`http://localhost:8081/local-store/${item.userId.imageUrl}`} />}
+                      title={item.userId.name}
+                    />
+                    <p>{item.comemntParent}</p>
+                    <p>{item.content}</p>
+                  </Card>
+                );
+              })}
             </S.Wrapper>
-            <Button style={{ display: 'inline' }} onClick={() => setOpenPost(false)}>
-              Đóng
-            </Button>
+            <S.WrapperCmt>
+              <Input onChange={(event) => setComment(event.target.value)} />
+              <Button onClick={() => UpComment()}>
+                <SendOutlined />
+              </Button>
+            </S.WrapperCmt>
           </>,
         ]}
       ></Modal>
