@@ -37,7 +37,6 @@ export class ExpertInfo {
   specialist?: String;
   workPlace?: String;
   rating?: String;
-  descriptions?: Map<string, string[]>;
 }
 
 const Profile: React.FC = () => {

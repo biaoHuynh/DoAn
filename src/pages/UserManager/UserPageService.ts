@@ -14,7 +14,7 @@ class UserService extends BaseService<any> {
   protected baseUri = 'data/setting';
 
   public GetUsers(data: any) {
-    return this.fetch.post(`/user/external/findAll`, data);
+    return this.fetch.post(`/user/external/findAll?offset=0`, data);
   }
 }
 
