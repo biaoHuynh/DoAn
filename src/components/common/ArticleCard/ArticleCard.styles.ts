@@ -1,7 +1,12 @@
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import { Typography, Card as CommonCard } from 'antd';
 import { BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, media } from '@app/styles/themes/constants';
 
+export const CardCmt = styled(CommonCard)`
+  .ant-card-meta-title {
+    font-size: 1rem;
+  }
+`;
 export const Header = styled.div`
   height: 5.5rem;
   margin-left: 1.5rem;
@@ -20,6 +25,45 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1 1 21.25rem;
+  position: relative;
+  max-width: 53.5rem;
+  box-shadow: var(--box-shadow);
+  border-radius: ${BORDER_RADIUS};
+  border: 1px black solid;
+  transition: 0.3s;
+
+  [data-theme='dark'] & {
+    background: var(--secondary-background-color);
+  }
+
+  &:hover {
+    box-shadow: var(--box-shadow-hover);
+  }
+`;
+export const WrapperOnloadCmt = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 21.25rem;
+  position: relative;
+  max-width: 53.5rem;
+  box-shadow: var(--box-shadow);
+  border-radius: ${BORDER_RADIUS};
+  border: 1px black solid;
+  transition: 0.3s;
+
+  [data-theme='dark'] & {
+    background: var(--secondary-background-color);
+  }
+
+  &:hover {
+    box-shadow: var(--box-shadow-hover);
+  }
+`;
+
+export const WrapperCmtRep = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: 9 7 3.1rem;
   position: relative;
   max-width: 53.5rem;
   box-shadow: var(--box-shadow);
