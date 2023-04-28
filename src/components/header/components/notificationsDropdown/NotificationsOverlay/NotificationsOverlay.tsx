@@ -8,6 +8,7 @@ import { capitalize } from 'utils/utils';
 import { Mention, Notification as NotificationType } from 'api/notifications.api';
 import { notificationsSeverities } from 'constants/notificationsSeverities';
 import * as S from './NotificationsOverlay.styles';
+import notificationsService from '../NotificationsService';
 
 interface NotificationsOverlayProps {
   notifications: NotificationType[];
@@ -19,62 +20,58 @@ export const NotificationsOverlay: React.FC<NotificationsOverlayProps> = ({
   setNotifications,
   ...props
 }) => {
-  const { t } = useTranslation();
-
   const noticesList = useMemo(
     () =>
       notifications.map((notification, index) => {
-        const type = notificationsSeverities.find((dbSeverity) => dbSeverity.id === notification.id)?.name;
+        const type = notificationsSeverities.find((dbSeverity) => dbSeverity.name === notification.name)?.name;
 
         return (
           <Notification
             key={index}
-            type={type || 'warning'}
-            title={capitalize(type || 'warning')}
-            description={t(notification.description)}
-            {...(type === 'mention' && {
-              mentionIconSrc: (notification as Mention).userIcon,
-              title: (notification as Mention).userName,
-              description: (
-                <Trans i18nKey={(notification as Mention).description}>
-                  <S.LinkBtn type="link" href={(notification as Mention).href}>
-                    {{ place: t((notification as Mention).place) }}
-                  </S.LinkBtn>
-                </Trans>
-              ),
-            })}
+            type={type || 'mention'}
+            title={notification.userName}
+            description={notification.description}
+            mentionIconSrc={notification.userIcon}
+            status={notification.status}
+            id={notification.id}
           />
         );
       }),
-    [notifications, t],
+    [notifications],
   );
 
   return (
     <S.NoticesOverlayMenu mode="inline" {...props}>
       <S.MenuRow gutter={[20, 20]}>
-        <Col span={24}>
+        <Col span={24} style={{ width: '15rem' }}>
           {notifications.length > 0 ? (
             <Space direction="vertical" size={10} split={<S.SplitDivider />}>
               {noticesList}
             </Space>
           ) : (
-            <S.Text>{t('header.notifications.noNotifications')}</S.Text>
+            <S.Text>Không có thông báo</S.Text>
           )}
         </Col>
         <Col span={24}>
           <Row gutter={[10, 10]}>
             {notifications.length > 0 && (
-              <Col span={24}>
-                <S.Btn type="ghost" onClick={() => setNotifications([])}>
-                  {t('header.notifications.readAll')}
+              <Col span={24} style={{ width: '15rem' }}>
+                <S.Btn
+                  type="ghost"
+                  onClick={() => {
+                    setNotifications([]);
+                    notificationsService.DeleteNotifiCations();
+                  }}
+                >
+                  Đã đọc hết
                 </S.Btn>
               </Col>
             )}
-            <Col span={24}>
+            {/* <Col span={24}>
               <S.Btn type="link">
                 <Link to="/">{t('header.notifications.viewAll')}</Link>
               </S.Btn>
-            </Col>
+            </Col> */}
           </Row>
         </Col>
       </S.MenuRow>

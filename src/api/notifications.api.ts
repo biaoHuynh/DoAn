@@ -1,16 +1,14 @@
-export interface Message {
+export interface Mention {
   id: number;
   description: string;
-}
-
-export interface Mention extends Message {
   userName: string;
   userIcon: string;
   place: string;
   href: string;
+  status: number;
 }
 
-export type Notification = Mention | Message;
+export type Notification = Mention;
 
 export const notifications = [
   {

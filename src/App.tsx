@@ -32,9 +32,13 @@ const App: React.FC = () => {
   useEffect(() => {
     const UserData = localStorage.getItem('UserData');
     const UserInfo = JSON.parse(UserData);
-    setUserInfo(UserInfo?.id.toString());
     const AccessToken = localStorage.getItem('AccessToken');
-    setAccessToken(AccessToken);
+
+    if (UserInfo && AccessToken) {
+      setUserInfo(UserInfo?.id.toString());
+      setAccessToken(AccessToken);
+    }
+
     // if (AccessToken && userInfo) {
     //   const socket = new SockJS('http://localhost:8081/system/ws');
     //   const stompClient = Stomp.over(socket);
