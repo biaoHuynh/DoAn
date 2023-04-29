@@ -60,11 +60,14 @@ export const AppRouter: React.FC = () => {
     console.log(message);
     const body = JSON.parse(message.body);
     const actionSender = JSON.parse(body.value);
-    const senderInfo = JSON.parse(actionSender.userSender);
+    const senderInfo = JSON.parse(actionSender.user);
     let action = '';
     switch (actionSender.action) {
-      case 'unfiend':
-        action = 'Unfiend';
+      case 'post-like':
+        action = 'like your post';
+        break;
+      case 'post-comment':
+        action = 'comment your post';
         break;
       case 'request-friend':
         action = 'Send Request Friend';
