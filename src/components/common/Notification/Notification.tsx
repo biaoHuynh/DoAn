@@ -33,7 +33,7 @@ export const Notification: React.FC<NotificationProps> = ({ type, mentionIconSrc
 
   const icon = icons[type] || icons.warning;
   const read = (id: number) => {
-    status && notificationService.read(id);
+    !status && notificationService.read(id);
   };
   return (
     <S.SpaceWrapper

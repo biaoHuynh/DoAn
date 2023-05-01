@@ -16,7 +16,10 @@ class ProfilePageService extends BaseService<any> {
   public findUserById(id: Number) {
     return this.fetch.post(`${this.userBaseUri}findById?id=${id}`);
   }
+  public unFriend(id: number, action: string) {
+    return this.fetch.post(`/contact/external/update?user_id=${id}&action=${action}`);
+  }
 }
 
-const scenarioService = new ProfilePageService();
-export default scenarioService;
+const profilePageService = new ProfilePageService();
+export default profilePageService;

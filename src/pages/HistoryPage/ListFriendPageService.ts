@@ -10,14 +10,21 @@ export interface ICreateScenario {
   name: string;
 }
 
-class ScenarioService extends BaseService<any> {
-  public getListFriends() {
-    return this.fetch.post(`/contact/external/getListFriend`);
+class ListContactService extends BaseService<any> {
+  public getListContact(offset: number, keyname: string) {
+    return this.fetch.post(`/user/external/findByName?offset=${offset}&name=${keyname}`);
   }
-  public restoreOrder(orderId: any) {
-    return this.fetch.get(`/api/v2/order/restore?order_id=${orderId}`);
+
+  public subunsub(id: number) {
+    return this.fetch.post(`/subscriber/external/doSub?expertId=${id}`);
+  }
+  public addFriend(id: number, action: string) {
+    return this.fetch.post(`/contact/external/create?reciver_id=${id}&action=${action}`);
+  }
+  public updateFriend(id: number, action: string) {
+    return this.fetch.post(`/contact/external/update?user_id=${id}&action=${action}`);
   }
 }
 
-const scenarioService = new ScenarioService();
-export default scenarioService;
+const listContactService = new ListContactService();
+export default listContactService;

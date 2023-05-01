@@ -14,11 +14,9 @@ export const NotificationsDropdown: React.FC = () => {
   useEffect(() => {
     notificationsService.getNotifiCations().then((data: any) => {
       if (data.data) {
-        const noti = data.data.map((noti: any) => {
+        const noti = data.data?.map((noti: any) => {
           const value = JSON.parse(noti.value);
           const userInfo = JSON.parse(value.user);
-          console.log(userInfo);
-
           return {
             id: noti.id,
             description: value.action,

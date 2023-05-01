@@ -1,7 +1,7 @@
 import BaseService from '@app/config/_BaseService';
 class ChatService extends BaseService<any> {
   public getListFriends() {
-    return this.fetch.post(`/contact/external/getListFriend`);
+    return this.fetch.post(`/contact/external/getListFriendChat`);
   }
   public getAllMessages(topicId: string) {
     const data = {

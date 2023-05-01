@@ -6,7 +6,7 @@ import * as S from './Feed.styles';
 export interface FeedProps {
   next: () => void;
   hasMore: boolean;
-  children: React.ReactNode[];
+  children: any;
   target?: string;
 }
 

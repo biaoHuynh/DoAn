@@ -242,7 +242,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    overflow: auto;
+    overflow: hidden;
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {

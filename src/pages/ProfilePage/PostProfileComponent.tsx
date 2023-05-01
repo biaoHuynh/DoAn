@@ -6,57 +6,46 @@ import { UserInfo } from './ProfilePage';
 import { NewsFilter } from '@app/components/apps/newsFeed/NewsFilter/NewsFilter';
 import { ArticleCard } from '@app/components/common/ArticleCard/ArticleCard';
 import { Feed } from '@app/components/common/Feed/Feed';
-import profileService from './ProfileService';
 import * as s from './Tables.styles';
 
 const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert, rating, lastTime }: UserInfo) => {
-  const [post, setPost] = useState([]);
-  const [news, setNews] = useState<any[]>([]);
+  const [post, setPost] = useState<any[]>([]);
 
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [nextOffset, setNextOffset] = useState<number>(0);
 
+  const getAllData = () => {
+    if (id) {
+      setLoaded(true);
+      ProfilePageService.getAllPost(id, nextOffset).then((data: any) => {
+        if (data.data) {
+          if (data.data?.length === 0) {
+            setHasMore(false);
+          } else {
+            setHasMore(true);
+            setPost((oldPost) => [...oldPost, ...data.data]);
+            setNextOffset([...post, ...data.data].length);
+          }
+        }
+      });
+      setLoaded(false);
+    }
+  };
   useEffect(() => {
     if (id) {
-      console.log(id);
-      ProfilePageService.getAllPost(id, 0).then((res: any) => {
-        setPost(res.data);
+      setLoaded(true);
+      ProfilePageService.getAllPost(id, nextOffset).then((data: any) => {
+        if (data.data) {
+          setPost((oldPost) => [...oldPost, ...data.data]);
+
+          setNextOffset([...post, ...data.data].length);
+        }
+        setLoaded(false);
       });
     }
-    console.log(id);
   }, [id]);
-  const getAllData = () => {
-    setLoaded(true);
-    profileService.get10Post(nextOffset).then((data: any) => {
-      if (data.data.length === 0) {
-        setHasMore(false);
-      } else {
-        setHasMore(true);
-        setNews((oldNews) => [...oldNews, ...data.data]);
-        setLoaded(false);
-        setNextOffset([...news, ...data.data].length);
-      }
-    });
-  };
-  useEffect(() => {
-    setLoaded(true);
-    profileService.get10Post(nextOffset).then((data: any) => {
-      setNews((oldNews) => [...oldNews, ...data.data]);
-      setLoaded(false);
-      setNextOffset([...news, ...data.data].length);
-    });
-  }, []);
-  const getnew = () => {
-    setLoaded(true);
-    profileService.get10Post(0).then((data: any) => {
-      if (data !== null) {
-        setNews((oldNews) => [...oldNews, ...data.data]);
-      }
-      setLoaded(false);
-      setNextOffset(0);
-    });
-  };
+
   const next = () => {
     getAllData();
   };
@@ -65,7 +54,7 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
     <>
       <s.Card title="Trang của tôi">
         <Row style={{ display: 'flex', justifyContent: 'center' }}>
-          <NewsFilter news={news}>
+          <NewsFilter news={post}>
             {({ filteredNews }) =>
               filteredNews?.length || !loaded ? (
                 <Feed next={next} hasMore={hasMore}>
@@ -82,7 +71,6 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
                       hashTags={post.hashTag}
                       disLikeCount={post.disLikeCount}
                       likeCount={post.likeCount}
-                      shareCount={post.shareCount}
                       commentCount={post.commentCount}
                       isExpert={post.user.isExpert}
                     />

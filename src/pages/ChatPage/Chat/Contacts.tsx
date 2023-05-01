@@ -49,10 +49,10 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
 
   return (
     <>
-      <Container>
-        <div className="brand">
+      <Container style={{ backgroundColor: 'var(--background-color)' }}>
+        <div className="brand" style={{ backgroundColor: 'var(--timeline-background-color)' }}>
           <img src={Chat} alt="logo" />
-          <h3>Chat</h3>
+          <h3 style={{ color: 'var(--text-main-color)' }}>Chat</h3>
         </div>
         <div className="contacts">
           {contacts?.map((contact: any, index: any) => {
@@ -60,6 +60,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
               <div
                 key={contact._id}
                 className={`contact ${index === currentSelected ? 'selected' : ''}`}
+                style={{ backgroundColor: 'var(--secondary-background-selected-color)' }}
                 onClick={() => changeCurrentChat(index, contact)}
               >
                 <div className="avatar">
@@ -73,25 +74,15 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
                   />
                 </div>
                 <div className="username">
-                  <h3>{contact?.userFriend?.name}</h3>
+                  <h3 style={{ color: 'var(--text-main-color)' }}>{contact?.userFriend?.name}</h3>
                 </div>
               </div>
             );
           })}
         </div>
         <div className="current-user">
-          <div
-            className="avatar"
-            onMouseEnter={() => setShowEditButton(true)}
-            onMouseLeave={() => setShowEditButton(false)}
-          >
+          <div className="avatar">
             <img src={currentUserImage || defaultAvatar} alt="avatar" />
-
-            {showEditButton && (
-              <div className="camera-img" onClick={handleEditButton}>
-                <img src={cameraImage} alt="camera" />
-              </div>
-            )}
           </div>
           <div className="username">
             <h2>{currentUserName}</h2>
@@ -131,7 +122,7 @@ const Container = styled.div`
   .contacts {
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    overflow: hidden;
     gap: 0.8rem;
     &::-webkit-scrollbar {
       width: 0.2rem;
@@ -157,8 +148,7 @@ const Container = styled.div`
       }
       .username {
         h3 {
-          color: #e4e6eb;
-          display: none;
+          color: var(--text-main-color);
         }
       }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import * as s from './Tables.styles';
+import * as s from '../HistoryPage/Tables.styles';
 
 import { Feed } from '@app/components/common/Feed/Feed';
 import { NotFound } from '@app/components/common/NotFound/NotFound';
@@ -10,13 +10,14 @@ interface RecentActivityFeedProps {
   activity: any[];
   hasMore: boolean;
   next: () => void;
+  unfriend: any;
 }
 
-const RecentActivityFeed: React.FC<RecentActivityFeedProps> = ({ activity, hasMore, next }) => {
+const RecentActivityFeed: React.FC<RecentActivityFeedProps> = ({ unfriend, activity, hasMore, next }) => {
   const activityItems = useMemo(
     () =>
       activity.map((item, index) => (
-        <RecentActivityItem key={index} {...item.userFriend} topicContactId={item.topicContactId} />
+        <RecentActivityItem key={index} {...item.userFriend} topicContactId={item.topicContactId} unfriend={unfriend} />
       )),
     [activity],
   );

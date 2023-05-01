@@ -4,62 +4,133 @@ import { Table } from 'components/common/Table/Table';
 import { Line } from '@ant-design/plots';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
-import * as S from '@app/pages/uiComponentsPages//UIComponentsPage.styles';
+
 import ConfigSetting from './ListFriendPageService';
 import * as s from './Tables.styles';
 
-import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker';
-
-import moment from 'moment';
-import { ColumnsType } from 'antd/es/table';
-import { Dayjs } from 'dayjs';
-import RecentActivityFeed from './RecentActivityFeed';
+import { notificationController } from '@app/controllers/notificationController';
+import ListFriendScroll from './ListFriendScroll';
+import listContactService from './ListFriendPageService';
 
 const ListFriendPage: React.FC = () => {
-  const [activity, setActivity] = useState<any[]>([]);
+  const [contacts, setContacts] = useState<any[]>([]);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [filteredActivity, setFilteredActivity] = useState<any[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-
   const [filters, setFilters] = useState<any>({
     status: [],
   });
 
   useEffect(() => {
-    ConfigSetting.getListFriends().then((res) => {
-      console.log(res.data);
-      setHasMore(false);
-      setActivity(res.data);
-    });
-  }, []);
-
-  const next = () => {
-    ConfigSetting.getListFriends().then((newActivity: any) => setActivity(activity.concat(newActivity)));
-  };
-
-  useEffect(() => {
     if (filters.status.length > 0) {
-      setFilteredActivity(activity.filter((item) => filters.status.some((filter: any) => filter === item.status)));
+      setFilteredActivity(contacts.filter((item) => filters.status.some((filter: any) => filter === item.status)));
     } else {
-      setFilteredActivity(activity);
+      setFilteredActivity(contacts);
     }
   }, [filters.status]);
 
+  const getAllData = () => {
+    setLoaded(true);
+    ConfigSetting.getListContact(contacts.length, '').then((data: any) => {
+      if (data?.data?.length === 0) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+        if (data !== null) {
+          setContacts((oldNews) => [...oldNews, ...data.data]);
+          setLoaded(false);
+        }
+      }
+    });
+  };
+  const RegetAllData = () => {
+    setLoaded(true);
+    ConfigSetting.getListContact(contacts.length, '').then((data: any) => {
+      if (data?.data?.length === 0) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+        if (data !== null) {
+          setContacts(data.data);
+          setLoaded(false);
+        }
+      }
+    });
+  };
+  useEffect(() => {
+    setLoaded(true);
+    ConfigSetting.getListContact(contacts.length, '').then((res: any) => {
+      if (res.data !== null) {
+        setHasMore(false);
+        setContacts(res.data);
+      }
+    });
+    setLoaded(false);
+  }, []);
+
+  const next = () => {
+    getAllData();
+  };
+  const unfriend = (id: number) => {
+    listContactService.updateFriend(id, 'unfriend').then((res: any) => {
+      if (res.status) {
+        RegetAllData();
+      }
+    });
+  };
+
+  const addfriend = (id: number) => {
+    listContactService.addFriend(id, 'request').then((res: any) => {
+      if (res.status) {
+        RegetAllData();
+      }
+    });
+  };
+  const acpfriend = (id: number) => {
+    listContactService.updateFriend(id, 'friend').then((res: any) => {
+      if (res.status) {
+        RegetAllData();
+      }
+    });
+  };
+  const cancelacpfriend = (id: number) => {
+    listContactService.updateFriend(id, 'unfriend').then((res: any) => {
+      if (res.status) {
+        RegetAllData();
+      }
+    });
+  };
+  const subexpert = (id: number) => {
+    listContactService.subunsub(id).then((res: any) => {
+      if (res.status) {
+        RegetAllData();
+      }
+    });
+  };
+  const unsubexpert = (id: number) => {
+    listContactService.subunsub(id).then((res: any) => {
+      if (res.status) {
+        RegetAllData();
+      }
+    });
+  };
+
   return (
     <>
-      <PageTitle>List Friends</PageTitle>
+      <PageTitle>Cộng đồng</PageTitle>
 
-      {/* <S.Card title={t('common.history_order')}>
-          <Row style={{ width: '100%' }}>
-            <Col>
-              <Line {...config} />
-            </Col>
-          </Row>
-        </S.Card> */}
-
-      <s.Card title="List Friend">
-        <Row style={{ width: '100%' }}>
-          <RecentActivityFeed activity={activity} hasMore={hasMore} next={next} />
-        </Row>
+      <s.Card title="Cộng đồng" bodyStyle={{ height: '48rem' }}>
+        <ListFriendScroll
+          activity={contacts}
+          hasMore={hasMore}
+          next={next}
+          unfriend={unfriend}
+          addfriend={addfriend}
+          acpfriend={acpfriend}
+          cancelacpfriend={cancelacpfriend}
+          subexpert={subexpert}
+          unsubexpert={unsubexpert}
+        />
       </s.Card>
     </>
   );

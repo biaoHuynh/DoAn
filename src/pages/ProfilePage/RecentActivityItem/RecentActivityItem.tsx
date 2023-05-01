@@ -6,7 +6,16 @@ import * as S from './RecentActivityItem.styles';
 import { Activity } from '@app/api/activity.api';
 import dfavt from '@app/share/dfavt.png';
 import { Button } from 'antd';
-export const RecentActivityItem: React.FC<Activity> = ({ imageUrl, name, status, email, topicContactId }) => {
+
+export const RecentActivityItem: React.FC<Activity> = ({
+  id,
+  imageUrl,
+  name,
+  status,
+  email,
+  topicContactId,
+  unfriend,
+}) => {
   const { t } = useTranslation();
   console.log(imageUrl, name, status, email, topicContactId);
 
@@ -36,7 +45,13 @@ export const RecentActivityItem: React.FC<Activity> = ({ imageUrl, name, status,
               {t(currentActivity?.title || '')} {t('nft.by')} {email}
             </S.Text>
           </S.InfoHeaderWrapper>
-          <Button>Huỷ Kết Bạn</Button>
+          <Button
+            onClick={() => {
+              unfriend(id);
+            }}
+          >
+            Huỷ Kết Bạn
+          </Button>
         </S.InfoWrapper>
       </S.Wrapper>
     </S.ActivityCard>

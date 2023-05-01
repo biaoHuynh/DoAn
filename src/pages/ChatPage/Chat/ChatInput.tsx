@@ -46,16 +46,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ handleSendMessage }) => {
 
   return (
     <Container>
-      <div className="button-container">
-        <div className="emoji">
-          <BsEmojiSmileFill onClick={handleEmojiPickerhideShow} />
-          {showEmojiPicker && (
-            <div className="emoji-picker-react">
-              <Picker onEmojiClick={handleEmojiClick} theme={Theme.DARK} />
-            </div>
-          )}
-        </div>
-      </div>
       <form className="input-container" onSubmit={(event) => sendChat(event)}>
         <input type="text" placeholder="type your message here" onChange={(e) => setMsg(e.target.value)} value={msg} />
 
@@ -87,7 +77,8 @@ const Container = styled.div`
   /* display: grid; */
   align-items: center;
   /* grid-template-columns: 15% 70% 15%; */
-  background-color: #00000076;
+  background-color: var(--background-color);
+
   border-top: 0.2px solid #ffffff15;
   display: flex;
   padding: 0 2rem;
@@ -145,18 +136,18 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     gap: 1rem;
-    /* background-color: #ffffff34; */
+
     input {
       width: 90%;
       height: 60%;
-      background-color: transparent;
-      color: white;
+
+      color: var(--text-main-color);
       border: none;
       padding: 0.5rem 1rem;
       border-radius: 2rem;
 
       font-size: 1.1rem;
-      background-color: #ffffff34;
+      background-color: var(--secondary-background-selected-color);
       &::selection {
         background-color: #9a86f3;
       }
