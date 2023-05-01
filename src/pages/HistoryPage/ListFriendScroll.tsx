@@ -17,7 +17,6 @@ interface RecentActivityFeedProps {
   acpfriend: any;
   cancelacpfriend: any;
   subexpert: any;
-  unsubexpert: any;
 }
 
 const ListFriendScroll: React.FC<RecentActivityFeedProps> = ({
@@ -29,7 +28,6 @@ const ListFriendScroll: React.FC<RecentActivityFeedProps> = ({
   acpfriend,
   cancelacpfriend,
   subexpert,
-  unsubexpert,
 }) => {
   const activityItems = useMemo(
     () =>
@@ -37,7 +35,7 @@ const ListFriendScroll: React.FC<RecentActivityFeedProps> = ({
         console.log(activity);
         return (
           <Col className="gutter-row" span={6}>
-            <ListFriendItem key={index} {...item} unfriend={unfriend}  addfriend={addfriend} acpfriend={acpfriend} cancelacpfriend={cancelacpfriend} subexpert={subexpert} unsubexpert={unsubexpert}/>
+            <ListFriendItem key={index} {...item} unfriend={unfriend}  addfriend={addfriend} acpfriend={acpfriend} cancelacpfriend={cancelacpfriend} subexpert={subexpert} />
           </Col>
         );
       }),

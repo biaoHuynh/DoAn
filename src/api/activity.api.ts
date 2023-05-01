@@ -7,7 +7,7 @@ export interface Activity {
   email: string;
   status: ActivityStatusType;
   date: number;
-  topicContactId: string;
+  topicId: string;
   unfriend: any;
   isExpert: boolean;
   expertInfo: any;

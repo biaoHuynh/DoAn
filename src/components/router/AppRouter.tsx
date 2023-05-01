@@ -50,12 +50,13 @@ export const AppRouter: React.FC = () => {
       <MainLayout />
     </RequireAuth>
   );
-  const [userInfo, setUserInfo] = useState('');
+  const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem('UserData') || '')?.topicId);
   useEffect(() => {
     const UserData = localStorage.getItem('UserData');
     const UserInfo = JSON.parse(UserData);
     setUserInfo(UserInfo?.topicId);
-  }, []);
+  }, [localStorage.getItem('UserData')]);
+
   useSubscription(`/topic/user/${userInfo}`, (message: any) => {
     console.log(message);
     const body = JSON.parse(message.body);
@@ -99,6 +100,7 @@ export const AppRouter: React.FC = () => {
           <Route path="profile-page" element={<Profile />} />
           <Route path="profile-page/:id" element={<Profile />} />
           <Route path="chat-center" element={<ChatPage />} />
+
           <Route path="dashboard" element={<Dashboard />} />
 
           <Route path="/user-page" element={<UserManager />} />

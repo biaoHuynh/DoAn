@@ -107,13 +107,6 @@ const ListFriendPage: React.FC = () => {
       }
     });
   };
-  const unsubexpert = (id: number) => {
-    listContactService.subunsub(id).then((res: any) => {
-      if (res.status) {
-        RegetAllData();
-      }
-    });
-  };
 
   return (
     <>
@@ -129,7 +122,7 @@ const ListFriendPage: React.FC = () => {
           acpfriend={acpfriend}
           cancelacpfriend={cancelacpfriend}
           subexpert={subexpert}
-          unsubexpert={unsubexpert}
+
         />
       </s.Card>
     </>

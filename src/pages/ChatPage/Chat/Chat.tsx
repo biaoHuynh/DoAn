@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import chatService from './ChatService';
 import Contacts from './Contacts';
 import Welcome from './Welcome';
@@ -17,6 +17,8 @@ export interface User {
 }
 
 function Chat() {
+  const { state } = useLocation();
+
   const [contacts, setContacts] = useState<User[]>([]);
   const [currentUser, setCurrentUser] = useState<User>();
   const [currentChat, setCurrentChat] = useState(undefined);
@@ -40,20 +42,32 @@ function Chat() {
 
   useEffect(() => {
     chatService.getListFriends().then((data: any) => {
-      setContacts(data.data);
-    });
-  }, [currentUser, navigate]);
+      if (state) {
+        const newdata = data.data;
+        if (newdata) {
+          const found = newdata.find((item: any) => item.topicContactId === state.topicContactId);
 
-  useEffect(() => {
-    chatService.getListFriends().then((data: any) => {
-      setContacts(data.data);
+          if (!found) {
+            newdata.push({
+              topicContactId: state.topicContactId,
+              userFriend: { name: state.name, imageUrl: state.imageUrl },
+            });
+          }
+        }
+
+        newdata.map((contact: any, index: any) => {
+          if (contact.topicContactId == state.topicContactId) {
+            setCurrentChat(contact);
+          }
+        });
+        setContacts(newdata);
+      }
     });
   }, []);
 
   const handleChatChange = (chat: any) => {
     setCurrentChat(chat);
   };
-
 
   return (
     <>

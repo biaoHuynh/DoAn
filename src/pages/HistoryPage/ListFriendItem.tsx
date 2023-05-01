@@ -7,6 +7,8 @@ import { Activity } from '@app/api/activity.api';
 import dfavt from '@app/share/dfavt.png';
 import { Button, Rate } from 'antd';
 import { CheckCircleTwoTone } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import listContactService from './ListFriendPageService';
 
 export const ListFriendItem: React.FC<Activity> = ({
   id,
@@ -14,6 +16,7 @@ export const ListFriendItem: React.FC<Activity> = ({
   name,
   status,
   email,
+  topicId,
   isExpert,
   expertInfo,
   contactInfo,
@@ -22,9 +25,10 @@ export const ListFriendItem: React.FC<Activity> = ({
   acpfriend,
   cancelacpfriend,
   subexpert,
-  unsubexpert,
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
   console.log(imageUrl, name, status, email);
   const [isSubcribed, setIsSubcribed] = useState<boolean>(isExpert && expertInfo.isSub);
   const currentActivity = useMemo(() => activityStatuses.find((dbStatus) => dbStatus.name === status), [status]);
@@ -134,7 +138,19 @@ export const ListFriendItem: React.FC<Activity> = ({
             <Button
               size={'small'}
               onClick={() => {
-                console.log(13);
+                if (!contactInfo) {
+                  listContactService.addFriend(id, 'null').then((res: any) => {
+                    if (res.status) {
+                      navigate(`/chat-center`, {
+                        state: { topicContactId: res.data.topicId, imageUrl: imageUrl, name: name },
+                      });
+                    }
+                  });
+                } else {
+                  navigate(`/chat-center`, {
+                    state: { topicContactId: contactInfo.topicContactId, imageUrl: imageUrl, name: name },
+                  });
+                }
               }}
             >
               Chat

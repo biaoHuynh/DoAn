@@ -194,7 +194,7 @@ const Container = styled.div`
   grid-template-rows: 10% 80% 10%;
   /* gap: 0.1rem; */
   overflow: hidden;
-
+  border-left: 1px black solid;
   .chat-header {
     display: flex;
     justify-content: space-between;
@@ -215,7 +215,7 @@ const Container = styled.div`
       }
       .username {
         h3 {
-          color: #e4e6eb;
+          color: var(--text-main-color);
         }
       }
     }
@@ -242,7 +242,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    overflow: hidden;
+    overflow: auto;
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {
