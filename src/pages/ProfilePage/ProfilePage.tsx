@@ -95,7 +95,7 @@ const Profile: React.FC = () => {
                 avatar={
                   <Avatar
                     size={150}
-                    src={userInfo?.imageUrl ? `http://149.51.37.29:8081/local-store/${userInfo?.imageUrl}` : dfavt}
+                    src={userInfo?.imageUrl ? `http://localhost:8081/local-store/${userInfo?.imageUrl}` : dfavt}
                     style={{ marginBottom: 20, border: '2px solid' }}
                   />
                 }

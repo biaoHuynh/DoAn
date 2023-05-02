@@ -67,7 +67,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
                   <img
                     src={
                       contact?.userFriend?.imageUrl
-                        ? `http://149.51.37.29:8081/local-store/${contact?.userFriend?.imageUrl}`
+                        ? `http://localhost:8081/local-store/${contact?.userFriend?.imageUrl}`
                         : defaultAvatar
                     }
                     alt=""

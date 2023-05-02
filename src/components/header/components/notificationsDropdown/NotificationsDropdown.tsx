@@ -22,7 +22,7 @@ export const NotificationsDropdown: React.FC = () => {
             description: value.action,
             userName: userInfo.name,
             name: 'mention',
-            userIcon: userInfo.imageUrl ? `http://149.51.37.29:8081/local-store/${userInfo.imageUrl}` : DefaultAvatar,
+            userIcon: userInfo.imageUrl ? `http://localhost:8081/local-store/${userInfo.imageUrl}` : DefaultAvatar,
             status: noti.status,
           };
         });
