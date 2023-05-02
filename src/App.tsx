@@ -40,7 +40,7 @@ const App: React.FC = () => {
     }
 
     // if (AccessToken && userInfo) {
-    //   const socket = new SockJS('http://localhost:8081/system/ws');
+    //   const socket = new SockJS('http://149.51.37.29:8081/system/ws');
     //   const stompClient = Stomp.over(socket);
     //   stompClient.connect({ Authorization: AccessToken, userId: userInfo?.id }, function (frame: any) {
     //     console.log('Connected: ' + frame);
