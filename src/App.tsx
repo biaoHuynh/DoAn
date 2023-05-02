@@ -40,7 +40,7 @@ const App: React.FC = () => {
     }
 
     // if (AccessToken && userInfo) {
-    //   const socket = new SockJS('http://localhost:8081/system/ws');
+    //   const socket = new SockJS('http://149.51.37.29:8081/system/ws');
     //   const stompClient = Stomp.over(socket);
     //   stompClient.connect({ Authorization: AccessToken, userId: userInfo?.id }, function (frame: any) {
     //     console.log('Connected: ' + frame);
@@ -83,7 +83,7 @@ const App: React.FC = () => {
       <GlobalStyle />
       <ConfigProvider locale={language === 'en' ? enUS : viVN}>
         <StompSessionProvider
-          url={'http://localhost:8081/system/ws'}
+          url={'http://149.51.37.29:8081/system/ws'}
           connectHeaders={{ Authorization: accessToken, userId: userInfo }}
         >
           <AppRouter />

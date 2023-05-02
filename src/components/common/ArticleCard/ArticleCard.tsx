@@ -130,7 +130,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       <S.Wrapper className={className}>
         <S.Header>
           <S.InfoAvt>
-            <Avatar src={avatar ? `http://localhost:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
+            <Avatar src={avatar ? `http://149.51.37.29:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
             <S.UserName>
               {author} {isExpert ? <CheckCircleTwoTone /> : null}
             </S.UserName>
@@ -153,7 +153,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         <S.ImageWrap>
           {imgUrl?.map((img: string) => (
             <Image
-              src={`http://localhost:8081/local-store/${img}`}
+              src={`http://149.51.37.29:8081/local-store/${img}`}
               key={`${img}123`}
               alt="article"
               preview={false}
@@ -199,7 +199,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           <S.WrapperOnloadCmt className={className}>
             <S.Header>
               <S.InfoAvt>
-                <Avatar src={avatar ? `http://localhost:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
+                <Avatar src={avatar ? `http://149.51.37.29:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
                 <S.UserName>
                   {author} {isExpert ? <CheckCircleTwoTone /> : null}
                 </S.UserName>
@@ -222,7 +222,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             <S.ImageWrap>
               {imgUrl?.map((img: string) => (
                 <Image
-                  src={`http://localhost:8081/local-store/${img}`}
+                  src={`http://149.51.37.29:8081/local-store/${img}`}
                   key={`${img}123`}
                   alt="article"
                   preview={false}
@@ -241,7 +241,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                   bodyStyle={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
                 >
                   <Meta
-                    avatar={<Avatar src={`http://localhost:8081/local-store/${item.userId.imageUrl}`} />}
+                    avatar={<Avatar src={`http://149.51.37.29:8081/local-store/${item.userId.imageUrl}`} />}
                     title={item.userId.name}
                   />
                   {item.comemntParent && (

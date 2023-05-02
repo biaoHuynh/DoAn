@@ -106,7 +106,7 @@ export const ListFriendItem: React.FC<Activity> = ({
       <s.Wrapper>
         <s.ImgWrapper>
           <img
-            src={imageUrl ? `http://localhost:8081/local-store/${imageUrl}` : dfavt}
+            src={imageUrl ? `http://149.51.37.29:8081/local-store/${imageUrl}` : dfavt}
             alt={`title ${imageUrl ? imageUrl : 'dfavt'}`}
             width={84}
             height={84}
