@@ -8,6 +8,7 @@ import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker';
 import { Card } from 'components/common/Card/Card';
 import * as s from './Tables.styles';
 import moment from 'moment';
+import 'moment/locale/vi';
 
 import { ArticleCard } from '@app/components/common/ArticleCard/ArticleCard';
 import { NewsFilter } from '@app/components/apps/newsFeed/NewsFilter/NewsFilter';
