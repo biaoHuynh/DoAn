@@ -42,8 +42,8 @@ function Chat() {
 
   useEffect(() => {
     chatService.getListFriends().then((data: any) => {
+      const newdata = data.data;
       if (state) {
-        const newdata = data.data;
         if (newdata) {
           const found = newdata.find((item: any) => item.topicContactId === state.topicContactId);
 
@@ -60,6 +60,7 @@ function Chat() {
             setCurrentChat(contact);
           }
         });
+      } else {
         setContacts(newdata);
       }
     });
