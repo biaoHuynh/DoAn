@@ -50,44 +50,7 @@ export const AppRouter: React.FC = () => {
       <MainLayout />
     </RequireAuth>
   );
-  const UserDataNew = localStorage.getItem('UserData');
-  const [userInfo, setUserInfo] = useState(UserDataNew ? JSON.parse(UserDataNew)?.topicId : '');
-  useEffect(() => {
-    const UserData = localStorage.getItem('UserData');
-    const UserInfo = JSON.parse(UserData);
-    setUserInfo(UserInfo?.topicId);
-  }, [localStorage.getItem('UserData')]);
 
-  useSubscription(`/topic/user/${userInfo}`, (message: any) => {
-    console.log(message);
-    const body = JSON.parse(message.body);
-    const actionSender = JSON.parse(body.value);
-    const senderInfo = JSON.parse(actionSender.user);
-    let action = '';
-    switch (actionSender.action) {
-      case 'post-like':
-        action = 'thích bài viết';
-        break;
-      case 'post-comment':
-        action = 'bình luận bài viết';
-        break;
-      case 'request-friend':
-        action = 'gửi lời mời kết bạn';
-        break;
-      case 'accept-friend':
-        action = 'chấp nhận lời mời kết bạn';
-        break;
-      case 'subscriber':
-        action = 'đăng ký';
-        break;
-      default:
-        break;
-    }
-
-    notificationController.success({
-      message: `${senderInfo.name} đã ${action} của bạn ${body.user.name}`,
-    });
-  });
   return (
     <BrowserRouter>
       <Routes>

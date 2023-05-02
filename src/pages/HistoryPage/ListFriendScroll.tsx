@@ -34,8 +34,16 @@ const ListFriendScroll: React.FC<RecentActivityFeedProps> = ({
       activity?.map((item, index) => {
         console.log(activity);
         return (
-          <Col className="gutter-row" span={6}>
-            <ListFriendItem key={index} {...item} unfriend={unfriend}  addfriend={addfriend} acpfriend={acpfriend} cancelacpfriend={cancelacpfriend} subexpert={subexpert} />
+          <Col className="gutter-row" span={6} xxl={6} xl={8} md={12} xs={24}>
+            <ListFriendItem
+              key={index}
+              {...item}
+              unfriend={unfriend}
+              addfriend={addfriend}
+              acpfriend={acpfriend}
+              cancelacpfriend={cancelacpfriend}
+              subexpert={subexpert}
+            />
           </Col>
         );
       }),

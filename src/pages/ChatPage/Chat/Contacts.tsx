@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import Chat from '@app/assets/chat.png';
 
 import defaultAvatar from '@app/assets/DefaultAvatar.png';
-import cameraImage from '@app/assets/camera.png';
-import { Navigate, useNavigate } from 'react-router-dom';
+
+import { useNavigate } from 'react-router-dom';
 
 interface ContactsProps {
   contacts: any;
@@ -24,7 +24,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
   const [currentUserName, setCurrentUserName] = useState<string>('');
   const [currentUserImage, setCurrentUserImage] = useState<string>('');
   const [currentSelected, setCurrentSelected] = useState<string>('');
-  const [showEditButton, setShowEditButton] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,10 +41,6 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
   const changeCurrentChat = (index: any, contact: any) => {
     setCurrentSelected(index);
     changeChat(contact);
-  };
-
-  const handleEditButton = () => {
-    navigate('/setAvatar');
   };
 
   return (
@@ -79,14 +75,6 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
               </div>
             );
           })}
-        </div>
-        <div className="current-user">
-          <div className="avatar">
-            <img src={currentUserImage || defaultAvatar} alt="avatar" />
-          </div>
-          <div className="username">
-            <h2>{currentUserName}</h2>
-          </div>
         </div>
       </Container>
     </>

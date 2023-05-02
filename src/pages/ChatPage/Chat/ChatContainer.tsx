@@ -19,6 +19,7 @@ interface ChatContainerProps {
   currentUser: User | undefined;
   socket: any;
   topicContactId: any;
+  handleChatUpdate: any;
 }
 export interface Message {
   fromSelf: boolean;
@@ -39,7 +40,7 @@ export interface User {
   topicId: string;
 }
 
-const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser, socket }) => {
+const ChatContainer: React.FC<ChatContainerProps> = ({ handleChatUpdate, currentChat, currentUser, socket }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [arrivalMessage, setArrivalMessage] = useState<Message>();
   const [isLoading, setIsLoading] = useState(true);
@@ -99,7 +100,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser,
 
   const handleSendMessage = async (msg: string, image: string) => {
     console.log(image, msg);
-
+    handleChatUpdate(true);
     if (currentUser) {
       if (stompClient) {
         //Send Message

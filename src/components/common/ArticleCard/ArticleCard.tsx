@@ -194,12 +194,17 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           </S.Reaction>
         </S.ReactionWrapper>
       </S.Wrapper>
-      <Modal visible={openPost} onCancel={() => setOpenPost(false)} width={700}>
+
+      <Modal visible={openPost} onCancel={() => setOpenPost(false)} width={700} footer={[<></>]}>
         <>
           <S.WrapperOnloadCmt className={className}>
             <S.Header>
               <S.InfoAvt>
-                <Avatar src={avatar ? `http://149.51.37.29:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
+                <Avatar
+                  src={avatar ? `http://149.51.37.29:8081/local-store/${avatar}` : dfavt}
+                  alt="author"
+                  size={43}
+                />{' '}
                 <S.UserName>
                   {author} {isExpert ? <CheckCircleTwoTone /> : null}
                 </S.UserName>

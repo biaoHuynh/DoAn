@@ -48,7 +48,7 @@ function Chat() {
           const found = newdata.find((item: any) => item.topicContactId === state.topicContactId);
 
           if (!found) {
-            newdata.push({
+            newdata.unshift({
               topicContactId: state.topicContactId,
               userFriend: { name: state.name, imageUrl: state.imageUrl },
             });
@@ -60,6 +60,7 @@ function Chat() {
             setCurrentChat(contact);
           }
         });
+        setContacts(newdata);
       } else {
         setContacts(newdata);
       }
@@ -69,7 +70,34 @@ function Chat() {
   const handleChatChange = (chat: any) => {
     setCurrentChat(chat);
   };
+  const handleChatUpdate = (update: boolean) => {
+    if (update) {
+      chatService.getListFriends().then((data: any) => {
+        const newdata = data.data;
+        if (state) {
+          if (newdata) {
+            const found = newdata.find((item: any) => item.topicContactId === state.topicContactId);
 
+            if (!found) {
+              newdata.unshift({
+                topicContactId: state.topicContactId,
+                userFriend: { name: state.name, imageUrl: state.imageUrl },
+              });
+            }
+          }
+
+          newdata.map((contact: any, index: any) => {
+            if (contact.topicContactId == state.topicContactId) {
+              setCurrentChat(contact);
+            }
+          });
+          setContacts(newdata);
+        } else {
+          setContacts(newdata);
+        }
+      });
+    }
+  };
   return (
     <>
       <Container>
@@ -78,7 +106,12 @@ function Chat() {
           {currentChat === undefined ? (
             <Welcome currentUsername={currentUser?.username || ''} />
           ) : (
-            <ChatContainer currentChat={currentChat} currentUser={currentUser} socket={'a'} />
+            <ChatContainer
+              handleChatUpdate={handleChatUpdate}
+              currentChat={currentChat}
+              currentUser={currentUser}
+              socket={'a'}
+            />
           )}
         </div>
       </Container>

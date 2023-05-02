@@ -15,7 +15,9 @@ class DBService extends BaseService<any> {
   public getComment(id: number) {
     return this.fetch.post(`/comment/external/getAllComment?postId=${id}`);
   }
-  
+  public getAllExpert() {
+    return this.fetch.post(`/user/external/findAllExpert?offset=0`);
+  }
 }
 
 const dbService = new DBService();
