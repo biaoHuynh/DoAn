@@ -20,7 +20,7 @@ export const ProfileDropdown: React.FC = () => {
       <S.ProfileDropdownHeader as={Row} gutter={[10, 10]} align="middle">
         <Col>
           <Avatar
-            src={userInfo?.imageUrl ? `http://localhost:8081/local-store/${userInfo?.imageUrl}` : dfavt}
+            src={userInfo?.imageUrl ? `http://149.51.37.29:8081/local-store/${userInfo?.imageUrl}` : dfavt}
             alt="User"
             shape="circle"
             size={40}

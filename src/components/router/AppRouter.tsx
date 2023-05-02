@@ -50,7 +50,8 @@ export const AppRouter: React.FC = () => {
       <MainLayout />
     </RequireAuth>
   );
-  const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem('UserData') || '')?.topicId);
+  const UserDataNew = localStorage.getItem('UserData');
+  const [userInfo, setUserInfo] = useState(UserDataNew ? JSON.parse(UserDataNew)?.topicId : '');
   useEffect(() => {
     const UserData = localStorage.getItem('UserData');
     const UserInfo = JSON.parse(UserData);

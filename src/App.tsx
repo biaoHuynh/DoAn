@@ -83,7 +83,7 @@ const App: React.FC = () => {
       <GlobalStyle />
       <ConfigProvider locale={language === 'en' ? enUS : viVN}>
         <StompSessionProvider
-          url={'http://localhost:8081/system/ws'}
+          url={'http://149.51.37.29:8081/system/ws'}
           connectHeaders={{ Authorization: accessToken, userId: userInfo }}
         >
           <AppRouter />
