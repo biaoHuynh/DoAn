@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Row, DatePicker, Space, Empty, Modal, Collapse, Carousel, Rate } from 'antd';
+import { Button, Col, Row, DatePicker, Space, Empty, Modal, Collapse, Carousel, Rate, Image, Tag } from 'antd';
 import { Table } from 'components/common/Table/Table';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
@@ -23,6 +23,7 @@ import { CheckCircleTwoTone } from '@ant-design/icons';
 const Dashboard: React.FC = () => {
   const [news, setNews] = useState<any[]>([]);
   const [experts, setExperts] = useState<any[]>([]);
+  const [topPost, setTopPost] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [nextOffset, setNextOffset] = useState<number>(0);
@@ -59,6 +60,11 @@ const Dashboard: React.FC = () => {
         setExperts(res.data);
       }
     });
+    dbService.getAllTop().then((res: any) => {
+      if (res?.data !== null) {
+        setTopPost(res.data);
+      }
+    });
     return () => {
       setNews([]);
     };
@@ -78,9 +84,7 @@ const Dashboard: React.FC = () => {
   const onChange = (key: string | string[]) => {
     console.log(key);
   };
-  const onChangeSlider = (currentSlide: number) => {
-    console.log(currentSlide);
-  };
+
   return (
     <>
       <s.TablesWrapper>
@@ -103,57 +107,140 @@ const Dashboard: React.FC = () => {
 
         <s.Card title="Trang tin tức" style={{ zIndex: 1 }}>
           <Row style={{ display: 'flex', justifyContent: 'center' }}>
-            <Col span={9}>
-              <Carousel afterChange={onChangeSlider}>
+            <Col span={10}>
+              <Carousel autoplay>
                 {experts.map((expert) => {
-                  <s.ActivityCard bodyStyle={{ padding: '25px  10px' }}>
-                    <s.Wrapper>
-                      <s.ImgWrapper>
-                        <img
-                          src={expert.imageUrl ? `http://149.51.37.29:8081/local-store/${expert.imageUrl}` : dfavt}
-                          alt={`title ${expert.imageUrl ? expert.imageUrl : 'dfavt'}`}
-                          width={84}
-                          height={84}
-                        />
-                      </s.ImgWrapper>
+                  return (
+                    <s.ActivityCard bodyStyle={{ padding: '25px  10px' }}>
+                      <s.Wrapper>
+                        <s.ImgWrapper>
+                          <img
+                            src={expert.imageUrl ? `http://149.51.37.29:8081/local-store/${expert.imageUrl}` : dfavt}
+                            alt={`title ${expert.imageUrl ? expert.imageUrl : 'dfavt'}`}
+                            width={150}
+                            height={150}
+                          />
+                        </s.ImgWrapper>
 
-                      <s.InfoWrapper>
-                        <s.InfoHeaderWrapper>
-                          <s.TitleWrapper>
-                            <s.Title level={5}>
-                              {expert.name} {expert.isExpert ? <CheckCircleTwoTone /> : null}
-                            </s.Title>
-                          </s.TitleWrapper>
-                          <s.TextCard>{expert.email}</s.TextCard>\
-                          <span>
-                            <Rate disabled style={{ fontSize: '1rem' }} defaultValue={expert.expertInfo.rating} />
-                            {expert.expertInfo.ratingCount ? (
-                              <span style={{ fontSize: '0.8rem' }} className="ant-rate-text">
-                                {expert.expertInfo.ratingCount}
-                              </span>
-                            ) : (
-                              ''
-                            )}
-                          </span>
-                        </s.InfoHeaderWrapper>
-                      </s.InfoWrapper>
-                    </s.Wrapper>
-                  </s.ActivityCard>;
+                        <s.InfoWrapper>
+                          <s.InfoHeaderWrapper>
+                            <s.TitleWrapper>
+                              <s.Title level={5}>
+                                {expert.name} {expert.isExpert ? <CheckCircleTwoTone /> : null}
+                              </s.Title>
+                            </s.TitleWrapper>
+                            <s.TextCard>{expert.email}</s.TextCard>
+                            <s.TextCard>{expert.expertInfo?.jobTitle}</s.TextCard>
+                            <s.TextCard>{expert.expertInfo?.specialist}</s.TextCard>
+                            <s.TextCard>{expert.expertInfo?.workPlace}</s.TextCard>
+                            <span>
+                              <Rate disabled style={{ fontSize: '1rem' }} defaultValue={expert.expertInfo.rating} />
+                              {expert.expertInfo.ratingCount ? (
+                                <span style={{ fontSize: '0.8rem' }} className="ant-rate-text">
+                                  {expert.expertInfo.ratingCount}
+                                </span>
+                              ) : (
+                                ''
+                              )}
+                            </span>
+                          </s.InfoHeaderWrapper>
+                        </s.InfoWrapper>
+                      </s.Wrapper>
+                    </s.ActivityCard>
+                  );
                 })}
               </Carousel>
               <Collapse defaultActiveKey={['1']} onChange={onChange}>
-                <Panel header="This is panel header 1" key="1">
-                  <p>cc</p>
+                <Panel header="Top bài viết nhiều bình luận nhất" key="1">
+                  {topPost?.mostComment?.map((post: any) => {
+                    return (
+                      <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
+                        <s.Wrapper>
+                          <s.ImgWrapper>
+                            {post.imageList?.map((img: string) => (
+                              <Image
+                                src={`http://149.51.37.29:8081/local-store/${img}`}
+                                alt={`title ${img ? img : 'dfavt'}`}
+                                width={100}
+                                height={100}
+                              />
+                            ))}
+                          </s.ImgWrapper>
+
+                          <s.InfoWrapper>
+                            <s.InfoHeaderWrapper>
+                              <s.Title2>{post.title}</s.Title2>
+
+                              <s.Description>{post.context}</s.Description>
+                              <s.Hashtag>#{post.hashTag}</s.Hashtag>
+                            </s.InfoHeaderWrapper>
+                          </s.InfoWrapper>
+                        </s.Wrapper>
+                      </s.ActivityCard>
+                    );
+                  })}
                 </Panel>
-                <Panel header="This is panel header 2" key="2">
-                  <p>cc</p>
+                <Panel header="Top bài viết nhiều lượt xem nhất" key="2">
+                  {topPost?.mostView?.map((post: any) => {
+                    return (
+                      <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
+                        <s.Wrapper>
+                          <s.ImgWrapper>
+                            {post.imageList?.map((img: string) => (
+                              <Image
+                                src={`http://149.51.37.29:8081/local-store/${img}`}
+                                alt={`title ${img ? img : 'dfavt'}`}
+                                width={100}
+                                height={100}
+                              />
+                            ))}
+                          </s.ImgWrapper>
+
+                          <s.InfoWrapper>
+                            <s.InfoHeaderWrapper>
+                              <s.Title2>{post.title}</s.Title2>
+
+                              <s.Description>{post.context}</s.Description>
+                              <s.Hashtag>#{post.hashTag}</s.Hashtag>
+                            </s.InfoHeaderWrapper>
+                          </s.InfoWrapper>
+                        </s.Wrapper>
+                      </s.ActivityCard>
+                    );
+                  })}
                 </Panel>
-                <Panel header="This is panel header 3" key="3">
-                  <p>ccc</p>
+                <Panel header="Top bài viết nhiều lượt thích nhất" key="3">
+                  {topPost?.mostLike?.map((post: any) => {
+                    return (
+                      <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
+                        <s.Wrapper>
+                          <s.ImgWrapper>
+                            {post.imageList?.map((img: string) => (
+                              <Image
+                                src={`http://149.51.37.29:8081/local-store/${img}`}
+                                alt={`title ${img ? img : 'dfavt'}`}
+                                width={100}
+                                height={100}
+                              />
+                            ))}
+                          </s.ImgWrapper>
+
+                          <s.InfoWrapper>
+                            <s.InfoHeaderWrapper>
+                              <s.Title2>{post.title}</s.Title2>
+
+                              <s.Description>{post.context}</s.Description>
+                              <s.Hashtag>#{post.hashTag}</s.Hashtag>
+                            </s.InfoHeaderWrapper>
+                          </s.InfoWrapper>
+                        </s.Wrapper>
+                      </s.ActivityCard>
+                    );
+                  })}
                 </Panel>
               </Collapse>
             </Col>
-            <Col span={15}>
+            <Col span={14}>
               <NewsFilter news={news}>
                 {({ filteredNews }) =>
                   filteredNews?.length || !loaded ? (

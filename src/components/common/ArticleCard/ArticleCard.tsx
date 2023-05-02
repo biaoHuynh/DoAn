@@ -160,7 +160,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               alt="article"
               preview={false}
               width={'99%'}
-              style={{ objectFit: 'contain', width: '90%' }}
+              style={{ objectFit: 'contain', width: '99%' }}
             />
           ))}
         </S.ImageWrap>

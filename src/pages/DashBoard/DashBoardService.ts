@@ -18,6 +18,10 @@ class DBService extends BaseService<any> {
   public getAllExpert() {
     return this.fetch.post(`/user/external/findAllExpert?offset=0`);
   }
+  public getAllTop() {
+    return this.fetch.post(`/post/external/findPostAllMost`);
+  }
+  
 }
 
 const dbService = new DBService();
