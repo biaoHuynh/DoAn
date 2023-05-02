@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, DatePicker, Space, Input } from 'antd';
+
+const { Search } = Input;
+
 import { Table } from 'components/common/Table/Table';
 import { Line } from '@ant-design/plots';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +14,8 @@ import * as s from './Tables.styles';
 import { notificationController } from '@app/controllers/notificationController';
 import ListFriendScroll from './ListFriendScroll';
 import listContactService from './ListFriendPageService';
+import AudioOutlined from '@ant-design/icons/lib/icons/AudioOutlined';
+import { useSubscription } from 'react-stomp-hooks';
 
 const ListFriendPage: React.FC = () => {
   const [contacts, setContacts] = useState<any[]>([]);
@@ -20,7 +25,9 @@ const ListFriendPage: React.FC = () => {
   const [filters, setFilters] = useState<any>({
     status: [],
   });
-
+  const [keyword, setKeyWord] = useState<string>('');
+  const UserDataNew = localStorage.getItem('UserData');
+  const [userInfo, setUserInfo] = useState(UserDataNew ? JSON.parse(UserDataNew)?.topicId : '');
   useEffect(() => {
     if (filters.status.length > 0) {
       setFilteredActivity(contacts.filter((item) => filters.status.some((filter: any) => filter === item.status)));
@@ -31,7 +38,7 @@ const ListFriendPage: React.FC = () => {
 
   const getAllData = () => {
     setLoaded(true);
-    ConfigSetting.getListContact(contacts.length, '').then((data: any) => {
+    ConfigSetting.getListContact(contacts.length, keyword).then((data: any) => {
       if (data?.data?.length === 0) {
         setHasMore(false);
       } else {
@@ -45,7 +52,7 @@ const ListFriendPage: React.FC = () => {
   };
   const RegetAllData = () => {
     setLoaded(true);
-    ConfigSetting.getListContact(contacts.length, '').then((data: any) => {
+    ConfigSetting.getListContact(contacts.length, keyword).then((data: any) => {
       if (data?.data?.length === 0) {
         setHasMore(false);
       } else {
@@ -59,7 +66,7 @@ const ListFriendPage: React.FC = () => {
   };
   useEffect(() => {
     setLoaded(true);
-    ConfigSetting.getListContact(contacts.length, '').then((res: any) => {
+    ConfigSetting.getListContact(contacts.length, keyword).then((res: any) => {
       if (res.data !== null) {
         setHasMore(false);
         setContacts(res.data);
@@ -108,11 +115,54 @@ const ListFriendPage: React.FC = () => {
     });
   };
 
+  const onSearch = (value: string) => {
+    setKeyWord(value.trim());
+    setLoaded(true);
+    ConfigSetting.getListContact(contacts.length, value.trim()).then((res: any) => {
+      if (res.data !== null) {
+        setHasMore(false);
+        setContacts(res.data);
+      }
+    });
+    setLoaded(false);
+  };
+
+  useEffect(() => {
+    const UserData = localStorage.getItem('UserData');
+    const UserInfo = JSON.parse(UserData);
+    setUserInfo(UserInfo?.topicId);
+  }, [localStorage.getItem('UserData')]);
+
+  useSubscription(`/topic/user/${userInfo}`, (message: any) => {
+    console.log(message);
+    const body = JSON.parse(message.body);
+    const actionSender = JSON.parse(body.value);
+
+    let action = false;
+    switch (actionSender.action) {
+      case 'request-friend':
+        action = true;
+        break;
+      case 'accept-friend':
+        action = true;
+        break;
+      case 'subscriber':
+        action = true;
+        break;
+      default:
+        break;
+    }
+
+    if (action) {
+      RegetAllData();
+    }
+  });
   return (
     <>
       <PageTitle>Cộng đồng</PageTitle>
 
-      <s.Card title="Cộng đồng" bodyStyle={{ height: '48rem' }}>
+      <s.Card title="Cộng đồng" bodyStyle={{ height: '48rem', padding: '20px 60px' }}>
+        <Search style={{ width: '30%' }} placeholder="Tìm kiếm người dùng" enterButton onSearch={onSearch} />
         <ListFriendScroll
           activity={contacts}
           hasMore={hasMore}
@@ -122,7 +172,6 @@ const ListFriendPage: React.FC = () => {
           acpfriend={acpfriend}
           cancelacpfriend={cancelacpfriend}
           subexpert={subexpert}
-
         />
       </s.Card>
     </>
