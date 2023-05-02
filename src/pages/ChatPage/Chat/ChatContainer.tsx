@@ -82,7 +82,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser,
       setArrivalMessage({
         fromSelf: body.data.user.id === currentUser?.id ? true : false,
         content: '',
-        image: `http://localhost:8081/local-store/${body.data.content}`,
+        image: `http://149.51.37.29:8081/local-store/${body.data.content}`,
         user: body.data.user.id,
       });
     } else {
@@ -146,7 +146,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser,
             <img
               src={
                 currentChat?.userFriend?.imageUrl
-                  ? `http://localhost:8081/local-store/${currentChat?.userFriend?.imageUrl}`
+                  ? `http://149.51.37.29:8081/local-store/${currentChat?.userFriend?.imageUrl}`
                   : defaultAvatar
               }
               alt="current Chat avatar"
@@ -191,7 +191,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ currentChat, currentUser,
                     <div className={`message ${message.fromSelf ? 'sended' : 'recieved'}`}>
                       {message.content && (
                         <div className="content-image">
-                          <img src={`http://localhost:8081/local-store/${message.content}`} alt="sended" />
+                          <img src={`http://149.51.37.29:8081/local-store/${message.content}`} alt="sended" />
                         </div>
                       )}
                     </div>
