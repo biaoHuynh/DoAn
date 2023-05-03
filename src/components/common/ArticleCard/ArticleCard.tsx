@@ -226,7 +226,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               <S.Hashtag>#{hashTags}</S.Hashtag>
             </S.InfoWrapper>
 
-            <S.ImageWrap>
+            <S.ImageWrap2>
               {imgUrl?.map((img: string) => (
                 <Image
                   src={`http://149.51.37.29:8081/local-store/${img}`}
@@ -236,7 +236,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                   style={{ objectFit: 'contain', width: '90%' }}
                 />
               ))}
-            </S.ImageWrap>
+            </S.ImageWrap2>
             {comments.map((item: any) => {
               return (
                 <S.CardCmt
@@ -308,7 +308,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             })}
           </S.WrapperOnloadCmt>
           <S.WrapperCmt>
-            <Input onChange={(event) => setComment(event.target.value)} />
+            <Input value={comment} onChange={(event) => setComment(event.target.value)} />
             <Button onClick={() => UpComment()}>
               <SendOutlined />
             </Button>

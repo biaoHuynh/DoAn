@@ -5,6 +5,7 @@ export interface Activity {
   imageUrl: string;
   name: string;
   email: string;
+  statusFr: number;
   status: ActivityStatusType;
   date: number;
   topicId: string;

@@ -19,6 +19,7 @@ import { number } from 'echarts';
 import { Panel } from '@app/components/common/Collapse/Collapse';
 import dfavt from '@app/share/dfavt.png';
 import { CheckCircleTwoTone } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
   const [news, setNews] = useState<any[]>([]);
@@ -30,6 +31,7 @@ const Dashboard: React.FC = () => {
   const [openPostUpload, setOpenPostUpload] = useState<boolean>(false);
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const getAllData = () => {
     setLoaded(true);
@@ -56,7 +58,7 @@ const Dashboard: React.FC = () => {
       }
     });
     dbService.getAllExpert().then((res: any) => {
-      if (res?.data !== null) {
+      if (res?.data?.length > 0) {
         setExperts(res.data);
       }
     });
@@ -109,9 +111,12 @@ const Dashboard: React.FC = () => {
           <Row style={{ display: 'flex', justifyContent: 'center' }}>
             <Col span={10}>
               <Carousel autoplay>
-                {experts.map((expert) => {
+                {experts?.map((expert) => {
                   return (
-                    <s.ActivityCard bodyStyle={{ padding: '25px  10px' }}>
+                    <s.ActivityCard
+                      bodyStyle={{ padding: '25px  10px' }}
+                      onClick={() => navigate(`/profile-page/${expert.id}`)}
+                    >
                       <s.Wrapper>
                         <s.ImgWrapper>
                           <img

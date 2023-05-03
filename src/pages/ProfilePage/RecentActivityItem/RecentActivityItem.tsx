@@ -6,6 +6,7 @@ import * as S from './RecentActivityItem.styles';
 import { Activity } from '@app/api/activity.api';
 import dfavt from '@app/share/dfavt.png';
 import { Button } from 'antd';
+import { WrapperBtn } from '@app/pages/HistoryPage/Tables.styles';
 
 export const RecentActivityItem: React.FC<Activity> = ({
   id,
@@ -13,11 +14,13 @@ export const RecentActivityItem: React.FC<Activity> = ({
   name,
   status,
   email,
-  topicContactId,
+  statusFr,
+  acpfriend,
+  cancelacpfriend,
   unfriend,
 }) => {
   const { t } = useTranslation();
-  console.log(imageUrl, name, status, email, topicContactId);
+  console.log(imageUrl, name, status, email);
 
   const currentActivity = useMemo(() => activityStatuses.find((dbStatus) => dbStatus.name === status), [status]);
 
@@ -37,21 +40,40 @@ export const RecentActivityItem: React.FC<Activity> = ({
           <S.InfoHeaderWrapper>
             <S.TitleWrapper>
               <S.Title level={5}>{name}</S.Title>
-
-              <S.IconWrapper>{currentActivity?.icon}</S.IconWrapper>
             </S.TitleWrapper>
-
-            <S.Text>
-              {t(currentActivity?.title || '')} {t('nft.by')} {email}
-            </S.Text>
+            <S.Text>{email}</S.Text>
           </S.InfoHeaderWrapper>
-          <Button
-            onClick={() => {
-              unfriend(id);
-            }}
-          >
-            Huỷ Kết Bạn
-          </Button>
+          {statusFr === 2 ? (
+            <Button
+              size={'small'}
+              onClick={() => {
+                unfriend(id);
+              }}
+            >
+              Huỷ Kết Bạn
+            </Button>
+          ) : (
+            <WrapperBtn>
+              <Button
+                size={'small'}
+                type={'primary'}
+                onClick={() => {
+                  acpfriend(id);
+                }}
+              >
+                Chấp nhận
+              </Button>
+              <Button
+                size={'small'}
+                onClick={() => {
+                  cancelacpfriend(id);
+                }}
+                danger
+              >
+                Xoá
+              </Button>
+            </WrapperBtn>
+          )}
         </S.InfoWrapper>
       </S.Wrapper>
     </S.ActivityCard>

@@ -104,7 +104,7 @@ export const ListFriendItem: React.FC<Activity> = ({
   return (
     <s.ActivityCard bodyStyle={{ padding: '25px  10px' }}>
       <s.Wrapper>
-        <s.ImgWrapper>
+        <s.ImgWrapper onClick={() => navigate(`/profile-page/${id}`)}>
           <img
             src={imageUrl ? `http://149.51.37.29:8081/local-store/${imageUrl}` : dfavt}
             alt={`title ${imageUrl ? imageUrl : 'dfavt'}`}
@@ -115,15 +115,15 @@ export const ListFriendItem: React.FC<Activity> = ({
 
         <s.InfoWrapper>
           <s.InfoHeaderWrapper>
-            <s.TitleWrapper>
+            <s.TitleWrapper onClick={() => navigate(`/profile-page/${id}`)}>
               <s.Title level={5}>
                 {name} {isExpert ? <CheckCircleTwoTone /> : null}
               </s.Title>
             </s.TitleWrapper>
 
-            <s.TextCard>{email}</s.TextCard>
+            <s.TextCard onClick={() => navigate(`/profile-page/${id}`)}>{email}</s.TextCard>
             {isExpert ? (
-              <span>
+              <span onClick={() => navigate(`/profile-page/${id}`)}>
                 <Rate disabled style={{ fontSize: '1rem' }} defaultValue={expertInfo.rating} />
                 {expertInfo.ratingCount ? (
                   <span style={{ fontSize: '0.8rem' }} className="ant-rate-text">

@@ -6,6 +6,9 @@ class FromService extends BaseService<any> {
   public upLoadPost(data: any) {
     return this.fetch.post(`/post/external/create`, data);
   }
+  public updateInfor(data: any) {
+    return this.fetch.post(`/user/external/update`, data);
+  }
   public getAllTopicTag() {
     return this.fetch.post(`/topic-tag/external/getAllTopicTag?tag-name=`);
   }

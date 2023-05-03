@@ -50,7 +50,9 @@ export const WrapperOnloadCmt = styled.div`
   border-radius: ${BORDER_RADIUS};
   border: 1px black solid;
   transition: 0.3s;
-
+  height: 850px;
+  overflow-y: auto;
+  overflow-x: hidden;
   [data-theme='dark'] & {
     background: var(--secondary-background-color);
   }
@@ -111,6 +113,13 @@ export const ImageWrap = styled.div`
   display: flex;
   justify-content: center;
   overflow: hidden;
+  height: 30rem;
+`;
+export const ImageWrap2 = styled.div`
+  width: 45rem;
+  display: flex;
+  justify-content: center;
+
   height: 30rem;
 `;
 

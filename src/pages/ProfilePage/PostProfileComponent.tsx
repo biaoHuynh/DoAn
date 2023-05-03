@@ -61,6 +61,7 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
                   {filteredNews?.map((post) => (
                     <ArticleCard
                       key={post.id}
+                      idPost={post.id}
                       title={post.title}
                       description={post.context}
                       date={post.createAt}

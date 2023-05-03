@@ -12,12 +12,18 @@ class ProfilePageService extends BaseService<any> {
   public getListFriend() {
     return this.fetch.post(`${this.contactBaseUri}getListFriend`);
   }
+  public getListRequest() {
+    return this.fetch.post(`${this.contactBaseUri}getListContactRequest`);
+  }
 
   public findUserById(id: Number) {
     return this.fetch.post(`${this.userBaseUri}findById?id=${id}`);
   }
-  public unFriend(id: number, action: string) {
+  public updateFriend(id: number, action: string) {
     return this.fetch.post(`/contact/external/update?user_id=${id}&action=${action}`);
+  }
+  public rating(data: any) {
+    return this.fetch.post(`/rating/external/doRating`, data);
   }
 }
 
