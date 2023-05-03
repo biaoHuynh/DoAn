@@ -21,28 +21,35 @@ export interface SidebarNavigationItem {
 
 export const sidebarNavigation: SidebarNavigationItem[] = [
   {
-    title: 'Dashboard',
+    title: 'Trang Chủ',
     key: 'dashboard',
     url: '/dashboard',
     icon: <HomeOutlined />,
     adminCheck: false,
   },
   {
-    title: 'List Friend',
+    title: 'Tìm bài viết',
+    key: 'findpostpage',
+    url: '/find-post-page',
+    icon: <IdcardOutlined />,
+    adminCheck: false,
+  },
+  {
+    title: 'Cộng Đồng',
     key: 'listfriend',
     url: '/list-friend',
     icon: <ContactsOutlined />,
     adminCheck: false,
   },
   {
-    title: 'Chat Center',
+    title: 'Nhắn tin',
     key: 'chat-center',
     url: '/chat-center',
     icon: <MessageOutlined />,
     adminCheck: false,
   },
   {
-    title: 'Profile Page',
+    title: 'Trang cá nhân',
     key: 'profilepage',
     url: '/profile-page',
     icon: <IdcardOutlined />,

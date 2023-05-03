@@ -197,6 +197,7 @@ const Dashboard: React.FC = () => {
                                 alt={`title ${img ? img : 'dfavt'}`}
                                 width={100}
                                 height={100}
+                                preview={false}
                               />
                             ))}
                           </s.ImgWrapper>

@@ -22,7 +22,9 @@ import AboutUs from '@app/pages/AboutUs/AboutUs';
 import UserManager from '@app/pages/UserManager/UserManager';
 import PostManager from '@app/pages/PostManager/PostManager';
 import TopicManager from '@app/pages/TopicManager/TopicManager';
-import AccessRoleManager from '@app/pages/AccessRoleManager/AccessRoleManager';
+import AccessRoleManager from '@app/pages/FindPostPage/FindPost';
+import FindPost from '@app/pages/FindPostPage/FindPost';
+import PostDetail from '@app/pages/FindPostPage/PostDetail';
 const DataTablesPage = React.lazy(() => import('@app/pages/DataTablesPage'));
 const ChartsPage = React.lazy(() => import('@app/pages/ChartsPage'));
 const ServerErrorPage = React.lazy(() => import('@app/pages/ServerErrorPage'));
@@ -64,7 +66,9 @@ export const AppRouter: React.FC = () => {
           <Route path="profile-page" element={<Profile />} />
           <Route path="profile-page/:id" element={<Profile />} />
           <Route path="chat-center" element={<ChatPage />} />
-
+          <Route path="detail" element={<PostDetail />} />
+          
+          <Route path="find-post-page" element={<FindPost />} />
           <Route path="dashboard" element={<Dashboard />} />
 
           <Route path="/user-page" element={<UserManager />} />
