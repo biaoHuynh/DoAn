@@ -42,17 +42,16 @@ export const Wrapper = styled.div`
 `;
 export const WrapperOnloadCmt = styled.div`
   display: flex;
+  height: 60.25rem;
   flex-direction: column;
-  flex: 1 1 55.25rem;
+  flex: 1 1 55.5rem;
   position: relative;
   max-width: 53.5rem;
   box-shadow: var(--box-shadow);
   border-radius: ${BORDER_RADIUS};
   border: 1px black solid;
   transition: 0.3s;
-  height: 850px;
-  overflow-y: auto;
-  overflow-x: hidden;
+
   [data-theme='dark'] & {
     background: var(--secondary-background-color);
   }
@@ -61,7 +60,28 @@ export const WrapperOnloadCmt = styled.div`
     box-shadow: var(--box-shadow-hover);
   }
 `;
+export const WrapperOnloadCmt2 = styled.div`
+  display: flex;
+  height: 57rem;
+  flex-direction: column;
+  flex: 1 1 55.5rem;
+  position: relative;
+  max-width: 53.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: var(--box-shadow);
+  border-radius: ${BORDER_RADIUS};
+  border: 1px black solid;
+  transition: 0.3s;
 
+  [data-theme='dark'] & {
+    background: var(--secondary-background-color);
+  }
+
+  &:hover {
+    box-shadow: var(--box-shadow-hover);
+  }
+`;
 export const WrapperCmtRep = styled.div`
   display: flex;
   flex-direction: row;
@@ -91,7 +111,7 @@ export const WrapperCmt = styled.div`
   border-radius: ${BORDER_RADIUS};
   border: 1px black solid;
   transition: 0.3s;
-width: 46.25rem;
+width: 53.5rem;
   [data-theme='dark'] & {
     background: var(--secondary-background-color);
   }
@@ -116,7 +136,7 @@ export const ImageWrap = styled.div`
   height: 30rem;
 `;
 export const ImageWrap2 = styled.div`
-  width: 45rem;
+  width: 53.9rem;
   display: flex;
   justify-content: center;
 

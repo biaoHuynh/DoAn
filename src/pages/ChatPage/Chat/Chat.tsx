@@ -5,6 +5,7 @@ import chatService from './ChatService';
 import Contacts from './Contacts';
 import Welcome from './Welcome';
 import ChatContainer from './ChatContainer';
+import { useSubscription } from 'react-stomp-hooks';
 
 export interface User {
   username: string;
@@ -24,6 +25,29 @@ function Chat() {
   const [currentChat, setCurrentChat] = useState(undefined);
   const navigate = useNavigate();
 
+  const UserDataNew = localStorage.getItem('UserData');
+  const [userInfo, setUserInfo] = useState(UserDataNew ? JSON.parse(UserDataNew)?.topicId : '');
+
+  useEffect(() => {
+    const UserData = localStorage.getItem('UserData');
+    const UserInfo = JSON.parse(UserData);
+    setUserInfo(UserInfo?.topicId);
+  }, []);
+
+  useSubscription(`/topic/user/${userInfo}`, (message: any) => {
+    console.log(message);
+    const body = JSON.parse(message.body);
+    const actionSender = JSON.parse(body.value);
+
+    if (actionSender.action === 'new-message') {
+      chatService.getListFriends().then((data: any) => {
+        if (data?.data?.length > 0) {
+          setContacts(data.data);
+        }
+      });
+    }
+  });
+
   useEffect(() => {
     const setUser = async () => {
       if (!localStorage.getItem('UserData')) {
@@ -42,27 +66,29 @@ function Chat() {
 
   useEffect(() => {
     chatService.getListFriends().then((data: any) => {
-      const newdata = data.data;
-      if (state) {
-        if (newdata) {
-          const found = newdata.find((item: any) => item.topicContactId === state.topicContactId);
+      if (data?.data?.length > 0) {
+        const newdata = data.data;
+        if (state) {
+          if (newdata) {
+            const found = newdata.find((item: any) => item.topicContactId === state.topicContactId);
 
-          if (!found) {
-            newdata.unshift({
-              topicContactId: state.topicContactId,
-              userFriend: { name: state.name, imageUrl: state.imageUrl },
-            });
+            if (!found) {
+              newdata.unshift({
+                topicContactId: state.topicContactId,
+                userFriend: { name: state.name, imageUrl: state.imageUrl },
+              });
+            }
           }
+
+          newdata.map((contact: any, index: any) => {
+            if (contact.topicContactId == state.topicContactId) {
+              setCurrentChat(contact);
+            }
+          });
+          setContacts(newdata);
+        } else {
+          setContacts(newdata);
         }
-
-        newdata.map((contact: any, index: any) => {
-          if (contact.topicContactId == state.topicContactId) {
-            setCurrentChat(contact);
-          }
-        });
-        setContacts(newdata);
-      } else {
-        setContacts(newdata);
       }
     });
   }, []);

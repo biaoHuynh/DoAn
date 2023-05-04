@@ -3,6 +3,7 @@ import { Space } from 'antd';
 import { CheckCircleFilled, ExclamationCircleFilled, InfoCircleFilled, WarningFilled } from '@ant-design/icons';
 import * as S from './Notification.styles';
 import notificationService from './NotificationsService';
+import { useNavigate } from 'react-router-dom';
 interface Icons {
   info: React.ReactNode;
   success: React.ReactNode;
@@ -20,9 +21,20 @@ interface NotificationProps {
   description?: React.ReactNode;
   mentionIconSrc?: React.ReactNode;
   status: number;
+  typePost: string;
+  param: string;
 }
 
-export const Notification: React.FC<NotificationProps> = ({ type, mentionIconSrc, title, description, status, id }) => {
+export const Notification: React.FC<NotificationProps> = ({
+  type,
+  mentionIconSrc,
+  title,
+  description,
+  status,
+  id,
+  typePost,
+  param,
+}) => {
   const icons: Icons = {
     info: <InfoCircleFilled />,
     success: <CheckCircleFilled />,
@@ -30,7 +42,7 @@ export const Notification: React.FC<NotificationProps> = ({ type, mentionIconSrc
     error: <WarningFilled />,
     mention: mentionIconSrc,
   };
-
+  const navigate = useNavigate();
   const icon = icons[type] || icons.warning;
   const read = (id: number) => {
     !status && notificationService.read(id);
@@ -41,7 +53,15 @@ export const Notification: React.FC<NotificationProps> = ({ type, mentionIconSrc
       align="start"
       size="middle"
       style={{ background: status ? '#f5f5f5' : `var(--background-color)`, width: '23rem' }}
-      onClick={() => read(id)}
+      onClick={() => {
+        read(id);
+        if (typePost === 'post') {
+          const id = parseInt(param);
+          navigate(`/detail`, {
+            state: id,
+          });
+        }
+      }}
     >
       {mentionIconSrc ? <S.NotificationIcon src={icon} alt="User icon" /> : icon}
       <Space direction="vertical">

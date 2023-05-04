@@ -10,7 +10,7 @@ export const MenuRow = styled(Row).withConfig({
 
 export const NoticesOverlayMenu = styled(DropdownMenu)`
   padding: 12px 16px;
-  max-width: 15rem;
+  max-width: 25rem;
   border-right: 0;
 
   @media only screen and ${media.md} {

@@ -34,6 +34,8 @@ export const NotificationsOverlay: React.FC<NotificationsOverlayProps> = ({
             mentionIconSrc={notification.userIcon}
             status={notification.status}
             id={notification.id}
+            param={notification.param}
+            typePost={notification.typePost}
           />
         );
       }),
