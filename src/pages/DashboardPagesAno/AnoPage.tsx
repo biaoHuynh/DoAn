@@ -59,8 +59,8 @@ const AnoPage: React.FC = () => {
         </Button>
       </Row>
       <s.Card bodyStyle={{ height: '60.3rem', padding: '20px 60px' }}>
-        <Row>
-          <Col span={10}>
+        <Row  justify="end">
+          <Col span={9}>
             <Carousel autoplay>
               {experts?.map((expert) => {
                 return (
