@@ -10,7 +10,7 @@ const service = axios.create({
 });
 
 // Config
-const ENTRY_ROUTE = '/auth/login';
+const ENTRY_ROUTE = '/noauth';
 const TOKEN_PAYLOAD_KEY = 'Authorization';
 const PUBLIC_REQUEST_KEY = 'public-request';
 const AUTH_TOKEN = 'AccessToken';

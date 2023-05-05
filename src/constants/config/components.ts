@@ -133,6 +133,13 @@ export const components: Component[] = [
     keywords: ['auth', 'log in', 'login'],
   },
   {
+    name: 'Log in',
+    title: 'common.login',
+    url: `/noauth`,
+    categories: ['noauth'],
+    keywords: ['noauth', 'noauth', 'noauth'],
+  },
+  {
     name: 'Sign up',
     title: 'common.signup',
     url: `/auth/sign-up`,
