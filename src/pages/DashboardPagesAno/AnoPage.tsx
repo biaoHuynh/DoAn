@@ -58,7 +58,7 @@ const AnoPage: React.FC = () => {
           <Link to="/auth/login">Login</Link>
         </Button>
       </Row>
-      <s.Card bodyStyle={{ height: '61.5rem', padding: '20px 60px' }}>
+      <s.Card bodyStyle={{ height: '60.3rem', padding: '20px 60px' }}>
         <Row>
           <Col span={10}>
             <Carousel autoplay>
@@ -194,7 +194,7 @@ const AnoPage: React.FC = () => {
               </Panel>
             </Collapse>
           </Col>
-          <Col span={14} style={{ height: '61.5rem', display: 'flex', justifyContent: 'center' }}>
+          <Col span={14} style={{ height: '60.3rem', display: 'flex', justifyContent: 'center' }}>
             <AnoScroll activity={contacts} hasMore={hasMore} next={next} />
           </Col>
         </Row>
