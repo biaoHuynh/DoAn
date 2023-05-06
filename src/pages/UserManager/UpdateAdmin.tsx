@@ -30,17 +30,18 @@ const normFile = (e = { fileList: [] }) => {
   return e && e.fileList;
 };
 interface DBProps {
-  onAddSuccess: any;
+  id: any;
+
+  onUpdateSuccess: any;
 }
 
-export const AddExpert: React.FC<DBProps> = ({ onAddSuccess }) => {
+export const UpdateAdmin: React.FC<DBProps> = ({ id, onUpdateSuccess }) => {
   const [isFieldsChanged, setFieldsChanged] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const [uploading, setUploading] = useState(false);
   const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
   const [jobTitle, setJobTitle] = useState(null);
   const [specialist, setSpecialist] = useState(null);
   const [workPlace, setWorkPlace] = useState(null);
@@ -50,34 +51,36 @@ export const AddExpert: React.FC<DBProps> = ({ onAddSuccess }) => {
 
   const { t } = useTranslation();
 
+  const onFinish = async (values = {}) => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setFieldsChanged(false);
+      notificationController.success({ message: 'Upload success' });
+      console.log(values);
+    }, 1000);
+  };
+
   const handleUpload = async () => {
+    const formData = new FormData();
     setLoading(true);
 
     let idCardBase64 = '';
     if (fileList.length > 0) {
       await getBase64(fileList, (result: string) => {
         const formData = {
+          id: id,
           name: name,
-          expertInfo: {
-            phoneNumber: '',
-            jobTitle: jobTitle,
-            specialist: specialist,
-            workPlace: workPlace,
-            description: [],
-          },
-          email: email,
-
-          role: 'expert',
           password: password,
           imageUrlBase64: result,
         };
 
-        UserPageService.AddUser(formData).then((data: any) => {
+        UserPageService.UpdateUser(formData).then((data: any) => {
           if (data.status === 1) {
             setTimeout(() => {
               setLoading(false);
               setFieldsChanged(false);
-              onAddSuccess(true);
+              onUpdateSuccess(true);
               form.resetFields();
             }, 1000);
           }
@@ -85,27 +88,18 @@ export const AddExpert: React.FC<DBProps> = ({ onAddSuccess }) => {
       });
     } else {
       const formData = {
+        id: id,
         name: name,
-        expertInfo: {
-          phoneNumber: '',
-          jobTitle: jobTitle,
-          specialist: specialist,
-          workPlace: workPlace,
-          description: [],
-        },
-        email: email,
-
-        role: 'expert',
         password: password,
         imageUrlBase64: null,
       };
 
-      UserPageService.AddUser(formData).then((data: any) => {
+      UserPageService.UpdateUser(formData).then((data: any) => {
         if (data.status === 1) {
           setTimeout(() => {
             setLoading(false);
             setFieldsChanged(false);
-            onAddSuccess(true);
+            onUpdateSuccess(true);
             form.resetFields();
           }, 1000);
         }
@@ -139,44 +133,16 @@ export const AddExpert: React.FC<DBProps> = ({ onAddSuccess }) => {
     fileList,
   };
   return (
-    <BaseForm form={form} layout="vertical" name="contentForm" onFinish={handleUpload}>
-      <BaseForm.Item name="name" label="Tên" required>
-        <Input onChange={(event: any) => setName(event.target.value)} required />
+    <BaseForm form={form} layout="vertical" name="contentForm">
+      <BaseForm.Item name="name" label="Tên">
+        <Input onChange={(event: any) => setName(event.target.value)} placeholder="Để trống nếu không thay đổi" />
       </BaseForm.Item>
-      <BaseForm.Item
-        name="email"
-        label="Email"
-        required
-        rules={[
-          {
-            type: 'email',
-            message: 'Email không hợp lệ',
-          },
-        ]}
-      >
-        <Input onChange={(event: any) => setEmail(event.target.value)} required />
+      <BaseForm.Item name="password" label="Mật khẩu">
+        <Input onChange={(event: any) => setPassword(event.target.value)} placeholder="Để trống nếu không thay đổi" />
       </BaseForm.Item>
-      <BaseForm.Item name="jobTitle" label="Chức vụ" required>
-        <Input onChange={(event: any) => setJobTitle(event.target.value)} required />
-      </BaseForm.Item>
-      <BaseForm.Item name="specialist" label="Chuyên môn" required>
-        <Input onChange={(event: any) => setSpecialist(event.target.value)} required />
-      </BaseForm.Item>
-      <BaseForm.Item name="workPlace" label="Nơi làm việc" required>
-        <Input onChange={(event: any) => setWorkPlace(event.target.value)} required />
-      </BaseForm.Item>
-      <BaseForm.Item name="password" label="Mật khẩu" required>
-        <Input onChange={(event: any) => setPassword(event.target.value)} required />
-      </BaseForm.Item>
-      <BaseForm.Item name="image" label="Ảnh đại diện" required>
-        <Upload name="logo" {...props} listType="picture-card">
-          <Button type="default" disabled={fileList.length > 1}>
-            <UploadOutlined />
-          </Button>
-        </Upload>
-      </BaseForm.Item>
-      <Button type="primary" htmlType="submit">
-        Thêm
+
+      <Button type="default" onClick={handleUpload} loading={uploading} style={{ marginTop: 16, width: '100%' }}>
+        Cập nhập thông tin
       </Button>
     </BaseForm>
   );

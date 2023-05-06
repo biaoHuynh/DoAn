@@ -145,23 +145,29 @@ export const UpdateExpert: React.FC<DBProps> = ({ id, onUpdateSuccess }) => {
   return (
     <BaseForm form={form} layout="vertical" name="contentForm">
       <BaseForm.Item name="name" label="Tên">
-        <Input onChange={(event) => setName(event.target.value)} placeholder="Để trống nếu không thay đổi" />
+        <Input onChange={(event: any) => setName(event.target.value)} placeholder="Để trống nếu không thay đổi" />
       </BaseForm.Item>
 
       <>
         <BaseForm.Item name="jobTitle" label="Chức vụ">
-          <Input onChange={(event) => setJobTitle(event.target.value)} placeholder="Để trống nếu không thay đổi" />
+          <Input onChange={(event: any) => setJobTitle(event.target.value)} placeholder="Để trống nếu không thay đổi" />
         </BaseForm.Item>
         <BaseForm.Item name="specialist" label="Chuyên môn">
-          <Input onChange={(event) => setSpecialist(event.target.value)} placeholder="Để trống nếu không thay đổi" />
+          <Input
+            onChange={(event: any) => setSpecialist(event.target.value)}
+            placeholder="Để trống nếu không thay đổi"
+          />
         </BaseForm.Item>
         <BaseForm.Item name="workPlace" label="Nơi làm việc">
-          <Input onChange={(event) => setWorkPlace(event.target.value)} placeholder="Để trống nếu không thay đổi" />
+          <Input
+            onChange={(event: any) => setWorkPlace(event.target.value)}
+            placeholder="Để trống nếu không thay đổi"
+          />
         </BaseForm.Item>
       </>
 
       <BaseForm.Item name="password" label="Mật khẩu">
-        <Input onChange={(event) => setPassword(event.target.value)} placeholder="Để trống nếu không thay đổi" />
+        <Input onChange={(event: any) => setPassword(event.target.value)} placeholder="Để trống nếu không thay đổi" />
       </BaseForm.Item>
       <BaseForm.Item name="image" label="Ảnh đại diện (Để trống nếu không thay đổi)">
         <Upload name="logo" {...props} listType="picture-card">
@@ -169,10 +175,10 @@ export const UpdateExpert: React.FC<DBProps> = ({ id, onUpdateSuccess }) => {
             <UploadOutlined />
           </Button>
         </Upload>
-        <Button type="default" onClick={handleUpload} loading={uploading} style={{ marginTop: 16, width: '100%' }}>
-          Cập nhập thông tin
-        </Button>
       </BaseForm.Item>
+      <Button type="default" onClick={handleUpload} loading={uploading} style={{ marginTop: 16, width: '100%' }}>
+        Cập nhập thông tin
+      </Button>
     </BaseForm>
   );
 };

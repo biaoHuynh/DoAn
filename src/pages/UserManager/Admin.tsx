@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row, DatePicker, Space, Modal, Form, InputNumber, Select, notification, Input, Radio , Image} from 'antd';
+import { Col, Row, DatePicker, Space, Modal, Form, InputNumber, Select, notification, Input, Radio, Image } from 'antd';
 import { Table } from 'components/common/Table/Table';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
@@ -23,10 +23,13 @@ import { notificationController } from '@app/controllers/notificationController'
 import { AnyIfEmpty } from 'react-redux';
 import { getData } from 'country-list';
 import { number } from 'echarts';
+import { UpdateAdmin } from './UpdateAdmin';
+import { AddAdmin } from './AddAdmin';
 
 const Admin: React.FC = () => {
   const { t } = useTranslation();
   const [usersData, setusersData] = useState<any>([]);
+  const [userSelected, setuserSelected] = useState<any>(null);
 
   const [isOpenAdd, setIsOpenAdd] = useState<boolean>(false);
   const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
@@ -84,20 +87,20 @@ const Admin: React.FC = () => {
     {
       title: 'Thông tin',
       key: 'info',
-      render: (record)=>(
+      render: (record) => (
         <s.WrapperUser>
           <s.ImgWrapper>
-          <Image
-            src={record.imageUrl ? `http://149.51.37.29:8081/local-store/${record.imageUrl}` : dfavt}
-            width={100}
-            height={100}
-          ></Image>
-        </s.ImgWrapper>
-        <s.TitleWrapper>
-          <s.Title level={5}>
-            {record.name} {record.isExpert ? <CheckCircleTwoTone /> : null}
-          </s.Title>
-        </s.TitleWrapper>
+            <Image
+              src={record.imageUrl ? `http://149.51.37.29:8081/local-store/${record.imageUrl}` : dfavt}
+              width={100}
+              height={100}
+            ></Image>
+          </s.ImgWrapper>
+          <s.TitleWrapper>
+            <s.Title level={5}>
+              {record.name} {record.isExpert ? <CheckCircleTwoTone /> : null}
+            </s.Title>
+          </s.TitleWrapper>
         </s.WrapperUser>
       ),
       sorter: (a, b) => a.name.localeCompare(b.name),
@@ -118,16 +121,12 @@ const Admin: React.FC = () => {
     {
       title: 'Ngày tạo',
       key: 'createAt',
-      render : (record) => (
-        <span>{moment(new Date(record.createAt)).locale('vi').format('hh:mm, DD MMMM YYYY')}</span>
-      )
+      render: (record) => <span>{moment(new Date(record.createAt)).locale('vi').format('hh:mm, DD MMMM YYYY')}</span>,
     },
     {
       title: 'Ngày cập nhật',
       key: 'updateAt',
-      render : (record) => (
-        <span>{moment(new Date(record.updateAt)).locale('vi').format('hh:mm, DD MMMM YYYY')}</span>
-      )
+      render: (record) => <span>{moment(new Date(record.updateAt)).locale('vi').format('hh:mm, DD MMMM YYYY')}</span>,
     },
   ];
   useEffect(() => {
@@ -154,6 +153,92 @@ const Admin: React.FC = () => {
       }
     });
   }, []);
+  const onUpdateSuccess = (key: boolean) => {
+    if (key) {
+      notificationController.success({
+        message: 'Cập nhập Admin thành công',
+      });
+      setIsLoading(true);
+      setIsPending(false);
+      UserService.GetUsers(initData).then((data: any) => {
+        const resData: any = [];
+        if (data.status === 1) {
+          data.data.forEach((item: any) => {
+            resData.push({
+              ...item,
+              key: item.id,
+            });
+          });
+          setusersData(resData);
+          setIsOpenEdit(false);
+          setIsLoading(false);
+        }
+      });
+    }
+  };
+  const onAddSuccess = (key: boolean) => {
+    if (key) {
+      notificationController.success({
+        message: 'Thêm Admin thành công',
+      });
+      setIsLoading(true);
+      setIsPending(false);
+      UserService.GetUsers(initData).then((data: any) => {
+        const resData: any = [];
+        if (data.status === 1) {
+          data.data.forEach((item: any) => {
+            resData.push({
+              ...item,
+              key: item.id,
+            });
+          });
+          setusersData(resData);
+          setIsOpenAdd(false);
+          setIsLoading(false);
+        }
+      });
+    }
+  };
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      setuserSelected(null);
+      selectedRows.forEach((item: any) => {
+        const temp = usersData.find((x: any) => x.id === item.id);
+        setuserSelected(temp);
+      });
+    },
+    getCheckboxProps: (record: any) => ({
+      disabled: record.name === 'Disabled User', // Column configuration not to be checked
+      name: record.name,
+    }),
+  };
+  const onDeleteUser = () => {
+    UserService.DelUsers(userSelected.id).then((data: any) => {
+      if (data.status === 1) {
+        notificationController.success({
+          message: 'Xoá Admin thành công',
+        });
+        setIsLoading(true);
+        setIsPending(false);
+        UserService.GetUsers(initData).then((data: any) => {
+          const resData: any = [];
+          if (data.status === 1) {
+            data.data.forEach((item: any) => {
+              resData.push({
+                ...item,
+                key: item.id,
+              });
+            });
+            setusersData(resData);
+            setIsOpenDelete(false);
+            setIsLoading(false);
+            setuserSelected(null);
+          }
+        });
+      }
+    });
+  };
   return (
     <>
       <PageTitle>Trang quản lý User</PageTitle>
@@ -161,52 +246,100 @@ const Admin: React.FC = () => {
         <s.Card
           title={'Quản lý Admin'}
           extra={
-            !isPending ? (
-              <div style={{ display: 'flex' }}>
-                {admin ? (
-                  <Button severity="success" onClick={() => setIsOpenAdd(true)}>
-                    {t('common.add')}
-                  </Button>
-                ) : (
-                  <div />
-                )}
-                {admin ? (
-                  <Button severity="info" style={{ marginLeft: '15px' }} onClick={() => setIsOpenEdit(true)}>
-                    {t('common.edit')}
-                  </Button>
-                ) : (
-                  <div />
-                )}
-                {admin ? (
-                  <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenDelete(true)}>
-                    {t('common.delete')}
-                  </Button>
-                ) : (
-                  <div />
-                )}
-                {status === 'running' && (
-                  <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenCancel(true)}>
-                    {t('common.cancel')}
-                  </Button>
-                )}
-                {status === 'cancel' && (
-                  <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenConfirmCancel(true)}>
-                    {t('common.cofirmCancel')}
-                  </Button>
-                )}
-              </div>
-            ) : (
-              <div style={{ display: 'flex' }}></div>
-            )
+            <div style={{ display: 'flex' }}>
+              {admin ? (
+                <Button severity="success" onClick={() => setIsOpenAdd(true)}>
+                  {t('common.add')}
+                </Button>
+              ) : (
+                <div />
+              )}
+              {userSelected && admin ? (
+                <Button severity="info" style={{ marginLeft: '15px' }} onClick={() => setIsOpenEdit(true)}>
+                  {t('common.edit')}
+                </Button>
+              ) : (
+                <div />
+              )}
+              {userSelected && admin ? (
+                <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenDelete(true)}>
+                  {t('common.delete')}
+                </Button>
+              ) : (
+                <div />
+              )}
+            </div>
           }
         >
           <Row style={{ width: '100%', marginTop: '10px' }}>
             <Col md={24}>
-              <Table dataSource={usersData} columns={UserColumns} scroll={{ x: 2000 }} loading={isLoading} />
+              <Table
+                dataSource={usersData}
+                columns={UserColumns}
+                scroll={{ x: 2000 }}
+                loading={isLoading}
+                rowSelection={{
+                  type: 'radio',
+                  ...rowSelection,
+                }}
+              />
             </Col>
           </Row>
         </s.Card>
       </s.TablesWrapper>
+      <Modal
+        title={t('common.delete') + ' Chuyên gia'}
+        visible={isOpenDelete}
+        onCancel={() => setIsOpenDelete(false)}
+        footer={[
+          <>
+            <Button style={{ display: 'inline' }} onClick={() => setIsOpenDelete(false)}>
+              {t('common.close')}
+            </Button>
+            <Button
+              style={{ display: 'inline' }}
+              type="primary"
+              className="btn btn-primary"
+              onClick={() => onDeleteUser()}
+              danger
+            >
+              {t('common.delete')}
+            </Button>
+          </>,
+        ]}
+      >
+        <div>Bạn muốn xoá chuyên gia này ?</div>
+      </Modal>
+      {userSelected && (
+        <Modal
+          title="Cập nhập thông tin"
+          visible={isOpenEdit}
+          onCancel={() => setIsOpenEdit(false)}
+          footer={[
+            <>
+              <Button style={{ display: 'inline' }} onClick={() => setIsOpenEdit(false)}>
+                Đóng
+              </Button>
+            </>,
+          ]}
+        >
+          <UpdateAdmin id={userSelected.id!} onUpdateSuccess={onUpdateSuccess} />
+        </Modal>
+      )}
+      <Modal
+        title="Cập nhập thông tin"
+        visible={isOpenAdd}
+        onCancel={() => setIsOpenAdd(false)}
+        footer={[
+          <>
+            <Button style={{ display: 'inline' }} onClick={() => setIsOpenAdd(false)}>
+              Đóng
+            </Button>
+          </>,
+        ]}
+      >
+        <AddAdmin onAddSuccess={onAddSuccess} />
+      </Modal>
     </>
   );
 };

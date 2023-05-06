@@ -196,6 +196,7 @@ const User: React.FC = () => {
             setusersData(resData);
             setIsOpenDelete(false);
             setIsLoading(false);
+            setuserSelected(null);
           }
         });
       }
@@ -226,11 +227,11 @@ const User: React.FC = () => {
   };
   return (
     <>
-      <PageTitle>Trang quản lý User</PageTitle>
+      <PageTitle>Trang quản lý người dùng</PageTitle>
       <s.TablesWrapper>
         <Search style={{ width: '30%' }} placeholder="Tìm kiếm bài viết" enterButton onSearch={onSearch} />
         <s.Card
-          title={'Quản lý User'}
+          title={'Quản lý người dùng'}
           extra={
             userSelected ? (
               <div style={{ display: 'flex' }}>
