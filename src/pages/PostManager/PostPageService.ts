@@ -16,6 +16,9 @@ class PostService extends BaseService<any> {
   public GetPosts(title: string, offset: number) {
     return this.fetch.post(`/post/external/findByTitle?title=${title}&offset=${offset}`);
   }
+  public DelPosts(id: number) {
+    return this.fetch.post(`/post/external/delete?postId=${id}`);
+  }
 }
 
 const postService = new PostService();

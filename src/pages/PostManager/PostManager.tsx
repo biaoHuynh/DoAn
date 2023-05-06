@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import * as s from './Tables.styles';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
-import { Card, Col, Image, Row, Table } from 'antd';
+import { Input, Col, Image, Row, Table, Modal } from 'antd';
+
 import { Button } from '@app/components/common/buttons/Button/Button';
 import { useTranslation } from 'react-i18next';
 import { ColumnsType } from 'antd/lib/table';
@@ -9,6 +10,7 @@ import dfavt from '@app/share/dfavt.png';
 import { CheckCircleTwoTone } from '@ant-design/icons';
 import { Tag } from '@app/components/common/Tag/Tag';
 import PostPageService from './PostPageService';
+import { notificationController } from '@app/controllers/notificationController';
 
 interface PostDataType {
   key: React.Key;
@@ -99,6 +101,7 @@ const PostColumns: ColumnsType<PostDataType> = [
 ];
 
 const PostManager: React.FC = () => {
+  const { Search } = Input;
   const { t } = useTranslation();
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -108,7 +111,8 @@ const PostManager: React.FC = () => {
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const [postData, setPostData] = useState<any>([]);
-  const [postSelected, setPostSelected] = useState<any>({});
+  const [postSelected, setPostSelected] = useState<any>(null);
+  const [keyword, setKeyWord] = useState<string>(' ');
 
   const [isOpenConfirmCancel, setIsOpenConfirmCancel] = useState<boolean>(false);
   useEffect(() => {
@@ -144,46 +148,58 @@ const PostManager: React.FC = () => {
       name: record.name,
     }),
   };
+  const onSearch = (value: string) => {
+    setKeyWord(value.trim());
+
+    PostPageService.GetPosts(value.trim(), 0).then((data: any) => {
+      const resData: any = [];
+      if (data.status === 1) {
+        data.data.forEach((item: any) => {
+          resData.push({
+            ...item,
+            key: item.id,
+          });
+        });
+      }
+      setPostData(resData);
+    });
+  };
+  const onDeletePost = () => {
+    PostPageService.DelPosts(postSelected.id).then((data: any) => {
+      if (data.status === 1) {
+        notificationController.success({
+          message: 'Xoá bài viết thành công',
+        });
+        PostPageService.GetPosts(' ', 0).then((data: any) => {
+          const resData: any = [];
+          if (data.status === 1) {
+            data.data.forEach((item: any) => {
+              resData.push({
+                ...item,
+                key: item.id,
+              });
+            });
+          }
+          setPostData(resData);
+          setIsOpenDelete(false);
+        });
+      }
+    });
+  };
   return (
     <>
       <PageTitle>Trang quản lý Post</PageTitle>
+
+      <Search style={{ width: '30%' }} placeholder="Tìm kiếm bài viết" enterButton onSearch={onSearch} />
       <s.TablesWrapper>
         <s.Card
-          title={t('Post Manager')}
+          title={'Quản lý bài viết'}
           extra={
-            !isPending ? (
+            postSelected ? (
               <div style={{ display: 'flex' }}>
-                {admin ? (
-                  <Button severity="success" onClick={() => setIsOpenAdd(true)}>
-                    {t('common.add')}
-                  </Button>
-                ) : (
-                  <div />
-                )}
-                {admin ? (
-                  <Button severity="info" style={{ marginLeft: '15px' }} onClick={() => setIsOpenEdit(true)}>
-                    {t('common.edit')}
-                  </Button>
-                ) : (
-                  <div />
-                )}
-                {admin ? (
-                  <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenDelete(true)}>
-                    {t('common.delete')}
-                  </Button>
-                ) : (
-                  <div />
-                )}
-                {status === 'running' && (
-                  <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenCancel(true)}>
-                    {t('common.cancel')}
-                  </Button>
-                )}
-                {status === 'cancel' && (
-                  <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenConfirmCancel(true)}>
-                    {t('common.cofirmCancel')}
-                  </Button>
-                )}
+                <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenDelete(true)}>
+                  Xoá
+                </Button>
               </div>
             ) : (
               <div style={{ display: 'flex' }}></div>
@@ -206,6 +222,29 @@ const PostManager: React.FC = () => {
           </Row>
         </s.Card>
       </s.TablesWrapper>
+      <Modal
+        title={t('common.delete') + 'Bài viết'}
+        visible={isOpenDelete}
+        onCancel={() => setIsOpenDelete(false)}
+        footer={[
+          <>
+            <Button style={{ display: 'inline' }} onClick={() => setIsOpenDelete(false)}>
+              {t('common.close')}
+            </Button>
+            <Button
+              style={{ display: 'inline' }}
+              type="primary"
+              className="btn btn-primary"
+              onClick={() => onDeletePost()}
+              danger
+            >
+              {t('common.delete')}
+            </Button>
+          </>,
+        ]}
+      >
+        <div>Bạn muốn xoá bài viết này ?</div>
+      </Modal>
     </>
   );
 };

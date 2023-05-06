@@ -14,14 +14,14 @@ const UserManager: React.FC = () => {
   return (
     <Card>
       <Tabs activeKey={defaultActiveKey} onChange={onChange}>
-        <Tabs.TabPane tab="Admin" key="1">
-          <Admin />
+        <Tabs.TabPane tab="Người dùng" key="1">
+          <User />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Chuyên gia" key="2">
           <Expert />
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Người dùng" key="3">
-          <User />
+        <Tabs.TabPane tab="Admin" key="3">
+          <Admin />
         </Tabs.TabPane>
       </Tabs>
     </Card>

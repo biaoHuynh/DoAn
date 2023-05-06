@@ -64,10 +64,15 @@ const PostDetail: React.FC = () => {
   };
   return (
     <Row
-      style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center', height: '59.2rem' }}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: '59.2rem',
+      }}
     >
       <Col span={12}>
-
         {findPost.map((post) => (
           <>
             <S.WrapperOnloadCmt>

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row, DatePicker, Space, Modal, Form, InputNumber, Select, notification, Input, Radio, Image } from 'antd';
+
+const { Search } = Input;
 import { Table } from 'components/common/Table/Table';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
@@ -11,25 +13,18 @@ import dfavt from '@app/share/dfavt.png';
 import moment from 'moment';
 import 'moment/locale/vi';
 import { ColumnsType } from 'antd/es/table';
-import {
-  CheckCircleOutlined,
-  CheckCircleTwoTone,
-  CheckOutlined,
-  CloseCircleOutlined,
-  CloseOutlined,
-  ExclamationOutlined,
-  FireOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons';
+import { CheckCircleOutlined, CheckCircleTwoTone, CloseCircleOutlined } from '@ant-design/icons';
 import { notificationController } from '@app/controllers/notificationController';
 import { AnyIfEmpty } from 'react-redux';
 import { getData } from 'country-list';
 import { number } from 'echarts';
+import userService from './UserPageService';
 
 const User: React.FC = () => {
   const { t } = useTranslation();
   const [usersData, setusersData] = useState<any>([]);
 
+  const [userSelected, setuserSelected] = useState<any>(null);
   const [isOpenAdd, setIsOpenAdd] = useState<boolean>(false);
   const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
@@ -37,10 +32,8 @@ const User: React.FC = () => {
   const [isOpenConfirmCancel, setIsOpenConfirmCancel] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [status, setStatus] = useState<string>('running');
-  const [searchValue, setSearchValue] = useState<any>();
-  const [form] = Form.useForm();
-  const [formAdd] = Form.useForm();
+  const [keyWord, setKeyWord] = useState<any>();
+
   const [admin, setAdmin] = useState<boolean>(false);
   const [isPending, setIsPending] = useState<boolean>(false);
 
@@ -118,9 +111,9 @@ const User: React.FC = () => {
       render: (record) => (
         <s.WrapperUser>
           {record.emailVerified == true ? (
-            <CheckCircleOutlined style={{ fontSize: '1.5rem', color : '#52c41a' }} />
+            <CheckCircleOutlined style={{ fontSize: '1.5rem', color: '#52c41a' }} />
           ) : (
-            <CloseCircleOutlined style={{ fontSize: '1.5rem', color:'#eb2f96' }} />
+            <CloseCircleOutlined style={{ fontSize: '1.5rem', color: '#eb2f96' }} />
           )}
         </s.WrapperUser>
       ),
@@ -154,56 +147,99 @@ const User: React.FC = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const resData: any = [];
-
     setIsPending(false);
-
     UserService.GetUsers(initData).then((data: any) => {
+      const resData: any = [];
       if (data.status === 1) {
-        setusersData(data.data);
+        data.data.forEach((item: any) => {
+          resData.push({
+            ...item,
+            key: item.id,
+          });
+        });
+        setusersData(resData);
         setIsLoading(false);
       }
     });
   }, []);
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      setuserSelected(null);
+      selectedRows.forEach((item: any) => {
+        const temp = usersData.find((x: any) => x.id === item.id);
+        setuserSelected(temp);
+      });
+    },
+    getCheckboxProps: (record: any) => ({
+      disabled: record.name === 'Disabled User', // Column configuration not to be checked
+      name: record.name,
+    }),
+  };
+  const onDeleteUser = () => {
+    UserService.DelUsers(userSelected.id).then((data: any) => {
+      if (data.status === 1) {
+        notificationController.success({
+          message: 'Xoá người dùng thành công',
+        });
+        setIsLoading(true);
+        setIsPending(false);
+        UserService.GetUsers(initData).then((data: any) => {
+          const resData: any = [];
+          if (data.status === 1) {
+            data.data.forEach((item: any) => {
+              resData.push({
+                ...item,
+                key: item.id,
+              });
+            });
+            setusersData(resData);
+            setIsOpenDelete(false);
+            setIsLoading(false);
+          }
+        });
+      }
+    });
+  };
+  const onSearch = (value: string) => {
+    setKeyWord(value.trim());
+
+    userService
+      .GetUsers({
+        name: value.trim(),
+        email: '',
+        provider: [],
+        role: ['user'],
+      })
+      .then((data: any) => {
+        const resData: any = [];
+        if (data.status === 1) {
+          data.data.forEach((item: any) => {
+            resData.push({
+              ...item,
+              key: item.id,
+            });
+          });
+        }
+        setusersData(resData);
+      });
+  };
   return (
     <>
       <PageTitle>Trang quản lý User</PageTitle>
       <s.TablesWrapper>
+        <Search style={{ width: '30%' }} placeholder="Tìm kiếm bài viết" enterButton onSearch={onSearch} />
         <s.Card
           title={'Quản lý User'}
           extra={
-            !isPending ? (
+            userSelected ? (
               <div style={{ display: 'flex' }}>
-                {admin ? (
-                  <Button severity="success" onClick={() => setIsOpenAdd(true)}>
-                    {t('common.add')}
-                  </Button>
-                ) : (
-                  <div />
-                )}
-                {admin ? (
-                  <Button severity="info" style={{ marginLeft: '15px' }} onClick={() => setIsOpenEdit(true)}>
-                    {t('common.edit')}
-                  </Button>
-                ) : (
-                  <div />
-                )}
                 {admin ? (
                   <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenDelete(true)}>
                     {t('common.delete')}
                   </Button>
                 ) : (
                   <div />
-                )}
-                {status === 'running' && (
-                  <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenCancel(true)}>
-                    {t('common.cancel')}
-                  </Button>
-                )}
-                {status === 'cancel' && (
-                  <Button severity="error" style={{ marginLeft: '15px' }} onClick={() => setIsOpenConfirmCancel(true)}>
-                    {t('common.cofirmCancel')}
-                  </Button>
                 )}
               </div>
             ) : (
@@ -213,11 +249,43 @@ const User: React.FC = () => {
         >
           <Row style={{ width: '100%', marginTop: '10px' }}>
             <Col md={24}>
-              <Table dataSource={usersData} columns={UserColumns} scroll={{ x: 2000 }} loading={isLoading} />
+              <Table
+                dataSource={usersData}
+                columns={UserColumns}
+                scroll={{ x: 2000 }}
+                loading={isLoading}
+                rowSelection={{
+                  type: 'radio',
+                  ...rowSelection,
+                }}
+              />
             </Col>
           </Row>
         </s.Card>
       </s.TablesWrapper>
+      <Modal
+        title={t('common.delete') + 'Người dùng'}
+        visible={isOpenDelete}
+        onCancel={() => setIsOpenDelete(false)}
+        footer={[
+          <>
+            <Button style={{ display: 'inline' }} onClick={() => setIsOpenDelete(false)}>
+              {t('common.close')}
+            </Button>
+            <Button
+              style={{ display: 'inline' }}
+              type="primary"
+              className="btn btn-primary"
+              onClick={() => onDeleteUser()}
+              danger
+            >
+              {t('common.delete')}
+            </Button>
+          </>,
+        ]}
+      >
+        <div>Bạn muốn xoá người dùng này ?</div>
+      </Modal>
     </>
   );
 };
