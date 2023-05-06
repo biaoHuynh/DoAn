@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row, DatePicker, Space, Modal, Form, InputNumber, Select, notification, Input, Radio } from 'antd';
+import { Col, Row, DatePicker, Space, Modal, Form, InputNumber, Select, notification, Input, Radio , Image} from 'antd';
 import { Table } from 'components/common/Table/Table';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
-import * as S from '@app/pages/uiComponentsPages//UIComponentsPage.styles';
 import UserService from './UserPageService';
 import { Button } from '@app/components/common/buttons/Button/Button';
 import * as s from './Tables.styles';
+import dfavt from '@app/share/dfavt.png';
 
 import moment from 'moment';
+import 'moment/locale/vi';
 import { ColumnsType } from 'antd/es/table';
 import {
   CheckCircleOutlined,
+  CheckCircleTwoTone,
   CloseCircleOutlined,
   ExclamationOutlined,
   FireOutlined,
@@ -80,9 +82,24 @@ const Admin: React.FC = () => {
       showSorterTooltip: false,
     },
     {
-      title: 'name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Thông tin',
+      key: 'info',
+      render: (record)=>(
+        <s.WrapperUser>
+          <s.ImgWrapper>
+          <Image
+            src={record.imageUrl ? `http://149.51.37.29:8081/local-store/${record.imageUrl}` : dfavt}
+            width={100}
+            height={100}
+          ></Image>
+        </s.ImgWrapper>
+        <s.TitleWrapper>
+          <s.Title level={5}>
+            {record.name} {record.isExpert ? <CheckCircleTwoTone /> : null}
+          </s.Title>
+        </s.TitleWrapper>
+        </s.WrapperUser>
+      ),
       sorter: (a, b) => a.name.localeCompare(b.name),
       showSorterTooltip: false,
     },
@@ -94,35 +111,23 @@ const Admin: React.FC = () => {
       showSorterTooltip: false,
     },
     {
-      title: 'emailVerified',
-      dataIndex: 'emailVerified',
-      key: 'emailVerified',
-    },
-    {
-      title: 'role',
+      title: 'Quyền',
       dataIndex: 'role',
       key: 'role',
     },
     {
-      title: 'status',
-      dataIndex: 'status',
-      key: 'status',
-    },
-
-    {
-      title: 'phoneNumber',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
-    },
-    {
-      title: 'createAt',
-      dataIndex: 'createAt',
+      title: 'Ngày tạo',
       key: 'createAt',
+      render : (record) => (
+        <span>{moment(new Date(record.createAt)).locale('vi').format('hh:mm, DD MMMM YYYY')}</span>
+      )
     },
     {
-      title: 'updateAt',
-      dataIndex: 'updateAt',
+      title: 'Ngày cập nhật',
       key: 'updateAt',
+      render : (record) => (
+        <span>{moment(new Date(record.updateAt)).locale('vi').format('hh:mm, DD MMMM YYYY')}</span>
+      )
     },
   ];
   useEffect(() => {

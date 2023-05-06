@@ -17,10 +17,10 @@ const UserManager: React.FC = () => {
         <Tabs.TabPane tab="Admin" key="1">
           <Admin />
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Expert" key="2">
+        <Tabs.TabPane tab="Chuyên gia" key="2">
           <Expert />
         </Tabs.TabPane>
-        <Tabs.TabPane tab="User" key="3">
+        <Tabs.TabPane tab="Người dùng" key="3">
           <User />
         </Tabs.TabPane>
       </Tabs>
