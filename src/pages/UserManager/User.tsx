@@ -154,7 +154,7 @@ const User: React.FC = () => {
       <PageTitle>Trang quản lý User</PageTitle>
       <s.TablesWrapper>
         <s.Card
-          title={t('common.order_list')}
+          title={'Quản lý User'}
           extra={
             !isPending ? (
               <div style={{ display: 'flex' }}>

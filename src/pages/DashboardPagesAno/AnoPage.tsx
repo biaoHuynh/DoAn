@@ -18,6 +18,9 @@ const AnoPage: React.FC = () => {
 
   const [experts, setExperts] = useState<any[]>([]);
   const [topPost, setTopPost] = useState<any[]>([]);
+  const [mostComment, setMostComment] = useState<any[]>([]);
+  const [mostView, setMostView] = useState<any[]>([]);
+  const [mostLike, setMostLike] = useState<any[]>([]);
 
   useEffect(() => {
     ConfigSetting.get10Post().then((data: any) => {
@@ -33,6 +36,9 @@ const AnoPage: React.FC = () => {
     ConfigSetting.getAllTop().then((res: any) => {
       if (res?.data !== null) {
         setTopPost(res.data);
+        setMostComment(res.data?.mostComment);
+        setMostView(res.data?.mostView);
+        setMostLike(res.data?.mostLike);
       }
     });
   }, []);
@@ -59,7 +65,7 @@ const AnoPage: React.FC = () => {
         </Button>
       </Row>
       <s.Card bodyStyle={{ height: '60.3rem', padding: '20px 60px' }}>
-        <Row  justify="end">
+        <Row justify="end">
           <Col span={9}>
             <Carousel autoplay>
               {experts?.map((expert) => {
@@ -105,7 +111,7 @@ const AnoPage: React.FC = () => {
             </Carousel>
             <Collapse defaultActiveKey={['1']}>
               <Panel header="Top bài viết nhiều bình luận nhất" key="1">
-                {topPost?.mostComment?.map((post: any) => {
+                {mostComment?.map((post: any) => {
                   return (
                     <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
                       <s.Wrapper>
@@ -134,7 +140,7 @@ const AnoPage: React.FC = () => {
                 })}
               </Panel>
               <Panel header="Top bài viết nhiều lượt xem nhất" key="2">
-                {topPost?.mostView?.map((post: any) => {
+                {mostView?.map((post: any) => {
                   return (
                     <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
                       <s.Wrapper>
@@ -164,7 +170,7 @@ const AnoPage: React.FC = () => {
                 })}
               </Panel>
               <Panel header="Top bài viết nhiều lượt thích nhất" key="3">
-                {topPost?.mostLike?.map((post: any) => {
+                {mostLike?.map((post: any) => {
                   return (
                     <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
                       <s.Wrapper>
