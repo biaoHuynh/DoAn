@@ -132,7 +132,7 @@ const TopicManager: React.FC = () => {
     TopicService.AddTopics({ tagName: tagName, color: color }).then((res: any) => {
       if (res.status === 1) {
         notificationController.success({
-          message: 'Add Topic Success',
+          message: 'Thêm chủ đề thành công',
         });
         setIsLoading(true);
         setIsPending(false);
@@ -157,7 +157,6 @@ const TopicManager: React.FC = () => {
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      setTopicsSelected(null);
       selectedRows.forEach((item: any) => {
         const temp = topicsData.find((x: any) => x.id === item.id);
         setTopicsSelected(temp);
@@ -173,50 +172,44 @@ const TopicManager: React.FC = () => {
     form.resetFields();
   };
   const onFinishUpdate = (value: any) => {
-    // // channelsDataSelected.forEach((item: any) => {
-    // //   const dataUpdate = {
-    // //     channel_id: item.channel_id,
-    // //     max_thread: value.max_thread,
-    // //     priority: value.priority === null || typeof value.priority === 'undefined' ? 0 : value.priority,
-    // //     note: value.note,
-    // //     enabled: value.enabled === null || typeof value.enabled === 'undefined' ? 0 : value.enabled,
-    // //   };
-    // //   updateList.push(dataUpdate);
-    // // });
-    // if (channelsDataSelected.length > 0 && channelsDataSelected.length == 1) {
-    //   const dataUpdate = {
-    //     sub_need: channelsDataSelected[0].sub_need,
-    //     max_thread: value.max_thread,
-    //     priority: value.priority === null || typeof value.priority === 'undefined' ? 0 : value.priority,
-    //     note: value.note,
-    //     enabled: value.enabled === null || typeof value.enabled === 'undefined' ? 0 : value.enabled,
-    //   };
-    //   OrderService.updateOrder(dataUpdate, channelsDataSelected[0].order_id).then((res: any) => {
-    //     if (res.status === 'success') {
-    //       notificationController.success({
-    //         message: 'Update Order Success',
-    //       });
-    //       getAllData();
-    //       setChannelsDataSelected([]);
-    //     } else {
-    //       notificationController.error({
-    //         message: res.message,
-    //       });
-    //     }
-    //   });
+    const tagName = value?.tagName ? value.tagName : topicsSelected.tagName;
+    const color = value?.color?.color ? value.color.color : topicsSelected.color;
+    TopicService.UpdateTopics({ id: topicsSelected.id, tagName: tagName, color: color }).then((res: any) => {
+      if (res.status === 1) {
+        notificationController.success({
+          message: 'Cập nhập chủ đề thành công',
+        });
+        setIsLoading(true);
+        setIsPending(false);
+        onCloseModelUpdate();
+        TopicService.GetTopics('').then((data: any) => {
+          const resData: any = [];
+          if (data.status === 1) {
+            data.data.forEach((item: any) => {
+              resData.push({
+                ...item,
+                key: item.id,
+              });
+            });
+            setTopicsData(resData);
+            setIsLoading(false);
+          }
+        });
+      }
+    });
   };
   return (
     <>
-      <PageTitle>Trang quản lý Topic</PageTitle>
+      <PageTitle>Trang quản lý Chủ đề</PageTitle>
       <s.TablesWrapper>
         <s.Card
-          title={'Quản lý Topic'}
+          title={'Quản lý Chủ đề'}
           extra={
             !isPending ? (
               <div style={{ display: 'flex' }}>
                 {admin ? (
                   <Button severity="success" onClick={() => setIsOpenAdd(true)}>
-                    {t('common.add')}
+                   Thêm
                   </Button>
                 ) : (
                   <div />
@@ -228,7 +221,7 @@ const TopicManager: React.FC = () => {
                     onClick={() => setIsOpenEdit(true)}
                     disabled={topicsSelected === null}
                   >
-                    {t('common.edit')}
+                    Cập nhập
                   </Button>
                 ) : (
                   <div />
@@ -255,7 +248,7 @@ const TopicManager: React.FC = () => {
           </Row>
         </s.Card>
       </s.TablesWrapper>
-      <Modal title={'Thêm Topic'} visible={isOpenAdd} onCancel={() => onCloseModelAdd()} width={1000} footer={null}>
+      <Modal title={'Thêm Chủ đề'} visible={isOpenAdd} onCancel={() => onCloseModelAdd()} width={1000} footer={null}>
         <Form
           name="addTopic"
           labelCol={{ span: 6 }}
@@ -266,7 +259,7 @@ const TopicManager: React.FC = () => {
           <Form.Item label={'Tên'} name="tagName" required>
             <Input style={{ width: '100%' }} required />
           </Form.Item>
-          <Form.Item label={'color'} name="color" required>
+          <Form.Item label={'Màu'} name="color" required>
             <InputColor />
           </Form.Item>
 
@@ -279,13 +272,13 @@ const TopicManager: React.FC = () => {
       </Modal>
       {topicsSelected && (
         <Modal
-          title={'Cập nhập Topic'}
+          title={'Cập nhập Chủ đề'}
           visible={isOpenEdit}
           onCancel={() => onCloseModelUpdate()}
           footer={[
             <>
               <Button style={{ display: 'inline' }} onClick={() => onCloseModelUpdate()}>
-                {t('common.close')}
+               Đóng
               </Button>
               <Button
                 style={{ display: 'inline' }}
@@ -304,13 +297,13 @@ const TopicManager: React.FC = () => {
             name="updateOrder"
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 16 }}
-            onFinish={onFinishUpdate}
+            onFinish={(value) => onFinishUpdate(value)}
             form={form}
           >
             <Form.Item label={'Tên'} name="tagName" required>
               <Input style={{ width: '100%' }} required defaultValue={topicsSelected.tagName} />
             </Form.Item>
-            <Form.Item label={'color'} name="color" required>
+            <Form.Item label={'Màu'} name="color" required>
               <InputColor color={topicsSelected.color} />
             </Form.Item>
           </Form>
