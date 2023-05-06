@@ -16,6 +16,12 @@ class TopicService extends BaseService<any> {
   public GetTopics(tagname: string) {
     return this.fetch.post(`/topic-tag/external/getAllTopicTag?tag-name=${tagname}`);
   }
+  public AddTopics(data: any) {
+    return this.fetch.post(`/topic-tag/external/create`, data);
+  }
+  public UpdateTopics(data: any) {
+    return this.fetch.post(`/topic-tag/external/update`, data);
+  }
 }
 
 const topicService = new TopicService();

@@ -12,11 +12,13 @@ import moment from 'moment';
 import { ColumnsType } from 'antd/es/table';
 import Panel from 'rc-color-picker/lib/Panel';
 import { Card } from 'components/common/Card/Card';
+import { notificationController } from '@app/controllers/notificationController';
+import InputColor from './InputColor';
 
 const TopicManager: React.FC = () => {
   const { t } = useTranslation();
   const [topicsData, setTopicsData] = useState<any>([]);
-
+  const [topicsSelected, setTopicsSelected] = useState<any>(null);
   const [isOpenAdd, setIsOpenAdd] = useState<boolean>(false);
   const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
@@ -104,13 +106,18 @@ const TopicManager: React.FC = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const resData: any = [];
-
     setIsPending(false);
 
     TopicService.GetTopics('').then((data: any) => {
+      const resData: any = [];
       if (data.status === 1) {
-        setTopicsData(data.data);
+        data.data.forEach((item: any) => {
+          resData.push({
+            ...item,
+            key: item.id,
+          });
+        });
+        setTopicsData(resData);
         setIsLoading(false);
       }
     });
@@ -119,30 +126,85 @@ const TopicManager: React.FC = () => {
     setIsOpenAdd(false);
     formAdd.resetFields();
   };
-  const onFinishAdd = () => {
-    0;
-
-    OrderService.insertOrder(data).then((res: any) => {
-      if (res.status === 'success') {
+  const onFinishAdd = (value: any) => {
+    const tagName = value.tagName;
+    const color = value.color.color;
+    TopicService.AddTopics({ tagName: tagName, color: color }).then((res: any) => {
+      if (res.status === 1) {
         notificationController.success({
-          message: 'Add Order Success',
+          message: 'Add Topic Success',
         });
-        ListData.splice(index, 1);
-        setChannelAddData((prevState: any) => {
-          const newState = prevState.map((obj: any) => {
-            if (data.channel_id === obj.channel_id) {
-              return { ...obj, state: 1 };
-            }
-
-            return obj;
-          });
-
-          return newState;
+        setIsLoading(true);
+        setIsPending(false);
+        onCloseModelAdd();
+        TopicService.GetTopics('').then((data: any) => {
+          const resData: any = [];
+          if (data.status === 1) {
+            data.data.forEach((item: any) => {
+              resData.push({
+                ...item,
+                key: item.id,
+              });
+            });
+            setTopicsData(resData);
+            setIsLoading(false);
+          }
         });
       }
     });
   };
 
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      setTopicsSelected(null);
+      selectedRows.forEach((item: any) => {
+        const temp = topicsData.find((x: any) => x.id === item.id);
+        setTopicsSelected(temp);
+      });
+    },
+    getCheckboxProps: (record: any) => ({
+      disabled: record.name === 'Disabled User', // Column configuration not to be checked
+      name: record.name,
+    }),
+  };
+  const onCloseModelUpdate = () => {
+    setIsOpenEdit(false);
+    form.resetFields();
+  };
+  const onFinishUpdate = (value: any) => {
+    // // channelsDataSelected.forEach((item: any) => {
+    // //   const dataUpdate = {
+    // //     channel_id: item.channel_id,
+    // //     max_thread: value.max_thread,
+    // //     priority: value.priority === null || typeof value.priority === 'undefined' ? 0 : value.priority,
+    // //     note: value.note,
+    // //     enabled: value.enabled === null || typeof value.enabled === 'undefined' ? 0 : value.enabled,
+    // //   };
+    // //   updateList.push(dataUpdate);
+    // // });
+    // if (channelsDataSelected.length > 0 && channelsDataSelected.length == 1) {
+    //   const dataUpdate = {
+    //     sub_need: channelsDataSelected[0].sub_need,
+    //     max_thread: value.max_thread,
+    //     priority: value.priority === null || typeof value.priority === 'undefined' ? 0 : value.priority,
+    //     note: value.note,
+    //     enabled: value.enabled === null || typeof value.enabled === 'undefined' ? 0 : value.enabled,
+    //   };
+    //   OrderService.updateOrder(dataUpdate, channelsDataSelected[0].order_id).then((res: any) => {
+    //     if (res.status === 'success') {
+    //       notificationController.success({
+    //         message: 'Update Order Success',
+    //       });
+    //       getAllData();
+    //       setChannelsDataSelected([]);
+    //     } else {
+    //       notificationController.error({
+    //         message: res.message,
+    //       });
+    //     }
+    //   });
+  };
   return (
     <>
       <PageTitle>Trang quản lý Topic</PageTitle>
@@ -160,7 +222,12 @@ const TopicManager: React.FC = () => {
                   <div />
                 )}
                 {admin ? (
-                  <Button severity="info" style={{ marginLeft: '15px' }} onClick={() => setIsOpenEdit(true)}>
+                  <Button
+                    severity="info"
+                    style={{ marginLeft: '15px' }}
+                    onClick={() => setIsOpenEdit(true)}
+                    disabled={topicsSelected === null}
+                  >
                     {t('common.edit')}
                   </Button>
                 ) : (
@@ -174,59 +241,81 @@ const TopicManager: React.FC = () => {
         >
           <Row style={{ width: '100%', marginTop: '10px' }}>
             <Col md={24}>
-              <Table dataSource={topicsData} columns={UserColumns} scroll={{ x: 1500 }} loading={isLoading} />
+              <Table
+                dataSource={topicsData}
+                columns={UserColumns}
+                scroll={{ x: 1500 }}
+                loading={isLoading}
+                rowSelection={{
+                  type: 'radio',
+                  ...rowSelection,
+                }}
+              />
             </Col>
           </Row>
         </s.Card>
       </s.TablesWrapper>
-      <Modal
-        title={t('common.add') + ' ' + t('common.order')}
-        visible={isOpenAdd}
-        onCancel={() => onCloseModelAdd()}
-        width={1000}
-        footer={[
-          <>
-            <Button style={{ display: 'inline' }} onClick={() => onCloseModelAdd()}>
-              {t('common.close')}
-            </Button>
+      <Modal title={'Thêm Topic'} visible={isOpenAdd} onCancel={() => onCloseModelAdd()} width={1000} footer={null}>
+        <Form
+          name="addTopic"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 16 }}
+          form={formAdd}
+          onFinish={(value) => onFinishAdd(value)}
+        >
+          <Form.Item label={'Tên'} name="tagName" required>
+            <Input style={{ width: '100%' }} required />
+          </Form.Item>
+          <Form.Item label={'color'} name="color" required>
+            <InputColor />
+          </Form.Item>
 
-            <Button
-              style={{ display: 'inline' }}
-              type="primary"
-              className="btn btn-primary"
-              form="addTopic"
-              onClick={() => onFinishAdd()}
-            >
-              {t('common.AddList')}
-            </Button>
-          </>,
-        ]}
-      >
-        <Form name="addTopic" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} form={formAdd}>
-          <Form.Item label={t('common.channel_id')} name="channel_id" required>
-            <Input style={{ width: '100%' }} required />
-          </Form.Item>
-          <Form.Item label={t('common.priority')} name="priority"></Form.Item>
-          <Form.Item label={t('common.subscribe_need')} name="sub_need" required>
-            <InputNumber style={{ width: '100%' }} min={0} required />
-          </Form.Item>
-          <Form.Item label={t('common.note')} name="note" required>
-            <Input style={{ width: '100%' }} required />
-          </Form.Item>
-          <Form.Item name="btn" required style={{ float: 'right' }}>
-            <Button
-              style={{ display: 'inline' }}
-              type="primary"
-              className="btn btn-primary"
-              form="addOrder"
-              key="submit"
-              htmlType="submit"
-            >
-              {t('common.add')}
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              Thêm
             </Button>
           </Form.Item>
         </Form>
       </Modal>
+      {topicsSelected && (
+        <Modal
+          title={'Cập nhập Topic'}
+          visible={isOpenEdit}
+          onCancel={() => onCloseModelUpdate()}
+          footer={[
+            <>
+              <Button style={{ display: 'inline' }} onClick={() => onCloseModelUpdate()}>
+                {t('common.close')}
+              </Button>
+              <Button
+                style={{ display: 'inline' }}
+                type="primary"
+                className="btn btn-primary"
+                form="updateOrder"
+                key="submit"
+                htmlType="submit"
+              >
+                Cập nhập
+              </Button>
+            </>,
+          ]}
+        >
+          <Form
+            name="updateOrder"
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 16 }}
+            onFinish={onFinishUpdate}
+            form={form}
+          >
+            <Form.Item label={'Tên'} name="tagName" required>
+              <Input style={{ width: '100%' }} required defaultValue={topicsSelected.tagName} />
+            </Form.Item>
+            <Form.Item label={'color'} name="color" required>
+              <InputColor color={topicsSelected.color} />
+            </Form.Item>
+          </Form>
+        </Modal>
+      )}
     </>
   );
 };
