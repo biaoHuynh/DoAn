@@ -31,12 +31,9 @@ export const AddAdmin: React.FC<DBProps> = ({ onAddSuccess }) => {
   const [isLoading, setLoading] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const [uploading, setUploading] = useState(false);
+
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
-  const [jobTitle, setJobTitle] = useState(null);
-  const [specialist, setSpecialist] = useState(null);
-  const [workPlace, setWorkPlace] = useState(null);
   const [password, setPassword] = useState(null);
 
   const [form] = BaseForm.useForm();
@@ -118,7 +115,7 @@ export const AddAdmin: React.FC<DBProps> = ({ onAddSuccess }) => {
     fileList,
   };
   return (
-    <BaseForm form={form} layout="vertical" name="contentForm" onFinish={handleUpload}>
+    <BaseForm FF>
       <BaseForm.Item name="name" label="Tên" required>
         <Input onChange={(event: any) => setName(event.target.value)} required />
       </BaseForm.Item>

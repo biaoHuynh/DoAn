@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import * as s from './Tables.styles';
-import { Button, Col, Modal, Rate, Row, Space, Tabs } from 'antd';
+import { Button, Col, Input, Modal, Rate, Row, Space, Tabs } from 'antd';
 import { Avatar, Card } from 'antd';
 import ProfilePageService from './ProfilePageServicce';
 import Post from './PostProfileComponent';
@@ -13,6 +13,7 @@ import profilePageService from './ProfilePageServicce';
 import { notificationController } from '@app/controllers/notificationController';
 import { ValidationForm } from '@app/components/forms/ValidationForm/ValidationForm';
 import { UpdateInfor } from '@app/components/forms/ValidationForm/UpdateInfor';
+import { BaseForm } from '@app/components/common/forms/BaseForm/BaseForm';
 const items = [
   { label: 'Post', key: 'post-item', children: 'this is post component' }, // remember to pass the key prop
   { label: 'Profile', key: 'profile-item', children: 'this is profile component' },
@@ -51,10 +52,11 @@ const Profile: React.FC = () => {
   const [isCurrent, setIsCurrent] = useState<Boolean>(false);
   const [isExpert, setIsExpert] = useState<Boolean>(false);
   const [openUpdateInfor, setOpenUpdateInfor] = useState<Boolean>(false);
+  const [isOpenRP, setIsOpenRP] = useState<Boolean>(false);
 
   const [currentUserInfo] = useState<UserInfo>(JSON.parse(localStorage.getItem('UserData') || ''));
   const [defaultActiveKey, setDefaultActiveKey] = useState('1');
-
+  const [form] = BaseForm.useForm();
   useEffect(() => {
     const currentUserId = currentUserInfo.id;
     if (id) {
@@ -88,6 +90,28 @@ const Profile: React.FC = () => {
         setOpenUpdateInfor(false);
       });
     }
+  };
+  const handleReport = () => {
+    ProfilePageService.report;
+    const currentUserId = currentUserInfo.id;
+    if (id) {
+      ProfilePageService.report(userId).then((res: ApiResponseEntity) => {
+        if (res.status === 1) {
+          notificationController.success({
+            message: `Báo cáo thành công`,
+          });
+        }
+      });
+    } else {
+      ProfilePageService.report(currentUserId!).then((res: ApiResponseEntity) => {
+        if (res.status === 1) {
+          notificationController.success({
+            message: `Báo cáo thành công`,
+          });
+        }
+      });
+    }
+    setIsOpenRP(false);
   };
   return (
     <>
@@ -171,9 +195,21 @@ const Profile: React.FC = () => {
                 <Col flex="auto" style={{ display: 'flex', justifyContent: 'end', alignItems: 'end' }}>
                   {isCurrent && (
                     <Space wrap>
-                      <Button type="primary">Đăng bài</Button>
                       <Button type="dashed" onClick={() => setOpenUpdateInfor(true)}>
                         Chỉnh sửa trang cá nhân
+                      </Button>
+                    </Space>
+                  )}
+                  {!isCurrent && (
+                    <Space wrap>
+                      <Button
+                        danger
+                        type="primary"
+                        onClick={() => {
+                          setIsOpenRP(true);
+                        }}
+                      >
+                        Tố cáo
                       </Button>
                     </Space>
                   )}
@@ -211,6 +247,16 @@ const Profile: React.FC = () => {
         ]}
       >
         <UpdateInfor id={currentUserInfo.id!} isExpert={isExpert} onUpdateSuccess={onUpdateSuccess} />
+      </Modal>
+      <Modal title={'Tố cáo'} visible={isOpenRP} onCancel={() => setIsOpenRP(false)} footer={[<div />]}>
+        <BaseForm form={form} layout="vertical" name="contentForm" onFinish={handleReport}>
+          <BaseForm.Item name="name" label="Lí do tố cáo" required>
+            <Input required />
+          </BaseForm.Item>
+          <Button style={{ display: 'inline' }} type="primary" className="btn btn-primary" htmlType="submit" danger>
+            Tố cáo
+          </Button>
+        </BaseForm>
       </Modal>
     </>
   );
