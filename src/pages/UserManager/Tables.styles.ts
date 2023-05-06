@@ -27,7 +27,7 @@ export const WrapperExpert = styled.div`
 `;
 
 export const WrapperExpertInfo = styled.div`
-justify-content: center;
+  justify-content: center;
   display: flex;
   flex-direction: column;
   height: 9rem;

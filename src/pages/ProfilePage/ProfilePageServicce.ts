@@ -5,7 +5,7 @@ class ProfilePageService extends BaseService<any> {
   protected contactBaseUri = '/contact/external/';
   protected userBaseUri = '/user/external/';
 
-  public getAllPost(userId: Number, offset: Number) {
+  public getAllPost(userId: number, offset: number) {
     return this.fetch.post(`${this.postBaseUri}findAllPostByUserId?user-id=${userId}&offset=${offset}`);
   }
 
@@ -16,7 +16,7 @@ class ProfilePageService extends BaseService<any> {
     return this.fetch.post(`${this.contactBaseUri}getListContactRequest`);
   }
 
-  public findUserById(id: Number) {
+  public findUserById(id: number) {
     return this.fetch.post(`${this.userBaseUri}findById?id=${id}`);
   }
   public updateFriend(id: number, action: string) {
@@ -25,7 +25,7 @@ class ProfilePageService extends BaseService<any> {
   public rating(data: any) {
     return this.fetch.post(`/rating/external/doRating`, data);
   }
-  public report(Id: Number) {
+  public report(Id: number) {
     return this.fetch.post(`/user/external/report/${Id}`);
   }
 }

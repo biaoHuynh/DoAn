@@ -31,7 +31,6 @@ export const AddAdmin: React.FC<DBProps> = ({ onAddSuccess }) => {
   const [isLoading, setLoading] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);

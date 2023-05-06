@@ -5,7 +5,7 @@ import Dropdown from 'antd/lib/dropdown';
 import Panel from 'rc-color-picker/lib/Panel';
 
 export default function InputColor(props: any) {
-  const { color, onChange,de } = props;
+  const { color, onChange, de } = props;
 
   const [internalColor, setInternalColor] = React.useState(color);
 
