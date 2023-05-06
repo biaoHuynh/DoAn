@@ -64,6 +64,7 @@ export const AddExpert: React.FC<DBProps> = ({ onAddSuccess }) => {
             specialist: specialist,
             workPlace: workPlace,
           },
+          email: email,
           description: [],
           role: 'expert',
           password: password,
@@ -90,6 +91,7 @@ export const AddExpert: React.FC<DBProps> = ({ onAddSuccess }) => {
           specialist: specialist,
           workPlace: workPlace,
         },
+        email: email,
         description: [],
         role: 'expert',
         password: password,
@@ -139,22 +141,28 @@ export const AddExpert: React.FC<DBProps> = ({ onAddSuccess }) => {
       <BaseForm.Item name="name" label="Tên" required>
         <Input onChange={(event) => setName(event.target.value)} required />
       </BaseForm.Item>
-      <BaseForm.Item name="email" label="Email" required>
+      <BaseForm.Item
+        name="email"
+        label="Email"
+        required
+        rules={[
+          {
+            type: 'email',
+            message: 'Email không hợp lệ',
+          },
+        ]}
+      >
         <Input onChange={(event) => setEmail(event.target.value)} required />
       </BaseForm.Item>
-
-      <>
-        <BaseForm.Item name="jobTitle" label="Chức vụ" required>
-          <Input onChange={(event) => setJobTitle(event.target.value)} required />
-        </BaseForm.Item>
-        <BaseForm.Item name="specialist" label="Chuyên môn" required>
-          <Input onChange={(event) => setSpecialist(event.target.value)} required />
-        </BaseForm.Item>
-        <BaseForm.Item name="workPlace" label="Nơi làm việc" required>
-          <Input onChange={(event) => setWorkPlace(event.target.value)} required />
-        </BaseForm.Item>
-      </>
-
+      <BaseForm.Item name="jobTitle" label="Chức vụ" required>
+        <Input onChange={(event) => setJobTitle(event.target.value)} required />
+      </BaseForm.Item>
+      <BaseForm.Item name="specialist" label="Chuyên môn" required>
+        <Input onChange={(event) => setSpecialist(event.target.value)} required />
+      </BaseForm.Item>
+      <BaseForm.Item name="workPlace" label="Nơi làm việc" required>
+        <Input onChange={(event) => setWorkPlace(event.target.value)} required />
+      </BaseForm.Item>
       <BaseForm.Item name="password" label="Mật khẩu" required>
         <Input onChange={(event) => setPassword(event.target.value)} required />
       </BaseForm.Item>
