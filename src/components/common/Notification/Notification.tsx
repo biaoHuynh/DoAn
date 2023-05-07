@@ -61,6 +61,11 @@ export const Notification: React.FC<NotificationProps> = ({
             state: id,
           });
         }
+        if (typePost === 'contact') {
+     
+          navigate(`/profile-page`)
+       
+        }
       }}
     >
       {mentionIconSrc ? <S.NotificationIcon src={icon} alt="User icon" /> : icon}

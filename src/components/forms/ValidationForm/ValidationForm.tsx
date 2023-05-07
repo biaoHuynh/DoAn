@@ -81,6 +81,7 @@ export const ValidationForm: React.FC<DBProps> = ({ getnew }) => {
       };
       fromService.upLoadPost(formData).then((data: any) => {
         if (data.status === 1) {
+          form.resetFields();
           setTimeout(() => {
             setLoading(false);
             setFieldsChanged(false);

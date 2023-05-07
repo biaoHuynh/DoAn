@@ -41,7 +41,7 @@ const Dashboard: React.FC = () => {
       } else {
         setHasMore(true);
         if (data !== null) {
-          setNews((oldNews) => [...oldNews, ...data.data]);
+          setNews([...news, ...data.data]);
           setLoaded(false);
           setNextOffset([...news, ...data.data].length);
         }
@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
     setLoaded(true);
     dbService.get10Post(nextOffset).then((data: any) => {
       if (data !== null) {
-        setNews((oldNews) => [...oldNews, ...data.data]);
+        setNews([...news, ...data.data]);
         setLoaded(false);
         setNextOffset([...news, ...data.data].length);
       }
@@ -73,9 +73,10 @@ const Dashboard: React.FC = () => {
   }, []);
   const getnew = () => {
     setLoaded(true);
+    setOpenPostUpload(false);
     dbService.get10Post(0).then((data: any) => {
       if (data !== null) {
-        setNews((oldNews) => [...oldNews, ...data.data]);
+        setNews([...news, ...data.data]);
       }
       setLoaded(false);
     });

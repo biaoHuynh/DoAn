@@ -113,7 +113,7 @@ export const AddAdmin: React.FC<DBProps> = ({ onAddSuccess }) => {
     fileList,
   };
   return (
-    <BaseForm>
+    <BaseForm form={form}>
       <BaseForm.Item name="name" label="Tên" required>
         <Input onChange={(event: any) => setName(event.target.value)} required />
       </BaseForm.Item>
