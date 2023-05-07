@@ -9,6 +9,7 @@ import {
   AuditOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 export interface SidebarNavigationItem {
   title: string;
@@ -21,35 +22,35 @@ export interface SidebarNavigationItem {
 
 export const sidebarNavigation: SidebarNavigationItem[] = [
   {
-    title: 'Trang Chủ',
+    title: 'vb.homePage',
     key: 'dashboard',
     url: '/dashboard',
     icon: <HomeOutlined />,
     adminCheck: false,
   },
   {
-    title: 'Tìm bài viết',
+    title: 'vb.findPort',
     key: 'findpostpage',
     url: '/find-post-page',
     icon: <IdcardOutlined />,
     adminCheck: false,
   },
   {
-    title: 'Cộng Đồng',
+    title: 'vb.comunication',
     key: 'listfriend',
     url: '/list-friend',
     icon: <ContactsOutlined />,
     adminCheck: false,
   },
   {
-    title: 'Nhắn tin',
+    title: 'vb.inbox',
     key: 'chat-center',
     url: '/chat-center',
     icon: <MessageOutlined />,
     adminCheck: false,
   },
   {
-    title: 'Trang cá nhân',
+    title: 'vb.profile',
     key: 'profilepage',
     url: '/profile-page',
     icon: <IdcardOutlined />,

@@ -4,6 +4,7 @@ import { Tag, ITag } from '@app/components/common/Tag/Tag';
 const { Search } = Input;
 import dfavt from '@app/share/dfavt.png';
 import * as S from './Details.styles';
+import * as D from './DetailPost.styles';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
 import fpService from './PostFindService';
 import FindPortScroll from './FindPortScroll';
@@ -75,45 +76,45 @@ const PostDetail: React.FC = () => {
       <Col span={12}>
         {findPost.map((post) => (
           <>
-            <S.WrapperOnloadCmt>
-              <S.Header>
-                <S.InfoAvt>
+            <D.Wrapper>
+              <D.Header>
+                <D.InfoAvt>
                   <Avatar
                     src={post?.user?.imageUrl ? `http://149.51.37.29:8081/local-store/${post?.user?.imageUrl}` : dfavt}
                     alt="author"
                     size={43}
                   />{' '}
-                  <S.UserName>
+                  <D.UserName>
                     {post?.user?.name} {post?.user?.isExpert ? <CheckCircleTwoTone /> : null}
-                  </S.UserName>
-                </S.InfoAvt>
-                <S.InfoHeader>
-                  <S.Description> {moment(new Date(post?.createAt)).locale('vi').format('lll')}</S.Description>
-                </S.InfoHeader>
-              </S.Header>
-              <S.InfoWrapper>
-                <S.Title>{post?.title}</S.Title>
+                  </D.UserName>
+                </D.InfoAvt>
+                <D.InfoHeader>
+                  <D.Description>{moment(new Date(post?.createAt)).locale('vi').format('lll')}</D.Description>
+                </D.InfoHeader>
+              </D.Header>
+              <D.InfoWrapper>
+                <D.Title>{post?.title}</D.Title>
                 {!!post.topicTag && (
                   <S.TagsWrapper>
                     <Tag key={post.topicTag.id} title={post.topicTag.tagName} bgColor={post.topicTag.color} />
                   </S.TagsWrapper>
                 )}
-                <S.Description>{post.context}</S.Description>
-                <S.Hashtag>#{post.hashTag}</S.Hashtag>
-              </S.InfoWrapper>
-
-              <S.ImageWrap2>
+                <D.Description>{post?.context}</D.Description>
+                <D.Hashtag>#{post?.hashTag}</D.Hashtag>
+              </D.InfoWrapper>
+              <D.ImageWrap>
                 {post.imageList?.map((img: string) => (
                   <Image
                     src={`http://149.51.37.29:8081/local-store/${img}`}
                     key={`${img}123`}
                     alt="article"
                     preview={false}
+                    width={'99%'}
                     style={{ objectFit: 'contain', width: '99%' }}
                   />
                 ))}
-              </S.ImageWrap2>
-            </S.WrapperOnloadCmt>
+              </D.ImageWrap>
+            </D.Wrapper>
           </>
         ))}
       </Col>
@@ -134,7 +135,7 @@ const PostDetail: React.FC = () => {
                   avatar={
                     <Avatar
                       src={
-                        item.userId.imageUrl ? `http://149.51.37.29:8081/local-store/${item.userId.imageUrl}` : dfavt
+                        item?.userId?.imageUrl ? `http://149.51.37.29:8081/local-store/${item.userId.imageUrl}` : dfavt
                       }
                     />
                   }

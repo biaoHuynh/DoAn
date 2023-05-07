@@ -89,6 +89,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
+      <PageTitle>{t('vb.news')}</PageTitle>
+
       <s.TablesWrapper>
         <div
           style={{
@@ -103,11 +105,11 @@ const Dashboard: React.FC = () => {
             style={{ float: 'right', marginBottom: '10px', width: '100px' }}
             onClick={() => setOpenPostUpload(true)}
           >
-            Đăng bài
+            {t('vb.upload')}
           </Button>
         </div>
 
-        <s.Card title="Trang tin tức" style={{ zIndex: 1 }}>
+        <s.Card title={t('vb.news')} style={{ zIndex: 1 }}>
           <Row style={{ display: 'flex', justifyContent: 'center' }}>
             <Col span={10}>
               <Carousel autoplay>
@@ -157,7 +159,7 @@ const Dashboard: React.FC = () => {
                 })}
               </Carousel>
               <Collapse defaultActiveKey={['1']} onChange={onChange}>
-                <Panel header="Top bài viết nhiều bình luận nhất" key="1">
+                <Panel header={t('vb.mostcmt')} key="1">
                   {topPost?.mostComment?.map((post: any, index: any) => {
                     return (
                       <s.ActivityCard bodyStyle={{ padding: '0px  10px' }} key={`mostComment ${index}`}>
@@ -188,7 +190,7 @@ const Dashboard: React.FC = () => {
                     );
                   })}
                 </Panel>
-                <Panel header="Top bài viết nhiều lượt xem nhất" key="2">
+                <Panel header={t('vb.mostview')} key="2">
                   {topPost?.mostView?.map((post: any, index: any) => {
                     return (
                       <s.ActivityCard bodyStyle={{ padding: '0px  10px' }} key={`mostView ${index}`}>
@@ -219,7 +221,7 @@ const Dashboard: React.FC = () => {
                     );
                   })}
                 </Panel>
-                <Panel header="Top bài viết nhiều lượt thích nhất" key="3">
+                <Panel header={t('vb.mostlike')} key="3">
                   {topPost?.mostLike?.map((post: any, index: any) => {
                     return (
                       <s.ActivityCard bodyStyle={{ padding: '0px  10px' }} key={`mostLike  ${index}`}>

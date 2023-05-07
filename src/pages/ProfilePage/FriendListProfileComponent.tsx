@@ -66,7 +66,7 @@ const FriendList: React.FC = () => {
     ProfilePageService.updateFriend(id, 'friend').then((res) => {
       if (res.data) {
         setTimeout(() => {
-          notificationController.success({ message: 'Unfriend success' });
+          notificationController.success({ message: 'Add friend success' });
           ProfilePageService.getListRequest().then((res) => {
             console.log(res.data);
             setHasMore(false);

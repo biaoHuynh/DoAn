@@ -311,9 +311,6 @@
     "last_order_time": "Lần đặt cuối",
     "total_order_number": "Tổng số đơn",
     "api_key": "Api Key"
-
-    
-
   },
   "medical-dashboard": {
     "activity": {
@@ -958,5 +955,34 @@
     "trendingCollections": "Trending Collections",
     "recentlyAddedNFTs": "Recently Added NFTs",
     "trendingCreators": "Trending Creators"
+  },
+  "vb": {
+    "homePage": "Trang chủ",
+    "findPort": "Tìm bài viết",
+    "comunication": "Cộng đồng",
+    "inbox": "Nhắn tin",
+    "profile": "Trang cá nhân",
+    "news": "Trang tin tức",
+    "mostlike": "Bài viết nhiều lượt thích nhất",
+    "mostcmt": "Bài viết nhiều lượt bình luận nhất",
+    "mostview": "Bài viết nhiều lượt xem nhất",
+    "upload": "Đăng bài",
+    "reply": "Trả lời",
+    "findpost": "Tìm bài viết",
+    "findUser": "Tìm người dùng",
+    "unsub": "Huỷ đăng ký",
+    "sub": "Đăng ký",
+    "chat": "Nhắn tin",
+    "addfr": "Kết bạn",
+    "cancel": "Huỷ",
+    "acptfr": "Chấp nhận",
+    "unfr": "Huỷ kết bạn",
+    "welcome": "Chào mừng",
+    "selectchat": "Chọn 1 ai đs để bắt đầu nt",
+    "mypost": "Bài đăng",
+    "friend": "Bạn bè",
+    "friendList": "Danh sách bạn bè",
+    "friendListReq": "Danh sách lời mời kết bạn",
+    "Edit Information": "Chỉnh sửa thông tin"
   }
 }

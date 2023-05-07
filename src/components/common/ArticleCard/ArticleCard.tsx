@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Dates } from '@app/constants/Dates';
-import { Avatar, Button, Card, Image, Input, Modal } from 'antd';
-import { Tag, ITag } from '../Tag/Tag';
+import React, { useState } from 'react';
+import { Avatar, Button, Image, Input, Modal } from 'antd';
+import { Tag } from '../Tag/Tag';
 import * as S from './ArticleCard.styles';
 import dfavt from '@app/share/dfavt.png';
-import ConfigSetting from './ArticleCardService';
 import {
   CheckCircleTwoTone,
   CommentOutlined,
   DislikeOutlined,
   DislikeTwoTone,
-  HeartOutlined,
   LikeOutlined,
   LikeTwoTone,
   SendOutlined,
-  ShareAltOutlined,
 } from '@ant-design/icons';
 import dbService from '@app/pages/DashBoard/DashBoardService';
 import Meta from 'antd/lib/card/Meta';
@@ -61,10 +57,10 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   isLike,
   isDisLike,
 }) => {
-  const [isLiked, setIsLiked] = useState<boolean>(isLike);
-  const [isDisLiked, setIsDisLiked] = useState<boolean>(isDisLike);
-  const [isLikedCount, setIsLikedCount] = useState<number>(likeCount);
-  const [isDisLikedCount, setIsDisLikedCount] = useState<number>(disLikeCount);
+  const [isLiked, setIsLiked] = useState<boolean>(isLike ?? 0);
+  const [isDisLiked, setIsDisLiked] = useState<boolean>(isDisLike ?? 0);
+  const [isLikedCount, setIsLikedCount] = useState<number>(likeCount ?? 0);
+  const [isDisLikedCount, setIsDisLikedCount] = useState<number>(disLikeCount ?? 0);
   const [openPost, setOpenPost] = useState<boolean>(false);
   const [comment, setComment] = useState<string>('');
   const [comments, setComments] = useState<any[]>([]);
@@ -236,6 +232,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                   alt="article"
                   preview={false}
                   style={{ objectFit: 'contain', width: '90%' }}
+                  height={500}
                 />
               ))}
             </S.ImageWrap2>

@@ -7,11 +7,12 @@ import * as s from '../FindPostPage/Tables.styles';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
 import fpService from '../FindPostPage/PostFindService';
 import FindPortScroll from './FindPortScroll';
+import { useTranslation } from 'react-i18next';
 const FindPost: React.FC = () => {
   const [keyword, setKeyWord] = useState<string>(' ');
   const [findPost, setFindPost] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
-
+  const { t } = useTranslation();
   const onSearch = (value: string) => {
     setKeyWord(value.trim());
 
@@ -49,9 +50,9 @@ const FindPost: React.FC = () => {
   };
   return (
     <>
-      <PageTitle>Tìm Kiếm Bài Viết</PageTitle>
+      <PageTitle>{t('vb.findpost')}</PageTitle>
 
-      <s.Card title="Tìm Kiếm Bài Viết" bodyStyle={{ height: '48rem', padding: '20px 60px' }}>
+      <s.Card title={t('vb.findpost')} bodyStyle={{ height: '48rem', padding: '20px 60px' }}>
         <Search style={{ width: '30%' }} placeholder="Tìm kiếm bài viết" enterButton onSearch={onSearch} />
         <FindPortScroll activity={findPost} hasMore={hasMore} next={next} />
       </s.Card>
