@@ -68,9 +68,9 @@ const AnoPage: React.FC = () => {
         <Row justify="end">
           <Col span={9}>
             <Carousel autoplay>
-              {experts?.map((expert) => {
+              {experts?.map((expert, index) => {
                 return (
-                  <s.ActivityCard bodyStyle={{ padding: '25px  10px' }}>
+                  <s.ActivityCard bodyStyle={{ padding: '25px  10px' }} key={index}>
                     <s.Wrapper>
                       <s.ImgWrapper>
                         <img
@@ -111,13 +111,14 @@ const AnoPage: React.FC = () => {
             </Carousel>
             <Collapse defaultActiveKey={['1']}>
               <Panel header="Top bài viết nhiều bình luận nhất" key="1">
-                {mostComment?.map((post: any) => {
+                {mostComment?.map((post: any, index) => {
                   return (
-                    <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
+                    <s.ActivityCard bodyStyle={{ padding: '0px  10px' }} key={index}>
                       <s.Wrapper>
                         <s.ImgWrapper>
-                          {post.imageList?.map((img: string) => (
+                          {post.imageList?.map((img: string, index: any) => (
                             <Image
+                              key={index}
                               src={`http://149.51.37.29:8081/local-store/${img}`}
                               alt={`title ${img ? img : 'dfavt'}`}
                               width={100}
@@ -140,13 +141,14 @@ const AnoPage: React.FC = () => {
                 })}
               </Panel>
               <Panel header="Top bài viết nhiều lượt xem nhất" key="2">
-                {mostView?.map((post: any) => {
+                {mostView?.map((post: any, index) => {
                   return (
-                    <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
+                    <s.ActivityCard bodyStyle={{ padding: '0px  10px' }} key={index}>
                       <s.Wrapper>
                         <s.ImgWrapper>
-                          {post.imageList?.map((img: string) => (
+                          {post.imageList?.map((img: string, index: any) => (
                             <Image
+                              key={index}
                               src={`http://149.51.37.29:8081/local-store/${img}`}
                               alt={`title ${img ? img : 'dfavt'}`}
                               width={100}
@@ -170,17 +172,18 @@ const AnoPage: React.FC = () => {
                 })}
               </Panel>
               <Panel header="Top bài viết nhiều lượt thích nhất" key="3">
-                {mostLike?.map((post: any) => {
+                {mostLike?.map((post: any, index) => {
                   return (
-                    <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
+                    <s.ActivityCard bodyStyle={{ padding: '0px  10px' }} key={index}>
                       <s.Wrapper>
                         <s.ImgWrapper>
-                          {post.imageList?.map((img: string) => (
+                          {post.imageList?.map((img: string, index: any) => (
                             <Image
                               src={`http://149.51.37.29:8081/local-store/${img}`}
                               alt={`title ${img ? img : 'dfavt'}`}
                               width={100}
                               height={100}
+                              key={index}
                             />
                           ))}
                         </s.ImgWrapper>

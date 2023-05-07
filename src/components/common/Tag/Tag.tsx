@@ -4,13 +4,13 @@ import * as S from './Tag.styles';
 export interface ITag {
   id: string;
   title: string;
-  bgColor: 'error' | 'success' | 'warning';
+  bgColor: string;
 }
 
 interface TagProps {
   title: string;
   color?: string;
-  bgColor?: 'error' | 'success' | 'warning' | 'primary';
+  bgColor?: string;
   removeTag?: () => void;
 }
 

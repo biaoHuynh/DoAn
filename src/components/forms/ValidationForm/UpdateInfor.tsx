@@ -62,7 +62,7 @@ export const UpdateInfor: React.FC<DBProps> = ({ id, isExpert, onUpdateSuccess }
   };
   useEffect(() => {
     fromService.getAllTopicTag().then((res: any) => {
-      let topic: any[] = [];
+      const topic: any[] = [];
       res?.data.forEach((i: any) => {
         topic.push({ value: i.id, label: i.tagName });
       });
@@ -74,7 +74,6 @@ export const UpdateInfor: React.FC<DBProps> = ({ id, isExpert, onUpdateSuccess }
     const formData = new FormData();
     setLoading(true);
 
-    let idCardBase64 = '';
     if (fileList.length > 0) {
       await getBase64(fileList, (result: string) => {
         const formData = isExpert

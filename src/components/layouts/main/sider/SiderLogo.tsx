@@ -15,7 +15,7 @@ export const SiderLogo: React.FC<SiderLogoProps> = ({ isSiderCollapsed, toggleSi
 
   const theme = useAppSelector((state) => state.theme.theme);
 
-  const img = logoDark 
+  const img = logoDark;
 
   return (
     <S.SiderLogoDiv>

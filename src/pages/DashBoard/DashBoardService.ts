@@ -21,7 +21,6 @@ class DBService extends BaseService<any> {
   public getAllTop() {
     return this.fetch.post(`/post/external/findPostAllMost`);
   }
-  
 }
 
 const dbService = new DBService();

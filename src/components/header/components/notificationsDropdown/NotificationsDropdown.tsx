@@ -14,7 +14,7 @@ export const NotificationsDropdown: React.FC = () => {
   const [isOpened, setOpened] = useState(false);
   const UserDataNew = localStorage.getItem('UserData');
   const [userInfo, setUserInfo] = useState(UserDataNew ? JSON.parse(UserDataNew)?.topicId : '');
-  const getLogin = (isLogin: boolean) => {};
+
   useEffect(() => {
     const UserData = localStorage.getItem('UserData');
     const UserInfo = JSON.parse(UserData);

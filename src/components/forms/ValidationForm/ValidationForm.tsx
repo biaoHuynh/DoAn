@@ -59,7 +59,7 @@ export const ValidationForm: React.FC<DBProps> = ({ getnew }) => {
   };
   useEffect(() => {
     fromService.getAllTopicTag().then((res: any) => {
-      let topic: any[] = [];
+      const topic: any[] = [];
       res?.data.forEach((i: any) => {
         topic.push({ value: i.id, label: i.tagName });
       });
@@ -70,8 +70,6 @@ export const ValidationForm: React.FC<DBProps> = ({ getnew }) => {
   const handleUpload = async () => {
     const formData = new FormData();
     setLoading(true);
-
-    let idCardBase64 = '';
 
     await getBase64(fileList, (result: string) => {
       const formData = {

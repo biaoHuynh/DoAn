@@ -67,7 +67,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   const [isDisLikedCount, setIsDisLikedCount] = useState<number>(disLikeCount);
   const [openPost, setOpenPost] = useState<boolean>(false);
   const [comment, setComment] = useState<string>('');
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<any[]>([]);
   const [reply, setReply] = useState(null);
   const CallLike = (id: number) => {
     dbService.callLike(id);
@@ -106,7 +106,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       })
       .then((data: any) => {
         if (data.data !== null) {
-          setComments([data.data, ...comments]);
+          const newData: any[] = [data.data, ...comments];
+          setComments(newData);
         }
         setComment('');
       });
@@ -121,7 +122,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       })
       .then((data: any) => {
         if (data.data !== null) {
-          setComments([data.data, ...comments]);
+          const newData: any[] = [data.data, ...comments];
+          setComments(newData);
         }
         setComment('');
         setReply(null);
@@ -237,7 +239,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                 />
               ))}
             </S.ImageWrap2>
-            {comments.map((item: any) => {
+            {comments.map((item: any, index) => {
               return (
                 <S.CardCmt
                   style={{
@@ -245,6 +247,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                     boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
                     margin: '1%',
                   }}
+                  key={index}
                   bodyStyle={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
                 >
                   <Meta

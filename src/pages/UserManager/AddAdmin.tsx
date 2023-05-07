@@ -42,7 +42,6 @@ export const AddAdmin: React.FC<DBProps> = ({ onAddSuccess }) => {
   const handleUpload = async () => {
     setLoading(true);
 
-    let idCardBase64 = '';
     if (fileList.length > 0) {
       await getBase64(fileList, (result: string) => {
         const formData = {
@@ -114,7 +113,7 @@ export const AddAdmin: React.FC<DBProps> = ({ onAddSuccess }) => {
     fileList,
   };
   return (
-    <BaseForm FF>
+    <BaseForm>
       <BaseForm.Item name="name" label="Tên" required>
         <Input onChange={(event: any) => setName(event.target.value)} required />
       </BaseForm.Item>

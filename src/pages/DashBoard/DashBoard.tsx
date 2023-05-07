@@ -111,11 +111,12 @@ const Dashboard: React.FC = () => {
           <Row style={{ display: 'flex', justifyContent: 'center' }}>
             <Col span={10}>
               <Carousel autoplay>
-                {experts?.map((expert) => {
+                {experts?.map((expert, index) => {
                   return (
                     <s.ActivityCard
                       bodyStyle={{ padding: '25px  10px' }}
                       onClick={() => navigate(`/profile-page/${expert.id}`)}
+                      key={index}
                     >
                       <s.Wrapper>
                         <s.ImgWrapper>
@@ -157,17 +158,19 @@ const Dashboard: React.FC = () => {
               </Carousel>
               <Collapse defaultActiveKey={['1']} onChange={onChange}>
                 <Panel header="Top bài viết nhiều bình luận nhất" key="1">
-                  {topPost?.mostComment?.map((post: any) => {
+                  {topPost?.mostComment?.map((post: any, index: any) => {
                     return (
-                      <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
+                      <s.ActivityCard bodyStyle={{ padding: '0px  10px' }} key={`mostComment ${index}`}>
                         <s.Wrapper>
                           <s.ImgWrapper>
-                            {post.imageList?.map((img: string) => (
+                            {post.imageList?.map((img: string, index: any) => (
                               <Image
                                 src={`http://149.51.37.29:8081/local-store/${img}`}
                                 alt={`title ${img ? img : 'dfavt'}`}
                                 width={100}
                                 height={100}
+                                preview={false}
+                                key={`mostComment Img ${index}`}
                               />
                             ))}
                           </s.ImgWrapper>
@@ -186,18 +189,19 @@ const Dashboard: React.FC = () => {
                   })}
                 </Panel>
                 <Panel header="Top bài viết nhiều lượt xem nhất" key="2">
-                  {topPost?.mostView?.map((post: any) => {
+                  {topPost?.mostView?.map((post: any, index: any) => {
                     return (
-                      <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
+                      <s.ActivityCard bodyStyle={{ padding: '0px  10px' }} key={`mostView ${index}`}>
                         <s.Wrapper>
                           <s.ImgWrapper>
-                            {post.imageList?.map((img: string) => (
+                            {post.imageList?.map((img: string, index: any) => (
                               <Image
                                 src={`http://149.51.37.29:8081/local-store/${img}`}
                                 alt={`title ${img ? img : 'dfavt'}`}
                                 width={100}
                                 height={100}
                                 preview={false}
+                                key={`mostView img ${index}`}
                               />
                             ))}
                           </s.ImgWrapper>
@@ -216,17 +220,19 @@ const Dashboard: React.FC = () => {
                   })}
                 </Panel>
                 <Panel header="Top bài viết nhiều lượt thích nhất" key="3">
-                  {topPost?.mostLike?.map((post: any) => {
+                  {topPost?.mostLike?.map((post: any, index: any) => {
                     return (
-                      <s.ActivityCard bodyStyle={{ padding: '0px  10px' }}>
+                      <s.ActivityCard bodyStyle={{ padding: '0px  10px' }} key={`mostLike  ${index}`}>
                         <s.Wrapper>
                           <s.ImgWrapper>
-                            {post.imageList?.map((img: string) => (
+                            {post.imageList?.map((img: string, index: any) => (
                               <Image
                                 src={`http://149.51.37.29:8081/local-store/${img}`}
                                 alt={`title ${img ? img : 'dfavt'}`}
                                 width={100}
                                 height={100}
+                                preview={false}
+                                key={`mostLike  img ${index}`}
                               />
                             ))}
                           </s.ImgWrapper>

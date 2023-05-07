@@ -17,7 +17,7 @@ import Chat from './Chat/Chat';
 
 const ChatPage: React.FC = () => {
   const { t } = useTranslation();
- 
+
   return (
     <>
       <PageTitle>Chat Center</PageTitle>

@@ -34,7 +34,7 @@ export const LoginForm: React.FC = () => {
           localStorage.setItem('AccessToken', res.data.accessToken);
           await AuthService.verifyToken().then((resp: any) => {
             localStorage.setItem('UserData', JSON.stringify(resp.data));
-            
+
             navigate('/');
             notificationController.success({
               message: 'Login Success',

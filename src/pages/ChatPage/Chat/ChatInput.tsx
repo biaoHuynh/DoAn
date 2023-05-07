@@ -7,7 +7,7 @@ import ImageUploading, { ImageListType, ImageType } from 'react-images-uploading
 import cameraImage from '@app/assets/camera.png';
 
 interface ChatInputProps {
-  handleSendMessage: (msg: string, img: string) => {};
+  handleSendMessage: (msg: string, img: string) => Record<string, unknown>;
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({ handleSendMessage }) => {

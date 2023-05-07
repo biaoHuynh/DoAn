@@ -58,8 +58,8 @@ const PostColumns: ColumnsType<PostDataType> = [
     render: (record) => (
       <s.WrapperPost>
         {record.imageList.map((img: string) => (
-          <s.ImgWrapper>
-            <Image src={`http://149.51.37.29:8081/local-store/${img}`} width={100} height={100}></Image>
+          <s.ImgWrapper key={img}>
+            <Image src={`http://149.51.37.29:8081/local-store/${img}`} width={100} height={100} preview={false}></Image>
           </s.ImgWrapper>
         ))}
         <s.ContextWrapper>{record.context}</s.ContextWrapper>
@@ -76,6 +76,7 @@ const PostColumns: ColumnsType<PostDataType> = [
             src={record.user.imageUrl ? `http://149.51.37.29:8081/local-store/${record.user.imageUrl}` : dfavt}
             width={100}
             height={100}
+            preview={false}
           ></Image>
         </s.ImgWrapper>
         <s.TitleWrapper>

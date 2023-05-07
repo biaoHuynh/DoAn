@@ -94,6 +94,7 @@ const Admin: React.FC = () => {
               src={record.imageUrl ? `http://149.51.37.29:8081/local-store/${record.imageUrl}` : dfavt}
               width={100}
               height={100}
+              preview={false}
             ></Image>
           </s.ImgWrapper>
           <s.TitleWrapper>

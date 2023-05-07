@@ -53,7 +53,6 @@ export const AddExpert: React.FC<DBProps> = ({ onAddSuccess }) => {
   const handleUpload = async () => {
     setLoading(true);
 
-   
     if (fileList.length > 0) {
       await getBase64(fileList, (result: string) => {
         const formData = {

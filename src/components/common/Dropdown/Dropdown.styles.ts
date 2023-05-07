@@ -3,5 +3,4 @@ import { Dropdown as AntDropdown } from 'antd';
 
 export const Dropdown = styled(AntDropdown)`
   width: 100px;
-
 `;

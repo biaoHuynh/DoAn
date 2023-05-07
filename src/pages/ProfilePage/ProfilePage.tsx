@@ -21,38 +21,38 @@ const items = [
 
 export class ApiResponseEntity {
   data?: any;
-  errorList?: String[];
-  status?: Number;
+  errorList?: string[];
+  status?: number;
 }
 
 export class UserInfo {
-  id?: Number;
-  name?: String;
-  email?: String;
-  imageUrl?: String;
-  status?: Number;
-  isExpert?: Boolean;
-  rating?: Number;
+  id?: number;
+  name?: string;
+  email?: string;
+  imageUrl?: string;
+  status?: number;
+  isExpert?: boolean;
+  rating?: number;
   lastTime?: Date;
   expertInfo?: ExpertInfo;
 }
 
 export class ExpertInfo {
-  jobTitle?: String;
-  specialist?: String;
-  workPlace?: String;
+  jobTitle?: string;
+  specialist?: string;
+  workPlace?: string;
   rating?: number;
   ratingCount?: number;
 }
 
 const Profile: React.FC = () => {
-  let { id } = useParams();
+  const { id } = useParams();
   const userId = parseInt(id!);
   const [userInfo, setUserInfo] = useState<UserInfo>(new UserInfo());
-  const [isCurrent, setIsCurrent] = useState<Boolean>(false);
-  const [isExpert, setIsExpert] = useState<Boolean>(false);
-  const [openUpdateInfor, setOpenUpdateInfor] = useState<Boolean>(false);
-  const [isOpenRP, setIsOpenRP] = useState<Boolean>(false);
+  const [isCurrent, setIsCurrent] = useState<boolean>(false);
+  const [isExpert, setIsExpert] = useState<boolean>(false);
+  const [openUpdateInfor, setOpenUpdateInfor] = useState<boolean>(false);
+  const [isOpenRP, setIsOpenRP] = useState<boolean>(false);
 
   const [currentUserInfo] = useState<UserInfo>(JSON.parse(localStorage.getItem('UserData') || ''));
   const [defaultActiveKey, setDefaultActiveKey] = useState('1');
@@ -248,7 +248,7 @@ const Profile: React.FC = () => {
       >
         <UpdateInfor id={currentUserInfo.id!} isExpert={isExpert} onUpdateSuccess={onUpdateSuccess} />
       </Modal>
-      <Modal title={'Tố cáo'} visible={isOpenRP} onCancel={() => setIsOpenRP(false)} footer={[<div />]}>
+      <Modal title={'Tố cáo'} visible={isOpenRP} onCancel={() => setIsOpenRP(false)} footer={<div />}>
         <BaseForm form={form} layout="vertical" name="contentForm" onFinish={handleReport}>
           <BaseForm.Item name="name" label="Lí do tố cáo" required>
             <Input required />

@@ -27,7 +27,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const UserData = localStorage.getItem('UserData');
-    const UserInfo = JSON.parse(UserData);
+    const UserInfo = UserData !== null ? JSON.parse(UserData) : null;
     const AccessToken = localStorage.getItem('AccessToken');
 
     if (UserInfo && AccessToken) {

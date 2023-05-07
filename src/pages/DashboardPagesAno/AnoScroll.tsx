@@ -1,12 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 import * as S from './Detail.styles';
 import { NotFound } from '@app/components/common/NotFound/NotFound';
 
-import { Col, Row, Spin, Image, Avatar } from 'antd';
+import { Spin, Image, Avatar } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useNavigate } from 'react-router-dom';
-import { Tag, ITag } from '@app/components/common/Tag/Tag';
+import { Tag } from '@app/components/common/Tag/Tag';
 import { CheckCircleTwoTone } from '@ant-design/icons';
 import moment from 'moment';
 import dfavt from '@app/share/dfavt.png';
@@ -17,13 +16,12 @@ interface RecentActivityFeedProps {
 }
 
 const AnoScroll: React.FC<RecentActivityFeedProps> = ({ activity, hasMore, next }) => {
-  const navigate = useNavigate();
   const activityItems = useMemo(
     () =>
       activity?.map((item, index) => {
         console.log(activity);
         return (
-          <S.Wrapper className={'article-card'} style={{ marginBottom: '2%' }}>
+          <S.Wrapper className={'article-card'} style={{ marginBottom: '2%' }} key={index}>
             <S.Header>
               <S.InfoAvt>
                 <Avatar

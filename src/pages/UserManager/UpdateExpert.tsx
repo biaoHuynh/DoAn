@@ -65,7 +65,6 @@ export const UpdateExpert: React.FC<DBProps> = ({ id, onUpdateSuccess }) => {
     const formData = new FormData();
     setLoading(true);
 
-   
     if (fileList.length > 0) {
       await getBase64(fileList, (result: string) => {
         const formData = {

@@ -209,7 +209,7 @@ const TopicManager: React.FC = () => {
               <div style={{ display: 'flex' }}>
                 {admin ? (
                   <Button severity="success" onClick={() => setIsOpenAdd(true)}>
-                   Thêm
+                    Thêm
                   </Button>
                 ) : (
                   <div />
@@ -278,7 +278,7 @@ const TopicManager: React.FC = () => {
           footer={[
             <>
               <Button style={{ display: 'inline' }} onClick={() => onCloseModelUpdate()}>
-               Đóng
+                Đóng
               </Button>
               <Button
                 style={{ display: 'inline' }}

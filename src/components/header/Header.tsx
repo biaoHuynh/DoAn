@@ -15,7 +15,6 @@ export const Header: React.FC<HeaderProps> = ({ toggleSider, isSiderOpened, isTw
   const { isTablet } = useResponsive();
   const UserDataNew = localStorage.getItem('UserData');
   const [userInfo, setUserInfo] = useState(UserDataNew ? JSON.parse(UserDataNew)?.topicId : '');
-  const getLogin = (isLogin: boolean) => {};
   useEffect(() => {
     const UserData = localStorage.getItem('UserData');
     const UserInfo = JSON.parse(UserData);

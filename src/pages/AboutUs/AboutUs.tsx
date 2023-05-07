@@ -10,8 +10,7 @@ const AboutUs: React.FC = () => {
   useEffect(() => {
     {
       const getData: any = localStorage.getItem('UserData');
-      const objDate = JSON.parse(getData);
-      let ThatAdmin = true;
+
       if (getData != null) {
         const isAdmin = objDate.role === 'admin' ? true : false;
         setAdmin(isAdmin);
