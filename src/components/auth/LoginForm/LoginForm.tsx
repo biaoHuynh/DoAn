@@ -77,9 +77,9 @@ export const LoginForm: React.FC = () => {
               <S.RememberMeText>{t('login.rememberMe')}</S.RememberMeText>
             </Auth.FormCheckbox>
           </BaseForm.Item>
-          <Link to="/auth/forgot-password">
+          {/* <Link to="/auth/forgot-password">
             <S.ForgotPasswordText>{t('common.forgotPass')}</S.ForgotPasswordText>
-          </Link>
+          </Link> */}
         </Auth.ActionsWrapper>
         <BaseForm.Item noStyle>
           <Auth.SubmitButton type="primary" htmlType="submit" loading={isLoading}>

@@ -12,7 +12,7 @@ const AboutUs: React.FC = () => {
       const getData: any = localStorage.getItem('UserData');
 
       if (getData != null) {
-        const isAdmin = objDate.role === 'admin' ? true : false;
+        const isAdmin = getData.role === 'admin' ? true : false;
         setAdmin(isAdmin);
       }
     }

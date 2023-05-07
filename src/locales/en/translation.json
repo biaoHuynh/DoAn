@@ -955,5 +955,25 @@
     "trendingCollections": "Trending Collections",
     "recentlyAddedNFTs": "Recently Added NFTs",
     "trendingCreators": "Trending Creators"
+  },
+  "vb": {
+    "yourBalance": "Your Balance",
+    "topUpBalance": "Top Up Balance",
+    "totalEarning": "Total Earning",
+    "status": {
+      "sold": "Sold",
+      "added": "Added",
+      "booked": "Booked"
+    },
+    "activityStory": "Your Activity Story",
+    "by": "by",
+    "recentActivity": "Recent Activity",
+    "viewAll": "View all",
+    "filter": "Filter",
+    "show": "Show",
+    "bid": "Bid",
+    "trendingCollections": "Trending Collections",
+    "recentlyAddedNFTs": "Recently Added NFTs",
+    "trendingCreators": "Trending Creators"
   }
 }

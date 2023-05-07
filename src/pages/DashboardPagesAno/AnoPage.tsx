@@ -109,7 +109,7 @@ const AnoPage: React.FC = () => {
                 );
               })}
             </Carousel>
-            <Collapse defaultActiveKey={['1']}>
+            <Collapse defaultActiveKey={['1']} accordion>
               <Panel header="Top bài viết nhiều bình luận nhất" key="1">
                 {mostComment?.map((post: any, index) => {
                   return (
