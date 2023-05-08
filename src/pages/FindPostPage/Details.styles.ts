@@ -62,7 +62,7 @@ export const WrapperOnloadCmt = styled.div`
 `;
 export const WrapperOnloadCmt2 = styled.div`
   display: flex;
-  height: 57rem;
+  height: 50rem;
   flex-direction: column;
   flex: 1 1 55.5rem;
   position: relative;
@@ -105,12 +105,11 @@ export const WrapperCmt = styled.div`
   flex-direction: row;
   flex:1 1 0.25rem
   position: relative;
-  max-width: 53.5rem;
   box-shadow: var(--box-shadow);
   border-radius: ${BORDER_RADIUS};
   border: 1px black solid;
   transition: 0.3s;
-width: 53.5rem;
+width: 100%;
   [data-theme='dark'] & {
     background: var(--secondary-background-color);
   }

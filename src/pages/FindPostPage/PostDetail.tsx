@@ -69,7 +69,6 @@ const PostDetail: React.FC = () => {
         display: 'flex',
         justifyContent: 'center',
         flexDirection: 'row',
-        alignItems: 'center',
         height: '59.2rem',
       }}
     >
@@ -109,7 +108,6 @@ const PostDetail: React.FC = () => {
                     key={`${img}123`}
                     alt="article"
                     preview={false}
-                    width={'99%'}
                     style={{ objectFit: 'contain', width: '99%' }}
                   />
                 ))}
