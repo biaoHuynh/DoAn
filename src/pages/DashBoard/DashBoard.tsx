@@ -291,7 +291,7 @@ const Dashboard: React.FC = () => {
         </s.Card>
       </s.TablesWrapper>
       <Modal
-        title="Upload Post"
+        title={t('vb.upload')}
         visible={openPostUpload}
         onCancel={() => setOpenPostUpload(false)}
         footer={[

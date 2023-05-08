@@ -109,7 +109,7 @@ export const Author = styled.div`
 `;
 
 export const ImageWrap = styled.div`
-  width: 53rem;
+  width: 49rem;
   display: flex;
   justify-content: center;
   overflow: hidden;

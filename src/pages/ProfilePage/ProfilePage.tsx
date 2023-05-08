@@ -14,6 +14,7 @@ import { notificationController } from '@app/controllers/notificationController'
 import { ValidationForm } from '@app/components/forms/ValidationForm/ValidationForm';
 import { UpdateInfor } from '@app/components/forms/ValidationForm/UpdateInfor';
 import { BaseForm } from '@app/components/common/forms/BaseForm/BaseForm';
+import { useTranslation } from 'react-i18next';
 const items = [
   { label: 'Post', key: 'post-item', children: 'this is post component' }, // remember to pass the key prop
   { label: 'Profile', key: 'profile-item', children: 'this is profile component' },
@@ -53,7 +54,7 @@ const Profile: React.FC = () => {
   const [isExpert, setIsExpert] = useState<boolean>(false);
   const [openUpdateInfor, setOpenUpdateInfor] = useState<boolean>(false);
   const [isOpenRP, setIsOpenRP] = useState<boolean>(false);
-
+  const { t } = useTranslation();
   const [currentUserInfo] = useState<UserInfo>(JSON.parse(localStorage.getItem('UserData') || ''));
   const [defaultActiveKey, setDefaultActiveKey] = useState('1');
   const [form] = BaseForm.useForm();
@@ -196,7 +197,7 @@ const Profile: React.FC = () => {
                   {isCurrent && (
                     <Space wrap>
                       <Button type="dashed" onClick={() => setOpenUpdateInfor(true)}>
-                        Chỉnh sửa trang cá nhân
+                        {t('vb.updateinfo')}
                       </Button>
                     </Space>
                   )}
@@ -209,7 +210,7 @@ const Profile: React.FC = () => {
                           setIsOpenRP(true);
                         }}
                       >
-                        Tố cáo
+                        {t('vb.report')}
                       </Button>
                     </Space>
                   )}
@@ -219,42 +220,42 @@ const Profile: React.FC = () => {
           </Row>
         </Card>
         <Tabs activeKey={defaultActiveKey} onChange={onChange}>
-          <Tabs.TabPane tab="Bài Đăng" key="1">
+          <Tabs.TabPane tab={t('vb.mypost')} key="1">
             <Post {...userInfo} />
           </Tabs.TabPane>
           {isCurrent && (
-            <Tabs.TabPane tab="Bạn bè" key="2">
+            <Tabs.TabPane tab={t('vb.friend')} key="2">
               <FriendList />
             </Tabs.TabPane>
           )}
           {isExpert && (
-            <Tabs.TabPane tab="Thông tin chi tiết" key="3">
+            <Tabs.TabPane tab={t('vb.detailinfo')} key="3">
               <ExpertInfoPage {...userInfo.expertInfo} />
             </Tabs.TabPane>
           )}
         </Tabs>
       </div>
       <Modal
-        title="Cập nhập thông tin"
+        title={t('vb.updateinfo')}
         visible={openUpdateInfor}
         onCancel={() => setOpenUpdateInfor(false)}
         footer={[
           <>
             <Button style={{ display: 'inline' }} onClick={() => setOpenUpdateInfor(false)}>
-              Đóng
+              {t('common.close')}
             </Button>
           </>,
         ]}
       >
         <UpdateInfor id={currentUserInfo.id!} isExpert={isExpert} onUpdateSuccess={onUpdateSuccess} />
       </Modal>
-      <Modal title={'Tố cáo'} visible={isOpenRP} onCancel={() => setIsOpenRP(false)} footer={<div />}>
+      <Modal title={t('vb.report')} visible={isOpenRP} onCancel={() => setIsOpenRP(false)} footer={<div />}>
         <BaseForm form={form} layout="vertical" name="contentForm" onFinish={handleReport}>
-          <BaseForm.Item name="name" label="Lí do tố cáo" required>
+          <BaseForm.Item name="name" label={t('vb.resoneReport')} required>
             <Input required />
           </BaseForm.Item>
           <Button style={{ display: 'inline' }} type="primary" className="btn btn-primary" htmlType="submit" danger>
-            Tố cáo
+            {t('vb.report')}
           </Button>
         </BaseForm>
       </Modal>

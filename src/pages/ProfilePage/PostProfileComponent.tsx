@@ -7,10 +7,11 @@ import { NewsFilter } from '@app/components/apps/newsFeed/NewsFilter/NewsFilter'
 import { ArticleCard } from '@app/components/common/ArticleCard/ArticleCard';
 import { Feed } from '@app/components/common/Feed/Feed';
 import * as s from './Tables.styles';
+import { useTranslation } from 'react-i18next';
 
 const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert, rating, lastTime }: UserInfo) => {
   const [post, setPost] = useState<any[]>([]);
-
+  const { t } = useTranslation();
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [nextOffset, setNextOffset] = useState<number>(0);
@@ -52,7 +53,7 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
 
   return (
     <>
-      <s.Card title="Trang của tôi">
+      <s.Card title={t('vb.mypost')}>
         <Row style={{ display: 'flex', justifyContent: 'center' }}>
           <NewsFilter news={post}>
             {({ filteredNews }) =>

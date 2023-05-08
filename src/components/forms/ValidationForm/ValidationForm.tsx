@@ -120,19 +120,39 @@ export const ValidationForm: React.FC<DBProps> = ({ getnew }) => {
   };
   return (
     <BaseForm form={form} layout="vertical" name="contentForm">
-      <BaseForm.Item name="Title" label="Title" rules={[{ required: true, message: t('common.requiredField') }]}>
+      <BaseForm.Item
+        name="Title"
+        label={t('vb.title')}
+        rules={[{ required: true, message: t('common.requiredField') }]}
+      >
         <Input onChange={(event) => setTitle(event.target.value)} />
       </BaseForm.Item>
-      <BaseForm.Item name="Context" label="Context" rules={[{ required: true, message: t('common.requiredField') }]}>
+      <BaseForm.Item
+        name="Context"
+        label={t('vb.context')}
+        rules={[{ required: true, message: t('common.requiredField') }]}
+      >
         <Input onChange={(event) => setContext(event.target.value)} />
       </BaseForm.Item>
-      <BaseForm.Item name="HashTag" label="HashTag" rules={[{ required: true, message: t('common.requiredField') }]}>
+      <BaseForm.Item
+        name="HashTag"
+        label={t('vb.hangtag')}
+        rules={[{ required: true, message: t('common.requiredField') }]}
+      >
         <Input onChange={(event) => setHashTag(event.target.value)} />
       </BaseForm.Item>
-      <BaseForm.Item name="Topic" label="Topic" rules={[{ required: true, message: t('common.requiredField') }]}>
+      <BaseForm.Item
+        name="Topic"
+        label={t('vb.topic')}
+        rules={[{ required: true, message: t('common.requiredField') }]}
+      >
         <Select style={{ width: 120 }} onChange={(value) => setTopic(value)} options={topicList} />
       </BaseForm.Item>
-      <BaseForm.Item name="image" label="Attach Image" rules={[{ required: true, message: t('common.requiredField') }]}>
+      <BaseForm.Item
+        name="image"
+        label={t('vb.attachimg')}
+        rules={[{ required: true, message: t('common.requiredField') }]}
+      >
         <Upload name="logo" {...props} listType="picture-card">
           <Button type="default" disabled={fileList.length > 1}>
             <UploadOutlined />
@@ -145,7 +165,7 @@ export const ValidationForm: React.FC<DBProps> = ({ getnew }) => {
           loading={uploading}
           style={{ marginTop: 16, width: '100%' }}
         >
-          Upload Post
+          {t('vb.upload')}
         </Button>
       </BaseForm.Item>
     </BaseForm>

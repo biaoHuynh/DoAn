@@ -14,12 +14,14 @@ import Meta from 'antd/lib/card/Meta';
 import moment from 'moment';
 import 'moment/locale/vi';
 import dbService from '../DashBoard/DashBoardService';
+import { useTranslation } from 'react-i18next';
 const PostDetail: React.FC = () => {
   const [findPost, setFindPost] = useState<any[]>([]);
   const { state } = useLocation();
   const [comment, setComment] = useState<string>('');
   const [comments, setComments] = useState([]);
   const [reply, setReply] = useState(null);
+  const { t } = useTranslation();
   useEffect(() => {
     fpService.getByID(state ? state : 0).then((res: any) => {
       if (res?.data !== null) {
@@ -108,7 +110,8 @@ const PostDetail: React.FC = () => {
                     key={`${img}123`}
                     alt="article"
                     preview={false}
-                    style={{ objectFit: 'contain', width: '99%' }}
+                    width={'99%'}
+                    style={{ objectFit: 'contain' }}
                   />
                 ))}
               </D.ImageWrap>
@@ -139,7 +142,7 @@ const PostDetail: React.FC = () => {
                   }
                   title={
                     <>
-                      {item.userId.name}
+                      {item?.userId?.name}
                       <p style={{ marginRight: '5px', fontSize: '0.75rem' }}>
                         {moment(new Date(item.createAt)).locale('vi').format('lll')}
                       </p>
@@ -180,13 +183,13 @@ const PostDetail: React.FC = () => {
                     size={'small'}
                     onClick={() => setReply(item.id === reply ? null : item.id)}
                   >
-                    Reply
+                    {t('vb.reply')}
                   </Button>
                 )}
                 {reply === item.id && (
                   <S.WrapperCmtRep>
-                    <Input onChange={(event) => setComment(event.target.value)} />
-                    <Button onClick={() => UpCommentWithParent(item.id)}>
+                    <Input onChange={(event) => setComment(event.target.value)} placeholder={t('vb.cmthere')} />
+                    <Button disabled={!comment} onClick={() => UpCommentWithParent(item.id)}>
                       <SendOutlined />
                     </Button>
                   </S.WrapperCmtRep>
@@ -196,8 +199,8 @@ const PostDetail: React.FC = () => {
           })}
         </S.WrapperOnloadCmt2>
         <S.WrapperCmt>
-          <Input value={comment} onChange={(event) => setComment(event.target.value)} />
-          <Button onClick={() => UpComment()}>
+          <Input value={comment} onChange={(event) => setComment(event.target.value)} placeholder={t('vb.cmthere')} />
+          <Button disabled={!comment} onClick={() => UpComment()}>
             <SendOutlined />
           </Button>
         </S.WrapperCmt>

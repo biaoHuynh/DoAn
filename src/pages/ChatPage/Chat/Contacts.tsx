@@ -5,6 +5,7 @@ import Chat from '@app/assets/chat.png';
 import defaultAvatar from '@app/assets/DefaultAvatar.png';
 
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface ContactsProps {
   contacts: any;
@@ -26,7 +27,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
   const [currentSelected, setCurrentSelected] = useState<string>('');
 
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   useEffect(() => {
     const setUser = async () => {
       if (localStorage.getItem('chat-app-user')) {
@@ -48,7 +49,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts, currentUser, changeChat }
       <Container style={{ backgroundColor: 'var(--background-color)' }}>
         <div className="brand" style={{ backgroundColor: 'var(--timeline-background-color)' }}>
           <img src={Chat} alt="logo" />
-          <h3 style={{ color: 'var(--text-main-color)' }}>Chat</h3>
+          <h3 style={{ color: 'var(--text-main-color)' }}>{t('vb.chat')}</h3>
         </div>
         <div className="contacts">
           {contacts?.map((contact: any, index: any) => {

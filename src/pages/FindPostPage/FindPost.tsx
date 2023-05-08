@@ -50,10 +50,10 @@ const FindPost: React.FC = () => {
   };
   return (
     <>
-      <PageTitle>{t('vb.findpost')}</PageTitle>
+      <PageTitle>{t('vb.findPort')}</PageTitle>
 
-      <s.Card title={t('vb.findpost')} bodyStyle={{ height: '48rem', padding: '20px 60px' }}>
-        <Search style={{ width: '30%' }} placeholder="Tìm kiếm bài viết" enterButton onSearch={onSearch} />
+      <s.Card title={t('vb.findPort')} bodyStyle={{ height: '48rem', padding: '20px 60px' }}>
+        <Search style={{ width: '30%' }} placeholder={t('vb.findpost')} enterButton onSearch={onSearch} />
         <FindPortScroll activity={findPost} hasMore={hasMore} next={next} />
       </s.Card>
     </>

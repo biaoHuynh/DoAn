@@ -8,6 +8,7 @@ import profilePageService from './ProfilePageServicce';
 import { notificationController } from '@app/controllers/notificationController';
 import { Text } from '@app/components/layouts/AuthLayout/AuthLayout.styles';
 import { Title } from '../DashBoard/Tables.styles';
+import { useTranslation } from 'react-i18next';
 
 const FriendList: React.FC = () => {
   const [friendList, setFriendList] = useState([]);
@@ -15,7 +16,7 @@ const FriendList: React.FC = () => {
   const [activity, setActivity] = useState<any[]>([]);
   const [filteredActivity, setFilteredActivity] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState(true);
-
+  const { t } = useTranslation();
   const [filters, setFilters] = useState<any>({
     status: [],
   });
@@ -94,7 +95,7 @@ const FriendList: React.FC = () => {
     <s.Card>
       <Row style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
         <Col span={6}>
-          <Title level={3}>Danh sách bạn bè</Title>
+          <Title level={3}>{t('vb.friendList')}</Title>
           <RecentActivityFeed
             unfriend={unfriendById}
             activity={activity}
@@ -105,7 +106,7 @@ const FriendList: React.FC = () => {
           />
         </Col>
         <Col span={6}>
-          <Title level={3}>Danh sách lời mời kết bạn</Title>
+          <Title level={3}>{t('vb.friendListReq')}</Title>
           <RecentActivityFeed
             unfriend={unfriendById}
             activity={friendListRequest}
