@@ -1001,6 +1001,13 @@
     "context": "Chi tiết",
     "hangtag": "Nhãn",
     "topic": "Chủ đề",
-    "attachimg": "Hình ảnh"
+    "attachimg": "Hình ảnh",
+    "likepost": "thích bài viết",
+    "cmtpost": "bình luận bài viết",
+    "sendfrreq": "gửi lời mời kết bạn",
+    "acptfrreq": "chấp nhận lời mời kết bạn",
+    "subex": "đăng ký",
+    "newpost": "đăng bài viết mới",
+    "had": "Đã"
   }
 }

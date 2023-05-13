@@ -14,7 +14,7 @@ import { Rate } from '@app/components/common/Rate/Rate';
 import { Checkbox, CheckboxGroup } from '@app/components/common/Checkbox/Checkbox';
 import { notificationController } from '@app/controllers/notificationController';
 import { BaseForm } from '@app/components/common/forms/BaseForm/BaseForm';
-import { Input } from '@app/components/common/inputs/Input/Input';
+import { Input, TextArea } from '@app/components/common/inputs/Input/Input';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import fromService from './FormService';
 
@@ -132,7 +132,7 @@ export const ValidationForm: React.FC<DBProps> = ({ getnew }) => {
         label={t('vb.context')}
         rules={[{ required: true, message: t('common.requiredField') }]}
       >
-        <Input onChange={(event) => setContext(event.target.value)} />
+        <TextArea rows={4} onChange={(event) => setContext(event.target.value)} />
       </BaseForm.Item>
       <BaseForm.Item
         name="HashTag"

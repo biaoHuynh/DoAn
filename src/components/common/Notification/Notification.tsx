@@ -4,6 +4,7 @@ import { CheckCircleFilled, ExclamationCircleFilled, InfoCircleFilled, WarningFi
 import * as S from './Notification.styles';
 import notificationService from './NotificationsService';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 interface Icons {
   info: React.ReactNode;
   success: React.ReactNode;
@@ -47,6 +48,8 @@ export const Notification: React.FC<NotificationProps> = ({
   const read = (id: number) => {
     !status && notificationService.read(id);
   };
+  const { t } = useTranslation();
+
   return (
     <S.SpaceWrapper
       type={type}
@@ -62,16 +65,14 @@ export const Notification: React.FC<NotificationProps> = ({
           });
         }
         if (typePost === 'contact') {
-     
-          navigate(`/profile-page`)
-       
+          navigate(`/profile-page`);
         }
       }}
     >
       {mentionIconSrc ? <S.NotificationIcon src={icon} alt="User icon" /> : icon}
       <Space direction="vertical">
         <S.Title>{title}</S.Title>
-        <S.Description>{description}</S.Description>
+        <S.Description>{t('vb.had')} {t(`${description}`)}</S.Description>
       </Space>
     </S.SpaceWrapper>
   );

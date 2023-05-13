@@ -1001,6 +1001,13 @@
     "context": "Context",
     "hangtag": "Hangtag",
     "topic": "Topic",
-    "attachimg": "Attach Image"
+    "attachimg": "attach Image",
+    "likepost":"like your post",
+    "cmtpost":"commented on your post",
+    "sendfrreq":"send friend request",
+    "acptfrreq":"accept your friend request",
+    "subex":"subscribed you",
+    "newpost":"upload new post",
+    "had":"Had"
   }
 }

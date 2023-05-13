@@ -9,12 +9,13 @@ import { HeaderActionWrapper } from '@app/components/header/Header.styles';
 import notificationsService from './NotificationsService';
 import DefaultAvatar from '@app/assets/DefaultAvatar.png';
 import { useSubscription } from 'react-stomp-hooks';
+import { useTranslation } from 'react-i18next';
 export const NotificationsDropdown: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isOpened, setOpened] = useState(false);
   const UserDataNew = localStorage.getItem('UserData');
   const [userInfo, setUserInfo] = useState(UserDataNew ? JSON.parse(UserDataNew)?.topicId : '');
-
+  const { t } = useTranslation();
   useEffect(() => {
     const UserData = localStorage.getItem('UserData');
     const UserInfo = JSON.parse(UserData);
@@ -29,22 +30,22 @@ export const NotificationsDropdown: React.FC = () => {
     let action = '';
     switch (actionSender.action) {
       case 'post-like':
-        action = 'thích bài viết';
+        action = 'vb.likepost';
         break;
       case 'post-comment':
-        action = 'bình luận bài viết';
+        action = 'vb.cmtpost';
         break;
       case 'request-friend':
-        action = 'gửi lời mời kết bạn';
+        action = 'vb.sendfrreq';
         break;
       case 'accept-friend':
-        action = 'chấp nhận lời mời kết bạn';
+        action = 'vb.acptfrreq';
         break;
       case 'subscriber':
-        action = 'đăng ký';
+        action = 'vb.subex';
         break;
       case 'post-new':
-        action = 'đăng bài viết mới';
+        action = 'vb.newpost';
         break;
       default:
         break;
@@ -75,22 +76,22 @@ export const NotificationsDropdown: React.FC = () => {
           let action = '';
           switch (value.action) {
             case 'post-like':
-              action = 'Đã thích bài viết';
+              action = 'vb.likepost';
               break;
             case 'post-comment':
-              action = 'Đã bình luận bài viết';
+              action = 'vb.cmtpost';
               break;
             case 'request-friend':
-              action = 'Đã gửi lời mời kết bạn';
+              action = 'vb.sendfrreq';
               break;
             case 'accept-friend':
-              action = 'Đã chấp nhận lời mời kết bạn';
+              action = 'vb.acptfrreq';
               break;
             case 'subscriber':
-              action = 'Đã đăng ký';
+              action = 'vb.subex';
               break;
             case 'post-new':
-              action = 'Đã đăng bài viết mới';
+              action = 'vb.newpost';
               break;
             default:
               break;
