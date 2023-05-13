@@ -43,6 +43,9 @@ export const NotificationsDropdown: React.FC = () => {
       case 'subscriber':
         action = 'đăng ký';
         break;
+      case 'post-new':
+        action = 'đăng bài viết mới';
+        break;
       default:
         break;
     }
@@ -85,6 +88,9 @@ export const NotificationsDropdown: React.FC = () => {
               break;
             case 'subscriber':
               action = 'Đã đăng ký';
+              break;
+            case 'post-new':
+              action = 'Đã đăng bài viết mới';
               break;
             default:
               break;

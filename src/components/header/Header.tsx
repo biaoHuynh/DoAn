@@ -46,6 +46,9 @@ export const Header: React.FC<HeaderProps> = ({ toggleSider, isSiderOpened, isTw
       case 'new-message':
         action = 'gửi tin nhắn';
         break;
+      case 'post-new':
+        action = 'đăng bài viết mới';
+        break;
       default:
         break;
     }
