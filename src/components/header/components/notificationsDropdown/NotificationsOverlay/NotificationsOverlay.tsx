@@ -20,6 +20,7 @@ export const NotificationsOverlay: React.FC<NotificationsOverlayProps> = ({
   setNotifications,
   ...props
 }) => {
+  const { t } = useTranslation();
   const noticesList = useMemo(
     () =>
       notifications.map((notification, index) => {
@@ -51,7 +52,7 @@ export const NotificationsOverlay: React.FC<NotificationsOverlayProps> = ({
               {noticesList}
             </Space>
           ) : (
-            <S.Text>Không có thông báo</S.Text>
+            <S.Text>{t('vb.noti')}</S.Text>
           )}
         </Col>
         <Col span={24}>
@@ -65,7 +66,7 @@ export const NotificationsOverlay: React.FC<NotificationsOverlayProps> = ({
                     notificationsService.DeleteNotifiCations();
                   }}
                 >
-                  Đã đọc hết
+                  {t('vb.readDone')}
                 </S.Btn>
               </Col>
             )}

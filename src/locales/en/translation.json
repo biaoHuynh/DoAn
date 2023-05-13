@@ -1008,6 +1008,8 @@
     "acptfrreq":"accept your friend request",
     "subex":"subscribed you",
     "newpost":"upload new post",
-    "had":"Had"
+    "had":"Had",
+    "readDone":"Had read all",
+    "noti": "No notification"
   }
 }
