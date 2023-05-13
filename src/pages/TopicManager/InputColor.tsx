@@ -3,7 +3,7 @@ import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
 import Dropdown from 'antd/lib/dropdown';
 import Panel from 'rc-color-picker/lib/Panel';
-
+import * as s from './Tables.styles';
 export default function InputColor(props: any) {
   const { color, onChange, de } = props;
 
@@ -20,9 +20,9 @@ export default function InputColor(props: any) {
   console.log(internalColor);
 
   const overlay = (
-    <div>
+    <s.ColorPicker>
       <Panel color={internalColor} enableAlpha={false} onChange={handleChange} />
-    </div>
+    </s.ColorPicker>
   );
 
   return (

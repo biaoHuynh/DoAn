@@ -87,7 +87,7 @@ export const InputWrapper = styled.div`
 export const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 1.875rem;
+  margin-bottom: 1.875rem;
 `;
 
 export const TitleHeader = styled.div`

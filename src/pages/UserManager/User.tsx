@@ -230,7 +230,7 @@ const User: React.FC = () => {
     <>
       <PageTitle>Trang quản lý người dùng</PageTitle>
       <s.TablesWrapper>
-        <Search style={{ width: '30%' }} placeholder="Tìm kiếm bài viết" enterButton onSearch={onSearch} />
+        <Search style={{ width: '30%' }} placeholder="Tìm kiếm người dùng" enterButton onSearch={onSearch} />
         <s.Card
           title={'Quản lý người dùng'}
           extra={

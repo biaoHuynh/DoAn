@@ -97,13 +97,13 @@ const Dashboard: React.FC = () => {
           style={{
             position: 'fixed',
             top: '9rem',
-            right: '5rem',
+            right: '3.5rem',
 
             zIndex: 2,
           }}
         >
           <Button
-            style={{ float: 'right', marginBottom: '10px', width: '100px' }}
+            style={{ float: 'right', marginBottom: '10px', width: '130px' }}
             onClick={() => setOpenPostUpload(true)}
           >
             {t('vb.upload')}
