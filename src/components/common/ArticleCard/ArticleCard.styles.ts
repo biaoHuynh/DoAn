@@ -228,6 +228,27 @@ export const Description = styled.div`
     font-size: 1rem;
   }
 `;
+export const DescriptionHide = styled.div`
+  font-size: ${FONT_SIZE.xs};
+  color: var(--text-main-color);
+
+  overflow: hidden;
+  height: 300px;
+  line-height: 16px;
+  position: relative;
+  word-wrap: break-word;
+  @media only screen and ${media.xxl} {
+    font-size: 1rem;
+  }
+
+  :after {
+    content: '...';
+
+    position: absolute;
+    right: 8px;
+    bottom: 0px;
+  }
+`;
 export const Hashtag = styled.div`
   font-size: ${FONT_SIZE.xs};
   color: #546eed;

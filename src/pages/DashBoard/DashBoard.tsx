@@ -278,6 +278,7 @@ const Dashboard: React.FC = () => {
                           isDisLike={post.isDislike}
                           commentCount={post.commentCount}
                           isExpert={post.user.isExpert}
+                          viewCount={post.viewCount}
                         />
                       ))}
                     </Feed>

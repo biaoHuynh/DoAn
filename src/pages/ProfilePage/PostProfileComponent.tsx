@@ -75,6 +75,7 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
                       likeCount={post.likeCount}
                       commentCount={post.commentCount}
                       isExpert={post.user.isExpert}
+                      viewCount={post.viewCount}
                     />
                   ))}
                 </Feed>

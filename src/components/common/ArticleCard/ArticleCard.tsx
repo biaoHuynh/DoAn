@@ -8,6 +8,7 @@ import {
   CommentOutlined,
   DislikeOutlined,
   DislikeTwoTone,
+  EyeOutlined,
   LikeOutlined,
   LikeTwoTone,
   SendOutlined,
@@ -37,6 +38,7 @@ interface ArticleCardProps {
   isExpert: boolean;
   isLike: boolean;
   isDisLike: boolean;
+  viewCount: number;
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -56,6 +58,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   isExpert,
   isLike,
   isDisLike,
+  viewCount,
 }) => {
   const [isLiked, setIsLiked] = useState<boolean>(isLike ?? 0);
   const [isDisLiked, setIsDisLiked] = useState<boolean>(isDisLike ?? 0);
@@ -139,14 +142,23 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             <S.Description>{moment(new Date(date)).locale('vi').format('lll')}</S.Description>
           </S.InfoHeader>
         </S.Header>
-        <S.InfoWrapper>
+        <S.InfoWrapper
+          onClick={() => {
+            setOpenPost(true);
+            dbService.getComment(idPost).then((data: any) => {
+              if (data.data !== null) {
+                setComments(data.data);
+              }
+            });
+          }}
+        >
           <S.Title>{title}</S.Title>
           {!!tags && (
             <S.TagsWrapper>
               <Tag key={tags.id} title={tags.tagName} bgColor={tags.color} />
             </S.TagsWrapper>
           )}
-          <S.Description>{description}</S.Description>
+          <S.DescriptionHide>{description}</S.DescriptionHide>
           <S.Hashtag>#{hashTags}</S.Hashtag>
         </S.InfoWrapper>
 
@@ -191,6 +203,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               <CommentOutlined />
             </Button>
             {commentCount}
+          </S.Reaction>
+          <S.Reaction>
+            <S.Description>
+              <EyeOutlined />
+              {viewCount}
+            </S.Description>
           </S.Reaction>
         </S.ReactionWrapper>
       </S.Wrapper>
