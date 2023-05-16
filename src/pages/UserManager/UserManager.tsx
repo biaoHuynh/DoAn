@@ -5,6 +5,7 @@ import { Tabs } from 'antd';
 import Admin from './Admin';
 import Expert from './Expert';
 import User from './User';
+import Reported from './Reported';
 
 const UserManager: React.FC = () => {
   const [defaultActiveKey, setDefaultActiveKey] = useState('1');
@@ -20,7 +21,10 @@ const UserManager: React.FC = () => {
         <Tabs.TabPane tab="Chuyên gia" key="2">
           <Expert />
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Admin" key="3">
+        <Tabs.TabPane tab="Vi phạm" key="3">
+          <Reported />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Admin" key="4">
           <Admin />
         </Tabs.TabPane>
       </Tabs>

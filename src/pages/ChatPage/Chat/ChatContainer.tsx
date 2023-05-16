@@ -72,6 +72,10 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ handleChatUpdate, current
       }
       setIsLoading(false);
     };
+    window.setInterval(function () {
+      var elem = document.getElementById('chat-messages');
+      if (elem) elem.scrollTop = elem.scrollHeight;
+    }, 100);
     getMsg();
     //
   }, [currentChat, currentChat._id, currentUser]);
@@ -163,7 +167,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ handleChatUpdate, current
           <img src={loading} alt="loader" className="loader" />
         </div>
       ) : (
-        <div className="chat-messages">
+        <div className="chat-messages" id="chat-messages">
           {messages?.map((message, index, messages) => {
             const dateCurrentMessage = new Date(message.createAt);
             const dateNow = new Date();

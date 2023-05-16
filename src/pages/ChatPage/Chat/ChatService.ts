@@ -6,7 +6,7 @@ class ChatService extends BaseService<any> {
   public getAllMessages(topicId: string) {
     const data = {
       topicId: topicId,
-      limit: 20,
+      limit: 100,
       offset: 0,
     };
     return this.fetch.post(`/chat/external/getAllChat`, data);

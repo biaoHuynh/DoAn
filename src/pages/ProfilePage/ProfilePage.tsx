@@ -54,6 +54,7 @@ const Profile: React.FC = () => {
   const [isExpert, setIsExpert] = useState<boolean>(false);
   const [openUpdateInfor, setOpenUpdateInfor] = useState<boolean>(false);
   const [isOpenRP, setIsOpenRP] = useState<boolean>(false);
+  const [reason, setReason] = useState<string>('');
   const { t } = useTranslation();
   const [currentUserInfo] = useState<UserInfo>(JSON.parse(localStorage.getItem('UserData') || ''));
   const [defaultActiveKey, setDefaultActiveKey] = useState('1');
@@ -96,7 +97,7 @@ const Profile: React.FC = () => {
     ProfilePageService.report;
     const currentUserId = currentUserInfo.id;
     if (id) {
-      ProfilePageService.report(userId).then((res: ApiResponseEntity) => {
+      ProfilePageService.report(userId, reason).then((res: ApiResponseEntity) => {
         if (res.status === 1) {
           notificationController.success({
             message: `Báo cáo thành công`,
@@ -104,7 +105,7 @@ const Profile: React.FC = () => {
         }
       });
     } else {
-      ProfilePageService.report(currentUserId!).then((res: ApiResponseEntity) => {
+      ProfilePageService.report(currentUserId!, reason).then((res: ApiResponseEntity) => {
         if (res.status === 1) {
           notificationController.success({
             message: `Báo cáo thành công`,
@@ -252,7 +253,7 @@ const Profile: React.FC = () => {
       <Modal title={t('vb.report')} visible={isOpenRP} onCancel={() => setIsOpenRP(false)} footer={<div />}>
         <BaseForm form={form} layout="vertical" name="contentForm" onFinish={handleReport}>
           <BaseForm.Item name="name" label={t('vb.resoneReport')} required>
-            <Input required />
+            <Input onChange={(event) => setReason(event.target.value)} required />
           </BaseForm.Item>
           <Button style={{ display: 'inline' }} type="primary" className="btn btn-primary" htmlType="submit" danger>
             {t('vb.report')}

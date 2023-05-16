@@ -1,7 +1,7 @@
 import BaseService from '../../config/_BaseService';
 class FPService extends BaseService<any> {
-  public get10PostWithTitle(title: string, offset: number) {
-    return this.fetch.post(`/post/external/findByTitle?title=${title}&offset=${offset}`);
+  public get10PostWithTitle(title: string, offset: number, topicVal: any) {
+    return this.fetch.post(`/post/external/findByTitle?title=${title}&offset=${offset}&topicTagId=${topicVal}`);
   }
   public getByID(id: any) {
     return this.fetch.post(`/post/external/findById?postId=${id}`);
@@ -11,6 +11,9 @@ class FPService extends BaseService<any> {
   }
   public sendComment(data: any) {
     return this.fetch.post(`/comment/external/create`, data);
+  }
+  public getTopics() {
+    return this.fetch.post(`/topic-tag/external/getAllTopicTag?tag-name=`);
   }
 }
 

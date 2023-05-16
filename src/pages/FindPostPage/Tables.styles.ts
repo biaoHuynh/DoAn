@@ -40,7 +40,7 @@ export const ActivityCard = styled(BaseCard)`
 
 export const Wrapper = styled.div`
   display: flex;
-  height: 9rem;
+  height: 13rem;
   gap: 1.625rem;
 `;
 export const WrapperBtn = styled.div`

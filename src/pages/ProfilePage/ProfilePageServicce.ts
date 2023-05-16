@@ -25,8 +25,8 @@ class ProfilePageService extends BaseService<any> {
   public rating(data: any) {
     return this.fetch.post(`/rating/external/doRating`, data);
   }
-  public report(Id: number) {
-    return this.fetch.post(`/user/external/report/${Id}`);
+  public report(Id: number,reason:string) {
+    return this.fetch.post(`/user/external/report/${Id}?reason=${reason}`);
   }
 }
 

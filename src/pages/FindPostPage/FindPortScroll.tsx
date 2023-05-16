@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import * as s from '../FindPostPage/Tables.styles';
 import { NotFound } from '@app/components/common/NotFound/NotFound';
-
+import { Tag } from '@app/components/common/Tag/Tag';
 import { Col, Row, Spin, Image } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
@@ -49,7 +49,11 @@ const FindPortScroll: React.FC<RecentActivityFeedProps> = ({ activity, hasMore, 
                   <s.InfoWrapper>
                     <s.InfoHeaderWrapper>
                       <s.Title2>{item.title}</s.Title2>
-
+                      {!!item.topicTag && (
+                        <s.TagsWrapper>
+                          <Tag key={item.topicTag.id} title={item.topicTag.tagName} bgColor={item.topicTag.color} />
+                        </s.TagsWrapper>
+                      )}
                       <s.Description>{item.context}</s.Description>
                       <s.Hashtag>#{item.hashTag}</s.Hashtag>
                     </s.InfoHeaderWrapper>

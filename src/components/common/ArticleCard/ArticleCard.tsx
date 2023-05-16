@@ -17,6 +17,7 @@ import dbService from '@app/pages/DashBoard/DashBoardService';
 import Meta from 'antd/lib/card/Meta';
 import moment from 'moment';
 import 'moment/locale/vi';
+import { useNavigate } from 'react-router-dom';
 interface ArticleCardProps {
   idPost: number;
   author?: React.ReactNode;
@@ -68,6 +69,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   const [comment, setComment] = useState<string>('');
   const [comments, setComments] = useState<any[]>([]);
   const [reply, setReply] = useState(null);
+  const navigate = useNavigate();
   const CallLike = (id: number) => {
     dbService.callLike(id);
 
@@ -154,7 +156,13 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         >
           <S.Title>{title}</S.Title>
           {!!tags && (
-            <S.TagsWrapper>
+            <S.TagsWrapper
+              onClick={() => {
+                navigate(`/find-post-page`, {
+                  state: tags.id,
+                });
+              }}
+            >
               <Tag key={tags.id} title={tags.tagName} bgColor={tags.color} />
             </S.TagsWrapper>
           )}
