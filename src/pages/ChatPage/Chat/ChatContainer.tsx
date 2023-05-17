@@ -72,13 +72,16 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ handleChatUpdate, current
       }
       setIsLoading(false);
     };
-    window.setInterval(function () {
-      var elem = document.getElementById('chat-messages');
-      if (elem) elem.scrollTop = elem.scrollHeight;
-    }, 100);
     getMsg();
     //
   }, [currentChat, currentChat._id, currentUser]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      var elem = document.getElementById('chat-messages');
+      if (elem) elem.scrollTop = elem.scrollHeight;
+    }, 100);
+  }, [messages, currentChat]);
 
   useSubscription(`/topic/chat/${currentChat.topicContactId}`, (message: any) => {
     const body = JSON.parse(message.body);
