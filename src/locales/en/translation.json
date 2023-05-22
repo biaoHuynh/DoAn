@@ -1010,6 +1010,7 @@
     "newpost":"upload new post",
     "had":"Had",
     "readDone":"Had read all",
-    "noti": "No notification"
+    "noti": "No notification",
+    "newchat": "Send you a message"
   }
 }

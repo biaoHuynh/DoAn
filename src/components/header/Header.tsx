@@ -47,12 +47,15 @@ export const Header: React.FC<HeaderProps> = ({ toggleSider, isSiderOpened, isTw
       case 'post-new':
         action = `${t('vb.newpost')}`;
         break;
+      case 'new-chat':
+        action = `${t('vb.newchat')}`;
+        break;
       default:
         break;
     }
 
     notificationController.success({
-      message: `${senderInfo.name} ${t('vb.had')} ${action} của bạn ${body.user.name}`,
+      message: `${senderInfo.name} ${t('vb.had')} ${action}`,
     });
   });
   return isTablet ? (
