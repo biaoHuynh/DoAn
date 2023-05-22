@@ -65,7 +65,7 @@ export const Notification: React.FC<NotificationProps> = ({
           });
         }
         if (typePost === 'contact') {
-          navigate(`/profile-page`);
+          navigate(`/profile-page/${id}`);
         }
       }}
     >

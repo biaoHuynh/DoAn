@@ -94,7 +94,7 @@ const FriendList: React.FC = () => {
   return (
     <s.Card>
       <Row style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
-        <Col span={6}>
+        <Col span={8}>
           <Title level={3}>{t('vb.friendList')}</Title>
           <RecentActivityFeed
             unfriend={unfriendById}
@@ -105,7 +105,7 @@ const FriendList: React.FC = () => {
             cancelacpfriend={cancelAcpfriendById}
           />
         </Col>
-        <Col span={6}>
+        <Col span={8}>
           <Title level={3}>{t('vb.friendListReq')}</Title>
           <RecentActivityFeed
             unfriend={unfriendById}

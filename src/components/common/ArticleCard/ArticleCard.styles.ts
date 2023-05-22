@@ -233,7 +233,7 @@ export const DescriptionHide = styled.div`
   color: var(--text-main-color);
 
   overflow: hidden;
-  height: 300px;
+  max-height: 300px;
   line-height: 16px;
   position: relative;
   word-wrap: break-word;
