@@ -40,6 +40,7 @@ interface ArticleCardProps {
   isLike: boolean;
   isDisLike: boolean;
   viewCount: number;
+  idUser: number;
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -60,6 +61,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   isLike,
   isDisLike,
   viewCount,
+  idUser,
 }) => {
   const [isLiked, setIsLiked] = useState<boolean>(isLike ?? 0);
   const [isDisLiked, setIsDisLiked] = useState<boolean>(isDisLike ?? 0);
@@ -134,7 +136,11 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
     <>
       <S.Wrapper className={className}>
         <S.Header>
-          <S.InfoAvt>
+          <S.InfoAvt
+            onClick={() => {
+              if (idUser != 0) navigate(`/profile-page/${idUser}`);
+            }}
+          >
             <Avatar src={avatar ? `http://149.51.37.29:8081/local-store/${avatar}` : dfavt} alt="author" size={43} />{' '}
             <S.UserName>
               {author} {isExpert ? <CheckCircleTwoTone /> : null}
@@ -225,7 +231,11 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         <>
           <S.WrapperOnloadCmt className={className}>
             <S.Header>
-              <S.InfoAvt>
+              <S.InfoAvt
+                onClick={() => {
+                  if (idUser != 0) navigate(`/profile-page/${idUser}`);
+                }}
+              >
                 <Avatar
                   src={avatar ? `http://149.51.37.29:8081/local-store/${avatar}` : dfavt}
                   alt="author"
@@ -273,17 +283,24 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                   key={index}
                   bodyStyle={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
                 >
-                  <Meta
-                    avatar={<Avatar src={`http://149.51.37.29:8081/local-store/${item.userId.imageUrl}`} />}
-                    title={
-                      <>
-                        {item.userId.name}
-                        <p style={{ marginRight: '5px', fontSize: '0.75rem' }}>
-                          {moment(new Date(item.createAt)).locale('vi').format('lll')}
-                        </p>
-                      </>
-                    }
-                  />
+                  <div
+                    onClick={() => {
+                      if (idUser != 0) navigate(`/profile-page/${item.userId.id}`);
+                    }}
+                  >
+                    <Meta
+                      avatar={<Avatar src={`http://149.51.37.29:8081/local-store/${item.userId.imageUrl}`} />}
+                      title={
+                        <>
+                          {item.userId.name}
+                          <p style={{ marginRight: '5px', fontSize: '0.75rem' }}>
+                            {moment(new Date(item.createAt)).locale('vi').format('lll')}
+                          </p>
+                        </>
+                      }
+                    />
+                  </div>
+
                   {item.comemntParent && (
                     <S.CardCmt
                       style={{
@@ -295,17 +312,24 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                       }}
                       bodyStyle={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
                     >
-                      <Meta
-                        style={{ fontSize: '0.75rem' }}
-                        title={
-                          <>
-                            {item.comemntParent.userId.name}
-                            <p style={{ marginRight: '5px', fontSize: '0.75rem' }}>
-                              {moment(new Date(item.comemntParent.createAt)).locale('vi').format('lll')}
-                            </p>
-                          </>
-                        }
-                      />
+                      <div
+                        onClick={() => {
+                          if (idUser != 0) navigate(`/profile-page/${item.comemntParent.userId.id}`);
+                        }}
+                      >
+                        <Meta
+                          style={{ fontSize: '0.75rem' }}
+                          title={
+                            <>
+                              {item.comemntParent.userId.name}
+                              <p style={{ marginRight: '5px', fontSize: '0.75rem' }}>
+                                {moment(new Date(item.comemntParent.createAt)).locale('vi').format('lll')}
+                              </p>
+                            </>
+                          }
+                        />
+                      </div>
+
                       <p style={{ marginTop: '2%', fontSize: '1rem', marginBottom: '0em' }}>
                         {item.comemntParent.content}
                       </p>

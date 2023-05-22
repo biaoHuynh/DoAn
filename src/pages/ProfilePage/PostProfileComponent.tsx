@@ -63,6 +63,7 @@ const Post: React.FC<UserInfo> = ({ id, name, email, imageUrl, status, isExpert,
                     <ArticleCard
                       key={post.id}
                       idPost={post.id}
+                      idUser={0}
                       title={post.title}
                       description={post.context}
                       date={post.createAt}

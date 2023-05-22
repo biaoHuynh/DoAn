@@ -264,6 +264,7 @@ const Dashboard: React.FC = () => {
                         <ArticleCard
                           key={post.id}
                           idPost={post.id}
+                          idUser={post.user.id}
                           title={post.title}
                           description={post.context}
                           date={post.createAt}
