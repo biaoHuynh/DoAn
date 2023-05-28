@@ -47,7 +47,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSider, isSiderOpened, isTw
       case 'post-new':
         action = `${t('vb.newpost')}`;
         break;
-      case 'new-chat':
+      case 'new-message':
         action = `${t('vb.newchat')}`;
         break;
       default:

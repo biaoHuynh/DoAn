@@ -6,6 +6,7 @@ import Contacts from './Contacts';
 import Welcome from './Welcome';
 import ChatContainer from './ChatContainer';
 import { useSubscription } from 'react-stomp-hooks';
+import { notificationController } from '@app/controllers/notificationController';
 
 export interface User {
   username: string;
@@ -124,6 +125,47 @@ function Chat() {
       });
     }
   };
+
+  const block = (topicId: string, uId: string) => {
+    chatService.block(topicId, uId).then((res: any) => {
+      if (res.status === 1) {
+        chatService.getListFriends().then((data: any) => {
+          const newdata = data.data;
+          if (currentChat) {
+            newdata.map((contact: any, index: any) => {
+              if (currentChat?.topicContactId === contact.topicContactId) {
+                setCurrentChat(contact);
+                notificationController.success({ message: 'Chặn thành công' });
+              }
+            });
+            setContacts(newdata);
+          } else {
+            setContacts(newdata);
+          }
+        });
+      }
+    });
+  };
+  const unblock = (topicId: string, uId: string) => {
+    chatService.unblock(topicId, uId).then((res: any) => {
+      if (res.status === 1) {
+        chatService.getListFriends().then((data: any) => {
+          const newdata = data.data;
+          if (currentChat) {
+            newdata.map((contact: any, index: any) => {
+              if (currentChat?.topicContactId === contact.topicContactId) {
+                setCurrentChat(contact);
+                notificationController.success({ message: 'Bỏ chặn thành công' });
+              }
+            });
+            setContacts(newdata);
+          } else {
+            setContacts(newdata);
+          }
+        });
+      }
+    });
+  };
   return (
     <>
       <Container>
@@ -135,6 +177,9 @@ function Chat() {
             <ChatContainer
               handleChatUpdate={handleChatUpdate}
               currentChat={currentChat}
+              block={block}
+              unblock={unblock}
+              changeChat={handleChatChange}
               currentUser={currentUser}
               socket={'a'}
             />
